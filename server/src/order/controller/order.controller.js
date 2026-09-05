@@ -1,0 +1,221 @@
+import Order from "../model/order.model.js";
+import Cart from "../../cart/model/cart.model.js";
+import Product from "../../product/model/product.model.js";
+import Coupon from "../../coupon/model/coupon.model.js";
+import { ErrorHandler } from "../../middleware/errorHandlerMiddleware.js";
+
+export const checkout = async (req, res, next) => {
+    try {
+        const { shippingInfo, couponCode } = req.body;
+
+        const cart = await Cart.findOne({ user: req.user._id });
+        if (!cart || cart.products.length === 0) {
+            return next(new ErrorHandler(400, "Your cart is empty"));
+        }
+
+        const orderProducts = [];
+        let subtotal = 0;
+        const productsToUpdate = [];
+
+        for (const item of cart.products) {
+            const product = await Product.findById(item.product);
+            if (!product) {
+                return next(new ErrorHandler(404, "One or more products in your cart no longer exist"));
+            }
+
+            if (product.quantity < item.quantity) {
+                return next(
+                    new ErrorHandler(
+                        400,
+                        `Insufficient stock for product: ${product.name}. Available: ${product.quantity}, requested: ${item.quantity}`
+                    )
+                );
+            }
+
+            const itemDiscount = product.discount || 0;
+            const effectivePrice = itemDiscount > 0
+                ? Number((product.price - (product.price * itemDiscount) / 100).toFixed(2))
+                : product.price;
+
+            orderProducts.push({
+                product: product._id,
+                quantity: item.quantity,
+                price: effectivePrice
+            });
+
+            subtotal += effectivePrice * item.quantity;
+            productsToUpdate.push({ product, deductQuantity: item.quantity });
+        }
+
+        subtotal = Number(subtotal.toFixed(2));
+
+        let couponDiscount = 0;
+        if (couponCode) {
+            const coupon = await Coupon.findOne({
+                code: couponCode.toUpperCase().trim(),
+                isActive: true
+            });
+
+            if (!coupon) {
+                return next(new ErrorHandler(400, "Invalid coupon code"));
+            }
+
+            if (new Date() > new Date(coupon.expiryDate)) {
+                return next(new ErrorHandler(400, "Coupon has expired"));
+            }
+
+            if (coupon.discountType === "percentage") {
+                couponDiscount = (subtotal * coupon.discountValue) / 100;
+            } else if (coupon.discountType === "fixed") {
+                couponDiscount = coupon.discountValue;
+            }
+
+            couponDiscount = Math.min(couponDiscount, subtotal);
+            couponDiscount = Number(couponDiscount.toFixed(2));
+        }
+
+        const total = Number(Math.max(0, subtotal - couponDiscount).toFixed(2));
+
+        const finalShippingInfo = shippingInfo || {
+            street: req.user.address?.street || "",
+            city: req.user.address?.city || "",
+            state: req.user.address?.state || "",
+            postalCode: req.user.address?.postalCode || "",
+            country: req.user.address?.country || "",
+            phone: req.user.phone || ""
+        };
+
+        const order = await Order.create({
+            user: req.user._id,
+            products: orderProducts,
+            subtotal,
+            discount: couponDiscount,
+            total,
+            shippingInfo: finalShippingInfo,
+            status: "Pending"
+        });
+
+        for (const item of productsToUpdate) {
+            item.product.quantity -= item.deductQuantity;
+            item.product.status = item.product.quantity === 0 ? "OUT_OF_STOCK" : "IN_STOCK";
+            await item.product.save();
+        }
+
+        cart.products = [];
+        await cart.save();
+
+        res.status(201).json({
+            success: true,
+            message: "Order placed successfully",
+            order
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+export const getMyOrders = async (req, res, next) => {
+    try {
+        const orders = await Order.find({ user: req.user._id })
+            .populate("products.product", "name images price discount")
+            .sort({ createdAt: -1 });
+
+        res.status(200).json({
+            success: true,
+            orders
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+export const getOrderById = async (req, res, next) => {
+    try {
+        const order = await Order.findById(req.params.id)
+            .populate("products.product", "name images price discount");
+
+        if (!order) {
+            return next(new ErrorHandler(404, "Order not found"));
+        }
+
+        if (order.user.toString() !== req.user._id.toString() && req.user.role !== "admin") {
+            return next(new ErrorHandler(403, "Access denied. You can only view your own orders"));
+        }
+
+        res.status(200).json({
+            success: true,
+            order
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+export const getAllOrdersAdmin = async (req, res, next) => {
+    try {
+        const orders = await Order.find({})
+            .populate("user", "name email")
+            .populate("products.product", "name images price discount")
+            .sort({ createdAt: -1 });
+
+        res.status(200).json({
+            success: true,
+            orders
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+export const getOrderByIdAdmin = async (req, res, next) => {
+    try {
+        const order = await Order.findById(req.params.id)
+            .populate("user", "name email")
+            .populate("products.product", "name images price discount");
+
+        if (!order) {
+            return next(new ErrorHandler(404, "Order not found"));
+        }
+
+        res.status(200).json({
+            success: true,
+            order
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+export const updateOrderStatusAdmin = async (req, res, next) => {
+    try {
+        const { status } = req.body;
+        const validStatuses = ["Pending", "Processing", "Shipped", "Delivered"];
+
+        if (!status || !validStatuses.includes(status)) {
+            return next(
+                new ErrorHandler(
+                    400,
+                    `Invalid status value. Must be one of: ${validStatuses.join(", ")}`
+                )
+            );
+        }
+
+        const order = await Order.findByIdAndUpdate(
+            req.params.id,
+            { status },
+            { new: true, runValidators: true }
+        );
+
+        if (!order) {
+            return next(new ErrorHandler(404, "Order not found"));
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Order status updated successfully",
+            order
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
