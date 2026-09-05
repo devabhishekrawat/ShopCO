@@ -1,6 +1,5 @@
 import userModel from "./user.schema.js";
 
-
 export const createNewUserRepo = async (user) => {
     return await new userModel(user).save();
 };
@@ -21,12 +20,10 @@ export const updateUserProfileRepo = async (_id, data) => {
     );
 };
 
-
 export const getAllUsersRepo = async () => {
-    return userModel.find({});
+    return await userModel.find({});
 };
 
-
 export const deleteUserRepo = async (_id) => {
-    return await UserModel.findByIdAndDelete(_id);
+    return await userModel.findByIdAndDelete(_id);
 };

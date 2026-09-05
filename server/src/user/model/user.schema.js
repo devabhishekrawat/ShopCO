@@ -1,4 +1,4 @@
-import mongoose, { modelNames } from "mongoose";
+import mongoose from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -73,9 +73,6 @@ const userSchema = new mongoose.Schema(
     }
 );
 
-
-
-// mongoose middleware /
 userSchema.pre("save", async function () {
     if (!this.isModified("password")) {
         return;
@@ -86,7 +83,7 @@ userSchema.pre("save", async function () {
 
 userSchema.methods.getJWTToken = function () {
     return jwt.sign({ id: this._id }, env.jwtSecret, {
-        expiresIn: env.jwtExpireIn,
+        expiresIn: env.jwtExpireIn || "1d",
     });
 };
 
@@ -94,8 +91,5 @@ userSchema.methods.comparePassword = async function (password) {
     return await bcrypt.compare(password, this.password);
 };
 
-
-
-
 const userModel = mongoose.model("User", userSchema);
-export default userModel
+export default userModel;
