@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateUser, fetchCurrentUser } from "../store/slices/authSlice";
+import { updateUser, fetchCurrentUser } from "../store/slices/authSlice.js";
 import { toast } from "react-toastify";
-import Loader from "../components/Loader";
+import Loader from "../components/Loader.jsx";
 
 const Profile = () => {
   const dispatch = useDispatch();

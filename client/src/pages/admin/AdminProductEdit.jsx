@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchCategories } from "../../store/slices/categorySlice";
-import { getProductById, updateProduct } from "../../services/productService";
-import Loader from "../../components/Loader";
+import { fetchCategories } from "../../store/slices/categorySlice.js";
+import { getProductById, updateProduct } from "../../services/productService.js";
+import Loader from "../../components/Loader.jsx";
 import { toast } from "react-toastify";
 
 const AdminProductEdit = () => {

@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchProducts } from "../store/slices/productSlice";
-import ProductGrid from "../components/ProductGrid";
-import FilterSidebar from "../components/FilterSidebar";
-import Pagination from "../components/Pagination";
-import Loader from "../components/Loader";
+import { fetchProducts } from "../store/slices/productSlice.js";
+import ProductGrid from "../components/ProductGrid.jsx";
+import FilterSidebar from "../components/FilterSidebar.jsx";
+import Pagination from "../components/Pagination.jsx";
+import Loader from "../components/Loader.jsx";
 
 const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams();

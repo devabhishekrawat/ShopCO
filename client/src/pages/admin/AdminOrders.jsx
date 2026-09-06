@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchAllOrders, changeOrderStatus } from "../../store/slices/orderSlice";
-import Loader from "../../components/Loader";
+import { fetchAllOrders, changeOrderStatus } from "../../store/slices/orderSlice.js";
+import Loader from "../../components/Loader.jsx";
 import { toast } from "react-toastify";
 
 const AdminOrders = () => {

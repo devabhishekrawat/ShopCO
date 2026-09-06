@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchProductDetails } from "../store/slices/productSlice";
-import { addItemToCart } from "../store/slices/cartSlice";
-import { getProductReviews, createReview, deleteReview } from "../services/reviewService";
-import { getProducts } from "../services/productService";
-import StarRating from "../components/StarRating";
-import ProductGrid from "../components/ProductGrid";
-import Loader from "../components/Loader";
-import Modal from "../components/Modal";
+import { fetchProductDetails } from "../store/slices/productSlice.js";
+import { addItemToCart } from "../store/slices/cartSlice.js";
+import { getProductReviews, createReview, deleteReview } from "../services/reviewService.js";
+import { getProducts } from "../services/productService.js";
+import StarRating from "../components/StarRating.jsx";
+import Loader from "../components/Loader.jsx";
+import Modal from "../components/Modal.jsx";
 import { toast } from "react-toastify";
-import { getAllImages } from "../services/api";
+import { getAllImages } from "../services/api.js";
+import SuggestedProductGrid from "../components/SuggestedProductGrid.jsx";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -185,9 +185,8 @@ const ProductDetails = () => {
             {images.map((img, idx) => (
               <div
                 key={idx}
-                className={`product-detail-page__thumb ${
-                  activeImageIndex === idx ? "product-detail-page__thumb--active" : ""
-                }`}
+                className={`product-detail-page__thumb ${activeImageIndex === idx ? "product-detail-page__thumb--active" : ""
+                  }`}
                 onClick={() => setActiveImageIndex(idx)}
               >
                 <img src={img} alt={`${product.name} ${idx}`} />
@@ -229,9 +228,8 @@ const ProductDetails = () => {
               {["#4F4E37", "#314F4A", "#31344F"].map((colorHex, i) => (
                 <div
                   key={colorHex}
-                  className={`color-swatch ${
-                    selectedColor === colorHex ? "color-swatch--selected" : ""
-                  }`}
+                  className={`color-swatch ${selectedColor === colorHex ? "color-swatch--selected" : ""
+                    }`}
                   style={{ backgroundColor: colorHex }}
                   onClick={() => setSelectedColor(colorHex)}
                 >
@@ -261,9 +259,8 @@ const ProductDetails = () => {
                         key={s.size}
                         type="button"
                         disabled={isOutOfStockSize}
-                        className={`size-btn ${
-                          selectedSize === s.size ? "size-btn--selected" : ""
-                        } ${isOutOfStockSize ? "size-btn--disabled" : ""}`}
+                        className={`size-btn ${selectedSize === s.size ? "size-btn--selected" : ""
+                          } ${isOutOfStockSize ? "size-btn--disabled" : ""}`}
                         onClick={() => {
                           setSelectedSize(s.size);
                           setQuantity(1);
@@ -437,7 +434,7 @@ const ProductDetails = () => {
       {relatedProducts.length > 0 && (
         <section style={{ marginTop: "4rem" }}>
           <h2 className="products-section__title">YOU MIGHT ALSO LIKE</h2>
-          <ProductGrid products={relatedProducts} />
+          <SuggestedProductGrid products={relatedProducts} />
         </section>
       )}
 

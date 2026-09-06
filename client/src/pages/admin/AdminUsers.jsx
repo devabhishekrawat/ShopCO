@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchUsers, updateUserRole, deleteUser } from "../../store/slices/adminSlice";
-import Loader from "../../components/Loader";
+import { fetchUsers, updateUserRole, deleteUser } from "../../store/slices/adminSlice.js";
+import Loader from "../../components/Loader.jsx";
 import { toast } from "react-toastify";
 
 const AdminUsers = () => {

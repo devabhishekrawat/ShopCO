@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchProducts, removeProduct } from "../../store/slices/productSlice";
-import { updateProductQuantity } from "../../services/productService";
-import Loader from "../../components/Loader";
-import Pagination from "../../components/Pagination";
+import { fetchProducts, removeProduct } from "../../store/slices/productSlice.js";
+import { updateProductQuantity } from "../../services/productService.js";
+import Loader from "../../components/Loader.jsx";
+import Pagination from "../../components/Pagination.jsx";
 import { toast } from "react-toastify";
-import { getFirstImage } from "../../services/api";
+import { getFirstImage } from "../../services/api.js";
 
 const AdminProducts = () => {
   const [searchParams, setSearchParams] = useSearchParams();

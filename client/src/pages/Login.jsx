@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../store/slices/authSlice";
+import { loginUser } from "../store/slices/authSlice.js";
 import { toast } from "react-toastify";
 
 const Login = () => {

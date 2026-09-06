@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchCategories } from "../store/slices/categorySlice";
-import Loader from "../components/Loader";
-import { getAssetUrl } from "../services/api";
+import { fetchCategories } from "../store/slices/categorySlice.js";
+import Loader from "../components/Loader.jsx";
+import { getAssetUrl } from "../services/api.js";
 
 const Categories = () => {
   const navigate = useNavigate();

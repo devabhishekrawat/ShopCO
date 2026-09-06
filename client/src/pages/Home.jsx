@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getProducts } from "../services/productService";
-import ProductGrid from "../components/ProductGrid";
-import Loader from "../components/Loader";
-import SuggestedProductGrid from "../components/suggestedProductGrid";
+import { getProducts } from "../services/productService.js";
+import Loader from "../components/Loader.jsx";
+import SuggestedProductGrid from "../components/SuggestedProductGrid.jsx";
 
 const Home = () => {
   const navigate = useNavigate();

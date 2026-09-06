@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchMyOrders } from "../store/slices/orderSlice";
-import Loader from "../components/Loader";
-import { getFirstImage } from "../services/api";
+import { fetchMyOrders } from "../store/slices/orderSlice.js";
+import Loader from "../components/Loader.jsx";
+import { getFirstImage } from "../services/api.js";
 
 const Orders = () => {
   const dispatch = useDispatch();

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { placeOrder } from "../store/slices/orderSlice";
-import { fetchCart, removeAppliedCoupon } from "../store/slices/cartSlice";
-import Modal from "../components/Modal";
+import { placeOrder } from "../store/slices/orderSlice.js";
+import { fetchCart, removeAppliedCoupon } from "../store/slices/cartSlice.js";
+import Modal from "../components/Modal.jsx";
 import { toast } from "react-toastify";
 
 const CheckoutModal = ({ isOpen, onClose, finalTotal, couponCode }) => {

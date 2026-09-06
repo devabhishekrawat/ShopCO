@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchAdminDashboard } from "../../store/slices/adminSlice";
-import Loader from "../../components/Loader";
+import { fetchAdminDashboard } from "../../store/slices/adminSlice.js";
+import Loader from "../../components/Loader.jsx";
 
 const AdminDashboard = () => {
   const dispatch = useDispatch();
