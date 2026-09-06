@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Navigate, useLocation, Outlet } from "react-router-dom";
-import Loader from "./Loader";
+import Loader from "./Loader.jsx";
 
 const ProtectedRoute = ({ children }) => {
   const location = useLocation();

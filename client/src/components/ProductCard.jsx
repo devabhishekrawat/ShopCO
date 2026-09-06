@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import StarRating from "./StarRating";
-import { getFirstImage } from "../services/api";
+import StarRating from "./StarRating.jsx";
+import { getFirstImage } from "../services/api.js";
 
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();

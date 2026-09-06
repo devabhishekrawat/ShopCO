@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchCategories } from "../store/slices/categorySlice";
+import { fetchCategories } from "../store/slices/categorySlice.js";
 
 const FilterSidebar = ({
   filters,

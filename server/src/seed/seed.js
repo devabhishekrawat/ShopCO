@@ -597,6 +597,7 @@ const seedDatabase = async () => {
         console.error("Error seeding database:", error);
         await mongoose.disconnect();
         process.exit(1);
+
     }
 };
 

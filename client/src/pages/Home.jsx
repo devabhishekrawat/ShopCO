@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { getProducts } from "../services/productService";
 import ProductGrid from "../components/ProductGrid";
 import Loader from "../components/Loader";
+import SuggestedProductGrid from "../components/suggestedProductGrid";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -136,7 +137,7 @@ const Home = () => {
         {loading ? (
           <Loader text="Loading new arrivals..." />
         ) : (
-          <ProductGrid products={newArrivals} />
+          <SuggestedProductGrid products={newArrivals} />
         )}
         <button
           className="products-section__btn"
@@ -151,7 +152,7 @@ const Home = () => {
         {loading ? (
           <Loader text="Loading top selling..." />
         ) : (
-          <ProductGrid products={topSelling} />
+          <SuggestedProductGrid products={topSelling} />
         )}
         <button
           className="products-section__btn"

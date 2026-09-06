@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
-import Loader from "./Loader";
+import Loader from "./Loader.jsx";
 
 const AdminRoute = ({ children }) => {
   const { user, isAuthenticated, loading, initialized } = useSelector(
