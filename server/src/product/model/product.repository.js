@@ -13,7 +13,7 @@ export const countProductsRepo = async (query) => {
 };
 
 export const findProductByIdRepo = async (id) => {
-    return await Product.findById(id).populate("category", "name");
+    return await Product.findById(id).populate("category", "name sizes");
 };
 
 export const createProductRepo = async (productData) => {

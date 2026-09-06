@@ -38,9 +38,24 @@ const productSchema = new mongoose.Schema(
             required: [true, "Product category is required"],
         },
 
+        sizes: [
+            {
+                size: {
+                    type: String,
+                    required: true,
+                    trim: true,
+                },
+                quantity: {
+                    type: Number,
+                    required: true,
+                    min: [0, "Quantity cannot be negative"],
+                    default: 0,
+                },
+            }
+        ],
+
         quantity: {
             type: Number,
-            required: [true, "Product quantity is required"],
             min: [0, "Quantity cannot be negative"],
             default: 0,
         },
@@ -57,6 +72,9 @@ const productSchema = new mongoose.Schema(
 );
 
 productSchema.pre("save", function () {
+    if (this.sizes && this.sizes.length > 0) {
+        this.quantity = this.sizes.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
+    }
     if (this.quantity === 0) {
         this.status = "OUT_OF_STOCK";
     } else {

@@ -50,7 +50,7 @@ export const getProductsByCategory = async (req, res, next) => {
 
 export const createCategory = async (req, res, next) => {
     try {
-        const { name, description, image } = req.body;
+        const { name, description, image, sizes } = req.body;
         if (!name) {
             return next(new ErrorHandler(400, "Category name is required"));
         }
@@ -60,10 +60,28 @@ export const createCategory = async (req, res, next) => {
             return next(new ErrorHandler(400, "Category already exists"));
         }
 
+        let parsedSizes = [];
+        if (sizes) {
+            const rawSizes = Array.isArray(sizes)
+                ? sizes
+                : typeof sizes === "string"
+                ? (() => {
+                      try {
+                          const parsed = JSON.parse(sizes);
+                          return Array.isArray(parsed) ? parsed : [sizes];
+                      } catch {
+                          return sizes.split(",").map((s) => s.trim());
+                      }
+                  })()
+                : [];
+            parsedSizes = [...new Set(rawSizes.map((s) => String(s).trim()).filter(Boolean))];
+        }
+
         const category = await Category.create({
             name: name.trim(),
             description: description || "",
-            image: image || ""
+            image: image || "",
+            sizes: parsedSizes
         });
 
         res.status(201).json({
@@ -78,9 +96,31 @@ export const createCategory = async (req, res, next) => {
 
 export const updateCategory = async (req, res, next) => {
     try {
+        const updateData = { ...req.body };
+
+        if (updateData.name) {
+            updateData.name = updateData.name.trim();
+        }
+
+        if (updateData.sizes !== undefined) {
+            const rawSizes = Array.isArray(updateData.sizes)
+                ? updateData.sizes
+                : typeof updateData.sizes === "string"
+                ? (() => {
+                      try {
+                          const parsed = JSON.parse(updateData.sizes);
+                          return Array.isArray(parsed) ? parsed : [updateData.sizes];
+                      } catch {
+                          return updateData.sizes.split(",").map((s) => s.trim());
+                      }
+                  })()
+                : [];
+            updateData.sizes = [...new Set(rawSizes.map((s) => String(s).trim()).filter(Boolean))];
+        }
+
         const category = await Category.findByIdAndUpdate(
             req.params.id,
-            req.body,
+            updateData,
             {
                 new: true,
                 runValidators: true

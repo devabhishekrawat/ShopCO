@@ -18,6 +18,7 @@ export const getAllProducts = async (req, res, next) => {
             minPrice,
             maxPrice,
             availability,
+            stock,
             sort,
             page = 1,
             limit = 10
@@ -43,11 +44,17 @@ export const getAllProducts = async (req, res, next) => {
             }
         }
 
-        if (availability !== undefined && availability !== "") {
-            if (availability === "true" || availability === true) {
-                query.quantity = { $gt: 0 };
-            } else if (availability === "false" || availability === false) {
+        const rawStock = stock || availability;
+        if (rawStock !== undefined && rawStock !== "") {
+            const stockVal = rawStock.toString().toLowerCase().trim();
+            if (stockVal === "in_stock" || stockVal === "in-stock" || stockVal === "instock" || stockVal === "in stock") {
+                query.quantity = { $gt: 5 };
+            } else if (stockVal === "low_stock" || stockVal === "low-stock" || stockVal === "lowstock" || stockVal === "low stock") {
+                query.quantity = { $gt: 0, $lte: 5 };
+            } else if (stockVal === "out_of_stock" || stockVal === "out-of-stock" || stockVal === "outofstock" || stockVal === "out of stock" || stockVal === "false") {
                 query.quantity = 0;
+            } else if (stockVal === "true") {
+                query.quantity = { $gt: 0 };
             }
         }
 
@@ -97,9 +104,61 @@ export const getProductById = async (req, res, next) => {
     }
 };
 
+const validateProductSizes = (sizes, categoryDoc) => {
+    let parsedSizes = [];
+    if (typeof sizes === "string") {
+        try {
+            parsedSizes = JSON.parse(sizes);
+        } catch {
+            return { error: "Invalid sizes format" };
+        }
+    } else if (Array.isArray(sizes)) {
+        parsedSizes = sizes;
+    } else if (!sizes) {
+        parsedSizes = [];
+    } else {
+        return { error: "Invalid sizes format" };
+    }
+
+    const categorySizes = categoryDoc.sizes || [];
+
+    if (categorySizes.length === 0) {
+        return { validSizes: [] };
+    }
+
+    if (parsedSizes.length === 0) {
+        return { error: `Sizes are required for category "${categoryDoc.name}". Allowed sizes: ${categorySizes.join(", ")}` };
+    }
+
+    const seenSizes = new Set();
+    const cleanSizes = [];
+
+    for (const item of parsedSizes) {
+        if (!item || !item.size || typeof item.size !== "string") {
+            return { error: "Each size entry must specify a size name" };
+        }
+        const trimmedSize = item.size.trim();
+        if (!categorySizes.includes(trimmedSize)) {
+            return { error: `Size "${trimmedSize}" is not allowed for category "${categoryDoc.name}". Allowed: ${categorySizes.join(", ")}` };
+        }
+        if (seenSizes.has(trimmedSize)) {
+            return { error: `Duplicate size "${trimmedSize}" found in product inventory` };
+        }
+        seenSizes.add(trimmedSize);
+
+        const qty = Number(item.quantity);
+        if (isNaN(qty) || qty < 0) {
+            return { error: `Quantity for size "${trimmedSize}" must be a non-negative number` };
+        }
+        cleanSizes.push({ size: trimmedSize, quantity: Math.floor(qty) });
+    }
+
+    return { validSizes: cleanSizes };
+};
+
 export const createProduct = async (req, res, next) => {
     try {
-        const { name, description, price, discount, category, quantity } = req.body;
+        const { name, description, price, discount, category, sizes, quantity } = req.body;
 
         let images = [];
         if (req.files && req.files.length > 0) {
@@ -110,7 +169,7 @@ export const createProduct = async (req, res, next) => {
             images = Array.isArray(req.body.images) ? req.body.images : [req.body.images];
         }
 
-        if (!name || !description || price === undefined || !category || quantity === undefined) {
+        if (!name || !description || price === undefined || !category) {
             return next(new ErrorHandler(400, "Please provide all required fields"));
         }
 
@@ -123,6 +182,16 @@ export const createProduct = async (req, res, next) => {
             return next(new ErrorHandler(404, "Category not found"));
         }
 
+        const sizeValidation = validateProductSizes(sizes, categoryExists);
+        if (sizeValidation.error) {
+            return next(new ErrorHandler(400, sizeValidation.error));
+        }
+
+        const validSizes = sizeValidation.validSizes;
+        const totalQuantity = validSizes.length > 0
+            ? validSizes.reduce((sum, s) => sum + s.quantity, 0)
+            : (Number(quantity) || 0);
+
         const product = await createProductRepo({
             name,
             description,
@@ -130,8 +199,9 @@ export const createProduct = async (req, res, next) => {
             discount: discount !== undefined ? Number(discount) : 0,
             images,
             category,
-            quantity: Number(quantity),
-            status: Number(quantity) === 0 ? "OUT_OF_STOCK" : "IN_STOCK"
+            sizes: validSizes,
+            quantity: totalQuantity,
+            status: totalQuantity === 0 ? "OUT_OF_STOCK" : "IN_STOCK"
         });
 
         res.status(201).json({
@@ -146,11 +216,15 @@ export const createProduct = async (req, res, next) => {
 
 export const updateProduct = async (req, res, next) => {
     try {
-        if (req.body.category) {
-            const categoryExists = await Category.findById(req.body.category);
-            if (!categoryExists) {
-                return next(new ErrorHandler(404, "Category not found"));
-            }
+        const existingProduct = await Product.findById(req.params.id);
+        if (!existingProduct) {
+            return next(new ErrorHandler(404, "Product not found"));
+        }
+
+        const targetCategoryId = req.body.category || existingProduct.category;
+        const categoryDoc = await Category.findById(targetCategoryId);
+        if (!categoryDoc) {
+            return next(new ErrorHandler(404, "Category not found"));
         }
 
         const updateData = { ...req.body };
@@ -169,15 +243,24 @@ export const updateProduct = async (req, res, next) => {
             updateData.discount = Number(updateData.discount);
         }
 
-        if (updateData.quantity !== undefined) {
+        if (updateData.sizes !== undefined || req.body.category) {
+            const rawSizes = updateData.sizes !== undefined ? updateData.sizes : existingProduct.sizes;
+            const sizeValidation = validateProductSizes(rawSizes, categoryDoc);
+            if (sizeValidation.error) {
+                return next(new ErrorHandler(400, sizeValidation.error));
+            }
+            updateData.sizes = sizeValidation.validSizes;
+            const totalQuantity = updateData.sizes.length > 0
+                ? updateData.sizes.reduce((sum, s) => sum + s.quantity, 0)
+                : (updateData.quantity !== undefined ? Number(updateData.quantity) : existingProduct.quantity);
+            updateData.quantity = totalQuantity;
+            updateData.status = totalQuantity === 0 ? "OUT_OF_STOCK" : "IN_STOCK";
+        } else if (updateData.quantity !== undefined) {
             updateData.quantity = Number(updateData.quantity);
             updateData.status = updateData.quantity === 0 ? "OUT_OF_STOCK" : "IN_STOCK";
         }
 
         const product = await updateProductRepo(req.params.id, updateData);
-        if (!product) {
-            return next(new ErrorHandler(404, "Product not found"));
-        }
 
         res.status(200).json({
             success: true,
@@ -207,7 +290,7 @@ export const deleteProduct = async (req, res, next) => {
 
 export const updateProductQuantity = async (req, res, next) => {
     try {
-        const { quantity } = req.body;
+        const { quantity, size } = req.body;
         if (quantity === undefined || Number(quantity) < 0) {
             return next(new ErrorHandler(400, "Please provide a valid non-negative quantity"));
         }
@@ -217,8 +300,20 @@ export const updateProductQuantity = async (req, res, next) => {
             return next(new ErrorHandler(404, "Product not found"));
         }
 
-        product.quantity = Number(quantity);
-        product.status = Number(quantity) === 0 ? "OUT_OF_STOCK" : "IN_STOCK";
+        const newQty = Number(quantity);
+
+        if (size && product.sizes && product.sizes.length > 0) {
+            const sizeItem = product.sizes.find((s) => s.size === size);
+            if (!sizeItem) {
+                return next(new ErrorHandler(400, `Size "${size}" not found on product`));
+            }
+            sizeItem.quantity = newQty;
+            product.quantity = product.sizes.reduce((sum, s) => sum + s.quantity, 0);
+        } else {
+            product.quantity = newQty;
+        }
+
+        product.status = product.quantity === 0 ? "OUT_OF_STOCK" : "IN_STOCK";
         await product.save();
 
         res.status(200).json({

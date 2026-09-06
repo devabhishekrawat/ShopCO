@@ -14,6 +14,9 @@ export const getDashboardStats = async (req, res, next) => {
         const lowStockProducts = await Product.countDocuments({
             quantity: { $gt: 0, $lte: 5 }
         });
+        const inStockProducts = await Product.countDocuments({
+            quantity: { $gt: 5 }
+        });
 
         res.status(200).json({
             success: true,
@@ -23,7 +26,8 @@ export const getDashboardStats = async (req, res, next) => {
                 totalUsers,
                 totalOrders,
                 outOfStockProducts,
-                lowStockProducts
+                lowStockProducts,
+                inStockProducts
             }
         });
     } catch (error) {

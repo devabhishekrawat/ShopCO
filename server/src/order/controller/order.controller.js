@@ -23,13 +23,40 @@ export const checkout = async (req, res, next) => {
                 return next(new ErrorHandler(404, "One or more products in your cart no longer exist"));
             }
 
-            if (product.quantity < item.quantity) {
-                return next(
-                    new ErrorHandler(
-                        400,
-                        `Insufficient stock for product: ${product.name}. Available: ${product.quantity}, requested: ${item.quantity}`
-                    )
-                );
+            const itemSize = item.size ? String(item.size).trim() : "";
+
+            if (product.sizes && product.sizes.length > 0) {
+                if (!itemSize) {
+                    return next(
+                        new ErrorHandler(400, `Size is required for product "${product.name}"`)
+                    );
+                }
+                const sizeItem = product.sizes.find((s) => s.size === itemSize);
+                if (!sizeItem) {
+                    return next(
+                        new ErrorHandler(
+                            400,
+                            `Size "${itemSize}" is no longer available for product "${product.name}"`
+                        )
+                    );
+                }
+                if (sizeItem.quantity < item.quantity) {
+                    return next(
+                        new ErrorHandler(
+                            400,
+                            `Insufficient stock for "${product.name}" (Size: ${itemSize}). Available: ${sizeItem.quantity}, requested: ${item.quantity}`
+                        )
+                    );
+                }
+            } else {
+                if (product.quantity < item.quantity) {
+                    return next(
+                        new ErrorHandler(
+                            400,
+                            `Insufficient stock for product: ${product.name}. Available: ${product.quantity}, requested: ${item.quantity}`
+                        )
+                    );
+                }
             }
 
             const itemDiscount = product.discount || 0;
@@ -40,11 +67,16 @@ export const checkout = async (req, res, next) => {
             orderProducts.push({
                 product: product._id,
                 quantity: item.quantity,
-                price: effectivePrice
+                price: effectivePrice,
+                size: itemSize
             });
 
             subtotal += effectivePrice * item.quantity;
-            productsToUpdate.push({ product, deductQuantity: item.quantity });
+            productsToUpdate.push({
+                productId: product._id,
+                size: itemSize,
+                quantity: item.quantity
+            });
         }
 
         subtotal = Number(subtotal.toFixed(2));
@@ -96,9 +128,26 @@ export const checkout = async (req, res, next) => {
         });
 
         for (const item of productsToUpdate) {
-            item.product.quantity -= item.deductQuantity;
-            item.product.status = item.product.quantity === 0 ? "OUT_OF_STOCK" : "IN_STOCK";
-            await item.product.save();
+            if (item.size) {
+                await Product.updateOne(
+                    { _id: item.productId, "sizes.size": item.size },
+                    { $inc: { "sizes.$.quantity": -item.quantity, quantity: -item.quantity } }
+                );
+            } else {
+                await Product.updateOne(
+                    { _id: item.productId },
+                    { $inc: { quantity: -item.quantity } }
+                );
+            }
+            const updatedProd = await Product.findById(item.productId);
+            if (updatedProd) {
+                const totalStock = updatedProd.sizes && updatedProd.sizes.length > 0
+                    ? updatedProd.sizes.reduce((sum, s) => sum + s.quantity, 0)
+                    : updatedProd.quantity;
+                updatedProd.quantity = totalStock;
+                updatedProd.status = totalStock === 0 ? "OUT_OF_STOCK" : "IN_STOCK";
+                await updatedProd.save();
+            }
         }
 
         cart.products = [];
