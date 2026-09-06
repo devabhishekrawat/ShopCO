@@ -1,0 +1,114 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/functions" as *;
+
+.products-page {
+  padding: 1.5rem 0 4rem;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  &__title-wrap {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+  }
+
+  &__title {
+    font-family: $font-integral;
+    font-size: rem(32);
+    font-weight: 900;
+    color: $color-dark;
+
+    @media (max-width: 640px) {
+      font-size: rem(24);
+    }
+  }
+
+  &__count {
+    font-size: rem(14);
+    color: $color-text-light;
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  &__sort {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: rem(14);
+    color: $color-text-light;
+
+    select {
+      width: auto;
+      padding: 0.4rem 0.8rem;
+      font-size: rem(14);
+      border-radius: 8px;
+    }
+  }
+
+  &__filter-btn {
+    display: none;
+    background-color: $color-background-gray;
+    border-radius: 50%;
+    width: 2.25rem;
+    height: 2.25rem;
+    @include flex-center;
+    cursor: pointer;
+
+    @media (max-width: 992px) {
+      display: flex;
+    }
+
+    img {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  &__layout {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 2rem;
+
+    @media (max-width: 992px) {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+
+  &__sidebar {
+    @media (max-width: 992px) {
+      display: none;
+    }
+  }
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    width: 100%;
+  }
+
+  &__empty {
+    text-align: center;
+    padding: 5rem 1rem;
+    color: $color-text-muted;
+
+    h3 {
+      font-size: rem(22);
+      color: $color-dark;
+      margin-bottom: 0.5rem;
+    }
+  }
+}

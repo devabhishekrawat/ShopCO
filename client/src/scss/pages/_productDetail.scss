@@ -1,0 +1,333 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/functions" as *;
+
+.product-detail-page {
+  padding: 1.5rem 0 4rem;
+
+  &__main {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 4rem;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  &__gallery {
+    display: flex;
+    gap: 1rem;
+
+    @media (max-width: 640px) {
+      flex-direction: column-reverse;
+    }
+  }
+
+  &__thumbnails {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    @media (max-width: 640px) {
+      flex-direction: row;
+      overflow-x: auto;
+    }
+  }
+
+  &__thumb {
+    width: 95px;
+    height: 105px;
+    border-radius: $radius-card;
+    overflow: hidden;
+    background-color: $color-background-gray;
+    border: 1px solid transparent;
+    cursor: pointer;
+    flex-shrink: 0;
+
+    &--active {
+      border-color: $color-dark;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__featured-image {
+    flex: 1;
+    height: 480px;
+    background-color: $color-background-gray;
+    border-radius: $radius-card;
+    overflow: hidden;
+    @include flex-center;
+
+    @media (max-width: 640px) {
+      height: 340px;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__title {
+    font-family: $font-integral;
+    font-size: rem(36);
+    font-weight: 900;
+    color: $color-dark;
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+
+    @media (max-width: 640px) {
+      font-size: rem(26);
+    }
+  }
+
+  &__rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+
+    .stars {
+      display: flex;
+      gap: 2px;
+      img {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    .score {
+      font-size: rem(14);
+      color: $color-text;
+    }
+  }
+
+  &__price {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: rem(28);
+    font-weight: 700;
+    color: $color-dark;
+    margin-bottom: 1rem;
+
+    .original {
+      font-size: rem(24);
+      color: $color-text-faded;
+      text-decoration: line-through;
+    }
+
+    .badge {
+      background-color: rgba(255, 51, 51, 0.1);
+      color: $color-danger;
+      font-size: rem(13);
+      font-weight: 600;
+      padding: 0.25rem 0.65rem;
+      border-radius: $radius-pill;
+    }
+  }
+
+  &__description {
+    font-size: rem(15);
+    line-height: 1.6;
+    color: $color-text-light;
+    margin-bottom: 1.5rem;
+  }
+
+  &__divider {
+    border: none;
+    border-top: 1px solid $color-border;
+    margin: 1.25rem 0;
+  }
+
+  &__option-title {
+    font-size: rem(14);
+    color: $color-text-light;
+    margin-bottom: 0.75rem;
+  }
+
+  &__colors {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+
+    .color-swatch {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      @include flex-center;
+      color: $color-white;
+
+      &--selected {
+        border-color: $color-dark;
+      }
+    }
+  }
+
+  &__sizes {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+
+    .size-btn {
+      padding: 0.65rem 1.25rem;
+      border-radius: $radius-pill;
+      background-color: $color-background-soft;
+      color: $color-text-light;
+      font-size: rem(14);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &--selected {
+        background-color: $color-dark;
+        color: $color-white;
+      }
+
+      &--disabled,
+      &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        text-decoration: line-through;
+        background-color: #f1f1f1;
+        color: #999;
+      }
+    }
+  }
+
+  &__stock-warning {
+    color: $color-danger;
+    font-weight: 700;
+    font-size: rem(14);
+    margin-bottom: 1rem;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+
+    @media (max-width: 500px) {
+      flex-direction: column;
+    }
+  }
+
+  &__quantity {
+    display: flex;
+    align-items: center;
+    background-color: $color-background-soft;
+    border-radius: $radius-pill;
+    padding: 0.5rem 1rem;
+    gap: 1.25rem;
+
+    button {
+      font-size: 1.25rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: $color-dark;
+
+      &:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+    }
+
+    span {
+      font-size: rem(15);
+      font-weight: 700;
+      min-width: 1.5rem;
+      text-align: center;
+    }
+  }
+
+  &__add-cart-btn {
+    flex: 1;
+    @include button;
+    padding: 0.85rem 2rem;
+    font-size: rem(15);
+    font-weight: 600;
+
+    @media (max-width: 500px) {
+      width: 100%;
+    }
+  }
+
+  &__tabs {
+    display: flex;
+    border-bottom: 1px solid $color-border;
+    margin-bottom: 2rem;
+
+    button {
+      flex: 1;
+      text-align: center;
+      padding: 1rem;
+      font-size: rem(16);
+      color: $color-text-light;
+      cursor: pointer;
+      position: relative;
+
+      &.active {
+        color: $color-dark;
+        font-weight: 600;
+
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: -1px;
+          left: 0;
+          width: 100%;
+          height: 2px;
+          background-color: $color-dark;
+        }
+      }
+    }
+  }
+
+  &__reviews-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    h3 {
+      font-size: rem(22);
+      font-weight: 700;
+    }
+
+    .write-review-btn {
+      @include button;
+      padding: 0.65rem 1.5rem;
+      font-size: rem(14);
+    }
+  }
+
+  &__reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 3rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+}

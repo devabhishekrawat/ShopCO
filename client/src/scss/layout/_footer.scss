@@ -1,0 +1,243 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/functions" as *;
+
+.footer {
+  background-color: $color-background-soft;
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+  margin-top: 6rem;
+  position: relative;
+
+  &__container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  &__main {
+    display: grid;
+    grid-template-columns: 2fr repeat(4, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+
+    @media (max-width: 900px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__brand {
+    @media (max-width: 900px) {
+      grid-column: span 2;
+    }
+
+    @media (max-width: 600px) {
+      grid-column: span 1;
+    }
+  }
+
+  &__logo {
+    font-family: $font-integral;
+    font-weight: 900;
+    font-size: rem(28);
+    color: $color-dark;
+    margin-bottom: 1rem;
+  }
+
+  &__desc {
+    font-family: $font-primary;
+    font-size: rem(14);
+    color: $color-text-light;
+    line-height: 1.6;
+    max-width: 250px;
+    margin-bottom: 1.5rem;
+  }
+
+  &__socials {
+    display: flex;
+    gap: 0.75rem;
+
+    .social-link {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      background: $color-white;
+      border: 1px solid $color-border;
+      @include flex-center;
+      text-decoration: none;
+      transition: all 0.2s ease;
+
+      .social-icon {
+        width: 0.875rem;
+        height: 0.875rem;
+        object-fit: contain;
+      }
+
+      &:hover {
+        background: $color-dark;
+        .social-icon {
+          filter: brightness(0) invert(1);
+        }
+      }
+    }
+  }
+
+  &__col-title {
+    font-family: $font-primary;
+    font-size: rem(16);
+    font-weight: 700;
+    letter-spacing: 0.1rem;
+    margin-bottom: 1.25rem;
+    text-transform: uppercase;
+  }
+
+  &__links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    a {
+      color: $color-text-light;
+      text-decoration: none;
+      font-size: rem(14);
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: $color-dark;
+      }
+    }
+  }
+
+  &__divider {
+    border: none;
+    border-top: 1px solid $color-border;
+    margin: 2.5rem 0 1.5rem;
+  }
+
+  &__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    @media (max-width: 600px) {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+  &__copyright {
+    font-size: rem(14);
+    color: $color-text-light;
+  }
+
+  &__payments {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+
+    .payment-badge {
+      background: $color-white;
+      padding: 0.35rem 0.7rem;
+      border-radius: 6px;
+      @include flex-center;
+      height: 1.875rem;
+      border: 1px solid $color-border;
+
+      .payment-icon {
+        max-height: 0.875rem;
+        width: auto;
+        object-fit: contain;
+      }
+    }
+  }
+}
+
+.newsletter-card {
+  background-color: $color-dark;
+  border-radius: $radius-card;
+  padding: 2.5rem 3.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: -6rem;
+  position: relative;
+  z-index: 4;
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem 1.5rem;
+    text-align: center;
+  }
+
+  &__title {
+    font-family: $font-integral;
+    font-weight: 900;
+    font-size: rem(32);
+    line-height: 1.2;
+    color: $color-white;
+
+    @media (max-width: 640px) {
+      font-size: rem(24);
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 350px;
+  }
+
+  &__input-wrapper {
+    position: relative;
+    width: 100%;
+
+    .input-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1.125rem;
+      height: 1.125rem;
+      object-fit: contain;
+      opacity: 0.4;
+    }
+  }
+
+  &__input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.75rem;
+    border-radius: $radius-pill;
+    border: none;
+    font-size: rem(14);
+    outline: none;
+    background-color: $color-white;
+  }
+
+  &__btn {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    @include button;
+    background-color: $color-white;
+    color: $color-dark;
+    font-weight: 600;
+    font-size: rem(14);
+    transition: background 0.2s ease;
+
+    &:hover {
+      background-color: $color-background-soft;
+    }
+  }
+}

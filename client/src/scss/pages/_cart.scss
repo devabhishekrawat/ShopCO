@@ -1,0 +1,261 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/functions" as *;
+
+.cart-page {
+  padding: 1.5rem 0 4rem;
+
+  &__title {
+    font-family: $font-integral;
+    font-size: rem(36);
+    font-weight: 900;
+    color: $color-dark;
+    margin-bottom: 1.5rem;
+
+    @media (max-width: 640px) {
+      font-size: rem(26);
+    }
+  }
+
+  &__layout {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__items {
+    border: 1px solid $color-border;
+    border-radius: $radius-card;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__empty {
+    text-align: center;
+    padding: 4rem 1rem;
+    color: $color-text-muted;
+
+    h3 {
+      font-size: rem(22);
+      color: $color-dark;
+      margin-bottom: 0.5rem;
+    }
+
+    a {
+      @include button;
+      display: inline-block;
+      margin-top: 1.5rem;
+      padding: 0.75rem 2rem;
+      font-size: rem(14);
+    }
+  }
+
+  &__clear-btn {
+    align-self: flex-end;
+    margin-bottom: 1rem;
+    color: $color-danger;
+    font-size: rem(13);
+    font-weight: 600;
+    cursor: pointer;
+  }
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid $color-border;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &__image-wrap {
+    width: 90px;
+    height: 90px;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: $color-background-gray;
+    flex-shrink: 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  &__name {
+    font-size: rem(16);
+    font-weight: 700;
+    color: $color-dark;
+  }
+
+  &__delete-btn {
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    img {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  &__detail {
+    font-size: rem(13);
+    color: $color-text-light;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+  }
+
+  &__price {
+    font-size: rem(20);
+    font-weight: 700;
+    color: $color-dark;
+  }
+
+  &__stepper {
+    display: flex;
+    align-items: center;
+    background-color: $color-background-soft;
+    border-radius: $radius-pill;
+    padding: 0.35rem 0.85rem;
+    gap: 1rem;
+
+    button {
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    span {
+      font-size: rem(14);
+      font-weight: 700;
+      min-width: 1.2rem;
+      text-align: center;
+    }
+  }
+}
+
+.order-summary {
+  border: 1px solid $color-border;
+  border-radius: $radius-card;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  &__title {
+    font-size: rem(22);
+    font-weight: 700;
+    color: $color-dark;
+    margin-bottom: 0.5rem;
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    font-size: rem(16);
+    color: $color-text-light;
+
+    &--discount {
+      color: $color-danger;
+      font-weight: 600;
+    }
+
+    &--total {
+      font-size: rem(20);
+      font-weight: 700;
+      color: $color-dark;
+    }
+  }
+
+  &__divider {
+    border: none;
+    border-top: 1px solid $color-border;
+    margin: 0.5rem 0;
+  }
+
+  .promo-box {
+    display: flex;
+    gap: 0.75rem;
+    margin: 0.5rem 0;
+
+    &__input-wrap {
+      flex: 1;
+      position: relative;
+
+      img {
+        position: absolute;
+        left: 0.85rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 18px;
+        height: 18px;
+        opacity: 0.5;
+      }
+
+      input {
+        padding-left: 2.5rem;
+        border-radius: $radius-pill;
+        background-color: $color-background-soft;
+        border: none;
+        font-size: rem(14);
+      }
+    }
+
+    &__btn {
+      @include button;
+      padding: 0.65rem 1.5rem;
+      font-size: rem(14);
+      font-weight: 600;
+    }
+  }
+
+  .checkout-btn {
+    @include button;
+    width: 100%;
+    padding: 0.95rem 1.5rem;
+    font-size: rem(15);
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+
+    img {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}

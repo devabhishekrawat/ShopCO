@@ -1,0 +1,51 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/functions" as *;
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: $font-primary;
+  color: $color-text;
+  background-color: $color-background;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+}
+
+input, select, textarea {
+  outline: none;
+  border: 1px solid $color-border;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-family: $font-primary;
+  font-size: 0.95rem;
+  width: 100%;
+
+  &:focus {
+    border-color: $color-dark;
+  }
+}
+
+.container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}

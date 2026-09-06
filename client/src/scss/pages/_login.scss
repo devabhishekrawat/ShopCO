@@ -1,0 +1,163 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/functions" as *;
+
+.login {
+  min-height: calc(100vh - 120px);
+  background-color: $color-background-hero;
+  padding: 3rem 1rem;
+  @include flex-center;
+
+  &__container {
+    width: 100%;
+    max-width: 1050px;
+    min-height: 600px;
+    background-color: $color-background;
+    border-radius: 24px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+
+    @media (max-width: 800px) {
+      grid-template-columns: 1fr;
+      max-width: 500px;
+    }
+  }
+
+  &__content {
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    @media (max-width: 600px) {
+      padding: 2rem 1.5rem;
+    }
+  }
+
+  &__brand {
+    font-family: $font-integral;
+    font-size: rem(26);
+    font-weight: 900;
+    color: $color-dark;
+    margin-bottom: 2.5rem;
+  }
+
+  &__header {
+    margin-bottom: 2rem;
+  }
+
+  &__title {
+    font-family: $font-integral;
+    font-size: rem(28);
+    font-weight: 900;
+    color: $color-dark;
+    margin-bottom: 0.5rem;
+  }
+
+  &__description {
+    font-size: rem(14);
+    color: $color-text-muted;
+    line-height: 1.5;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__label {
+    font-size: rem(14);
+    font-weight: 600;
+    color: $color-dark;
+  }
+
+  &__input {
+    padding: 0.75rem 1rem;
+    border-radius: $radius-pill;
+    border: 1px solid $color-border;
+    font-size: rem(14);
+
+    &:focus {
+      border-color: $color-dark;
+    }
+  }
+
+  &__error {
+    color: $color-danger;
+    font-size: rem(13);
+  }
+
+  &__button {
+    @include button;
+    padding: 0.85rem;
+    font-size: rem(15);
+    font-weight: 600;
+    margin-top: 0.5rem;
+  }
+
+  &__signup {
+    margin-top: 1.5rem;
+    font-size: rem(14);
+    color: $color-text-light;
+    text-align: center;
+
+    a {
+      color: $color-dark;
+      font-weight: 700;
+      text-decoration: underline;
+    }
+  }
+
+  &__visual {
+    background-color: $color-dark;
+    color: $color-white;
+    padding: 3rem;
+    @include flex-center;
+    position: relative;
+    overflow: hidden;
+
+    @media (max-width: 800px) {
+      display: none;
+    }
+  }
+
+  &__visual-content {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  &__visual-title {
+    font-family: $font-integral;
+    font-size: rem(36);
+    font-weight: 900;
+    line-height: 1.2;
+    margin: 1.5rem 0 1rem;
+  }
+
+  &__visual-description {
+    font-size: rem(15);
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
+    max-width: 340px;
+    margin: 0 auto;
+  }
+
+  &__star {
+    font-size: 2rem;
+    opacity: 0.5;
+
+    &--large {
+      font-size: 3rem;
+    }
+  }
+}
