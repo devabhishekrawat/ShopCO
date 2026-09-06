@@ -42,4 +42,6 @@ pnpm-debug.log*
 Thumbs.db
 
 # Seed data
-src/seed/
+server/src/seed/
+
+
