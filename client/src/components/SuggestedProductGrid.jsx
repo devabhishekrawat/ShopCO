@@ -2,6 +2,7 @@ import React from "react";
 import ProductCard from "./ProductCard.jsx";
 
 const SuggestedProductGrid = ({ products = [] }) => {
+    console.log(products,"productGrid")
     if (!products.length) {
         return (
             <div style={{ textAlign: "center", padding: "3rem 1rem", color: "#666" }}>

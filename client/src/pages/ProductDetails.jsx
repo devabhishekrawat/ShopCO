@@ -50,8 +50,9 @@ const ProductDetails = () => {
 
     const loadRelated = async () => {
       try {
-        const res = await getProducts({ limit: 4 });
+        const res = await getProducts({ limit: 5 });
         setRelatedProducts(res.products?.filter((p) => p._id !== id) || []);
+        console.log(res.products)
       } catch (err) {
         console.error(err);
       }
