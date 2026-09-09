@@ -146,7 +146,15 @@ const Navbar = () => {
               )}
             </Link>
 
-            <div className="header__profile">
+            <div
+              className="header__profile"
+              onMouseEnter={() => {
+                if (isAuthenticated) setDropdownOpen(true);
+              }}
+              onMouseLeave={() => {
+                setDropdownOpen(false);
+              }}
+            >
               <button
                 className="header__action-btn"
                 aria-label="Account"
@@ -154,7 +162,8 @@ const Navbar = () => {
                   if (!isAuthenticated) {
                     navigate("/login");
                   } else {
-                    setDropdownOpen(!dropdownOpen);
+                    navigate("/profile");
+                    setDropdownOpen(false);
                   }
                 }}
               >

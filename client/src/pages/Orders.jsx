@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchMyOrders } from "../store/slices/orderSlice.js";
 import Loader from "../components/Loader.jsx";
-import { API_URL } from "../services/api.js";
+import { getAssetUrl } from "../services/api.js";
 
 const Orders = () => {
   const dispatch = useDispatch();
@@ -79,7 +79,7 @@ const Orders = () => {
                   const prod = item.product;
                   const rawImg = prod?.images?.[0];
                   const itemImage = rawImg
-                    ? (rawImg.startsWith("http") ? rawImg : `${API_URL || "http://localhost:5000"}${rawImg}`)
+                    ? getAssetUrl(rawImg)
                     : "/assets/images/product-images/tshirt-1.png";
 
                   return (

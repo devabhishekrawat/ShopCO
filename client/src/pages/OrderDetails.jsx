@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getOrderById } from "../services/orderService.js";
 import Loader from "../components/Loader.jsx";
-import { API_URL } from "../services/api.js";
+import { getAssetUrl } from "../services/api.js";
 
 const OrderDetails = () => {
   const { id } = useParams();
@@ -46,9 +46,17 @@ const OrderDetails = () => {
     <div className="container order-details-page">
       <nav className="breadcrumb">
         <Link to="/">Home</Link>
-        <span className="breadcrumb__separator">&gt;</span>
+        <span className="breadcrumb__separator">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </span>
         <Link to="/orders">Orders</Link>
-        <span className="breadcrumb__separator">&gt;</span>
+        <span className="breadcrumb__separator">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </span>
         <span className="breadcrumb__current">Order #{order._id}</span>
       </nav>
 
@@ -74,7 +82,7 @@ const OrderDetails = () => {
               const prod = item.product;
               const rawImg = prod?.images?.[0];
               const imgUrl = rawImg
-                ? (rawImg.startsWith("http") ? rawImg : `${API_URL || "http://localhost:5000"}${rawImg}`)
+                ? getAssetUrl(rawImg)
                 : "/assets/images/product-images/tshirt-1.png";
 
               return (

@@ -28,6 +28,7 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 server.use(cookieParser());
 server.use("/assets", express.static(path.join(process.cwd(), "assets")));
+server.use("/api/v1/shopco/assets", express.static(path.join(process.cwd(), "assets")));
 
 server.use("/api/v1/shopco/user", userRoutes);
 server.use("/api/v1/shopco/product", productRoutes);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProducts } from "../store/slices/productSlice.js";
 import ProductGrid from "../components/ProductGrid.jsx";
@@ -113,6 +113,28 @@ const Products = () => {
 
   return (
     <div className="products-page container">
+      <nav className="breadcrumb">
+        <Link to="/">Home</Link>
+        <span className="breadcrumb__separator">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </span>
+        {categoryTitle !== "All Products" ? (
+          <>
+            <Link to="/products">Shop</Link>
+            <span className="breadcrumb__separator">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </span>
+            <span className="breadcrumb__current">{categoryTitle}</span>
+          </>
+        ) : (
+          <span className="breadcrumb__current">Shop</span>
+        )}
+      </nav>
+
       <div className="products-page__header">
         <div className="products-page__title-wrap">
           <h1 className="products-page__title">{categoryTitle}</h1>
