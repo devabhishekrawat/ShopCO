@@ -16,23 +16,23 @@
     font-weight: 900;
     color: $color-dark;
 
-    @media (max-width: 640px) {
+    @media (max-width: rem(640)) {
       font-size: rem(24);
     }
   }
 
   &__layout {
     display: grid;
-    grid-template-columns: 320px 1fr;
+    grid-template-columns: rem(320) 1fr;
     gap: 2rem;
 
-    @media (max-width: 850px) {
+    @media (max-width: rem(850)) {
       grid-template-columns: 1fr;
     }
   }
 
   &__card {
-    border: 1px solid $color-border;
+    border: rem(1) solid $color-border;
     border-radius: $radius-card;
     padding: 1.5rem;
     background-color: $color-white;
@@ -42,8 +42,8 @@
   }
 
   &__avatar {
-    width: 80px;
-    height: 80px;
+    width: rem(80);
+    height: rem(80);
     border-radius: 50%;
     background-color: $color-dark;
     color: $color-white;
@@ -97,7 +97,7 @@
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
 
-    @media (max-width: 600px) {
+    @media (max-width: rem(600)) {
       grid-template-columns: 1fr;
     }
   }
@@ -134,7 +134,7 @@
 }
 
 .order-card {
-  border: 1px solid $color-border;
+  border: rem(1) solid $color-border;
   border-radius: $radius-card;
   padding: 1.5rem;
   background-color: $color-white;
@@ -147,7 +147,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid $color-border;
+    border-bottom: rem(1) solid $color-border;
     padding-bottom: 0.75rem;
     flex-wrap: wrap;
     gap: 0.5rem;
@@ -176,9 +176,9 @@
     gap: 1rem;
 
     img {
-      width: 50px;
-      height: 50px;
-      border-radius: 8px;
+      width: rem(50);
+      height: rem(50);
+      border-radius: rem(8);
       object-fit: cover;
       background-color: $color-background-gray;
     }
@@ -208,10 +208,10 @@
 
     &__size-badge {
       background: $color-background-soft;
-      padding: 1px 5px;
-      border-radius: 4px;
+      padding: rem(1) rem(5);
+      border-radius: rem(4);
       font-weight: 600;
-      color: #111;
+      color: $color-dark-alt;
     }
 
     &__item-price {
@@ -223,7 +223,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-top: 1px solid $color-border;
+    border-top: rem(1) solid $color-border;
     padding-top: 0.75rem;
   }
 
@@ -249,39 +249,39 @@
   letter-spacing: 0.05rem;
 
   &--pending {
-    background-color: #fff3cd;
-    color: #856404;
+    background-color: $color-status-pending-bg;
+    color: $color-status-pending-text;
   }
 
   &--processing {
-    background-color: #cce5ff;
-    color: #004085;
+    background-color: $color-status-processing-bg;
+    color: $color-status-processing-text;
   }
 
   &--shipped {
-    background-color: #d1ecf1;
-    color: #0c5460;
+    background-color: $color-status-shipped-bg;
+    color: $color-status-shipped-text;
   }
 
   &--delivered {
-    background-color: #d4edda;
-    color: #155724;
+    background-color: $color-status-delivered-bg;
+    color: $color-status-delivered-text;
   }
 
   &--success {
-    background-color: #d4edda;
-    color: #155724;
+    background-color: $color-status-delivered-bg;
+    color: $color-status-delivered-text;
   }
 
   &--warning {
-    background-color: #fff3cd;
-    color: #856404;
+    background-color: $color-status-pending-bg;
+    color: $color-status-pending-text;
   }
 
   &--danger,
   &--cancelled {
-    background-color: #f8d7da;
-    color: #721c24;
+    background-color: $color-status-cancelled-bg;
+    color: $color-status-cancelled-text;
   }
 }
 
@@ -331,7 +331,7 @@
     grid-template-columns: 1.5fr 1fr;
     gap: 2rem;
 
-    @media (max-width: 900px) {
+    @media (max-width: rem(900)) {
       grid-template-columns: 1fr;
     }
   }
@@ -344,8 +344,8 @@
 }
 
 .order-details-card {
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 16px;
+  border: rem(1) solid $color-border;
+  border-radius: $radius-card;
   padding: 1.5rem;
   background-color: $color-white;
 
@@ -359,7 +359,7 @@
   &__address {
     font-size: rem(14);
     line-height: 1.6;
-    color: #444;
+    color: $color-text-body;
   }
 }
 
@@ -374,7 +374,7 @@
   align-items: center;
   gap: 1rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  border-bottom: rem(1) solid $color-border-faint;
 
   &:last-child {
     border-bottom: none;
@@ -382,9 +382,9 @@
   }
 
   &__img {
-    width: 70px;
-    height: 70px;
-    border-radius: 8px;
+    width: rem(70);
+    height: rem(70);
+    border-radius: rem(8);
     object-fit: cover;
     background-color: $color-background-gray;
   }
@@ -417,10 +417,10 @@
 
   &__size {
     background: $color-background-soft;
-    padding: 1px 6px;
-    border-radius: 4px;
+    padding: rem(1) rem(6);
+    border-radius: rem(4);
     font-weight: 600;
-    color: #111;
+    color: $color-dark-alt;
   }
 
   &__total {
@@ -455,6 +455,6 @@
   &__divider {
     margin: 0.5rem 0;
     border: none;
-    border-top: 1px solid #eee;
+    border-top: rem(1) solid $color-border-subtle;
   }
 }

@@ -1,8 +1,33 @@
 @use "sass:math";
+@use "sass:list";
+@use "sass:meta";
 
-@function rem($px) {
+@function rem-calc($px) {
+  @if $px == 0 or $px == 0px or $px == "auto" or $px == auto {
+    @return $px;
+  }
   @if math.is-unitless($px) {
     @return math.div($px, 16) * 1rem;
   }
   @return math.div($px, 16px) * 1rem;
+}
+
+@function rem($values...) {
+  @if list.length($values) == 1 {
+    $val: list.nth($values, 1);
+    @if meta.type-of($val) == "list" {
+      $result: ();
+      @each $item in $val {
+        $result: list.append($result, rem-calc($item), list.separator($val));
+      }
+      @return $result;
+    }
+    @return rem-calc($val);
+  }
+
+  $result: ();
+  @each $val in $values {
+    $result: list.append($result, rem-calc($val), space);
+  }
+  @return $result;
 }

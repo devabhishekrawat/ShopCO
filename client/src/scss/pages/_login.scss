@@ -3,25 +3,25 @@
 @use "../abstracts/functions" as *;
 
 .login {
-  min-height: calc(100vh - 120px);
+  min-height: calc(100vh - #{rem(120)});
   background-color: $color-background-hero;
   padding: 3rem 1rem;
   @include flex-center;
 
   &__container {
     width: 100%;
-    max-width: 1050px;
-    min-height: 600px;
+    max-width: rem(1050);
+    min-height: rem(600);
     background-color: $color-background;
-    border-radius: 24px;
+    border-radius: rem(24);
     overflow: hidden;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 rem(10) rem(40) $color-shadow-light;
 
-    @media (max-width: 800px) {
+    @media (max-width: rem(800)) {
       grid-template-columns: 1fr;
-      max-width: 500px;
+      max-width: rem(500);
     }
   }
 
@@ -31,7 +31,7 @@
     flex-direction: column;
     justify-content: center;
 
-    @media (max-width: 600px) {
+    @media (max-width: rem(600)) {
       padding: 2rem 1.5rem;
     }
   }
@@ -89,7 +89,7 @@
   &__input {
     padding: 0.75rem 1rem;
     border-radius: $radius-pill;
-    border: 1px solid $color-border;
+    border: rem(1) solid $color-border;
     font-size: rem(14);
 
     &:focus {
@@ -131,7 +131,7 @@
     position: relative;
     overflow: hidden;
 
-    @media (max-width: 800px) {
+    @media (max-width: rem(800)) {
       display: none;
     }
   }
@@ -152,9 +152,9 @@
 
   &__visual-description {
     font-size: rem(15);
-    color: rgba(255, 255, 255, 0.7);
+    color: $color-white-muted;
     line-height: 1.6;
-    max-width: 340px;
+    max-width: rem(340);
     margin: 0 auto;
   }
 

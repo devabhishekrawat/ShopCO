@@ -13,7 +13,7 @@
   background-color: transparent;
 
   &:hover {
-    transform: translateY(-4px);
+    transform: translateY(rem(-4));
   }
 
   &__image-wrapper {
@@ -26,8 +26,8 @@
     @include flex-center;
     position: relative;
 
-    @media (max-width: 768px) {
-      border-radius: 12px;
+    @media (max-width: rem(768)) {
+      border-radius: rem(12);
       margin-bottom: 0.5rem;
     }
   }
@@ -48,15 +48,15 @@
     position: absolute;
     top: 0.75rem;
     left: 0.75rem;
-    background-color: rgba(0, 0, 0, 0.75);
+    background-color: $color-overlay-dark;
     color: $color-white;
     font-size: rem(11);
     font-weight: 700;
     padding: 0.25rem 0.5rem;
-    border-radius: 4px;
+    border-radius: rem(4);
     letter-spacing: 0.05rem;
 
-    @media (max-width: 768px) {
+    @media (max-width: rem(768)) {
       top: 0.5rem;
       left: 0.5rem;
       font-size: rem(9);
@@ -75,7 +75,7 @@
     text-overflow: ellipsis;
     min-width: 0;
 
-    @media (max-width: 768px) {
+    @media (max-width: rem(768)) {
       font-size: rem(14);
       margin-bottom: 0.25rem;
     }
@@ -87,7 +87,7 @@
     gap: 0.5rem;
     margin-bottom: 0.4rem;
 
-    @media (max-width: 768px) {
+    @media (max-width: rem(768)) {
       gap: 0.25rem;
       margin-bottom: 0.25rem;
     }
@@ -95,16 +95,16 @@
     .stars {
       display: flex;
       align-items: center;
-      gap: 2px;
+      gap: rem(2);
 
       img {
-        width: 18px;
-        height: 18px;
+        width: rem(18);
+        height: rem(18);
         object-fit: contain;
 
-        @media (max-width: 768px) {
-          width: 13px;
-          height: 13px;
+        @media (max-width: rem(768)) {
+          width: rem(13);
+          height: rem(13);
         }
       }
     }
@@ -114,7 +114,7 @@
       font-weight: 500;
       color: $color-text;
 
-      @media (max-width: 768px) {
+      @media (max-width: rem(768)) {
         font-size: rem(11);
       }
 
@@ -134,7 +134,7 @@
     margin-top: auto;
     flex-wrap: wrap;
 
-    @media (max-width: 768px) {
+    @media (max-width: rem(768)) {
       font-size: rem(16);
       gap: 0.35rem;
     }
@@ -145,20 +145,20 @@
       font-size: rem(20);
       font-weight: 500;
 
-      @media (max-width: 768px) {
+      @media (max-width: rem(768)) {
         font-size: rem(13);
       }
     }
 
     .badge {
-      background-color: rgba(255, 51, 51, 0.1);
+      background-color: $color-danger-light;
       color: $color-danger;
       font-size: rem(12);
       font-weight: 600;
       padding: 0.2rem 0.6rem;
       border-radius: $radius-pill;
 
-      @media (max-width: 768px) {
+      @media (max-width: rem(768)) {
         font-size: rem(10);
         padding: 0.15rem 0.35rem;
       }
@@ -174,17 +174,17 @@
   gap: 1.5rem;
   width: 100%;
 
-  @media (max-width: 1200px) {
+  @media (max-width: rem(1200)) {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1.25rem;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: rem(768)) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: rem(480)) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.75rem;
   }
@@ -196,12 +196,12 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
   width: 100%;
 
-  @media (max-width: 1200px) {
+  @media (max-width: rem(1200)) {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 1.25rem;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: rem(768)) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
     display: grid;
@@ -226,7 +226,7 @@
   }
 
 
-  @media (max-width: 480px) {
+  @media (max-width: rem(480)) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.75rem;
   }
@@ -235,11 +235,11 @@
 .stars-wrapper {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: rem(6);
 
   .stars {
     display: flex;
-    gap: 2px;
+    gap: rem(2);
   }
 
   .score {

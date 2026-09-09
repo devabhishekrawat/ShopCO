@@ -1,26 +1,72 @@
+@use "./functions" as *;
+
+// Core Colors
 $color-dark: #000000;
+$color-dark-alt: #111111;
+$color-dark-surface: #222222;
 $color-white: #ffffff;
 $color-text: #333333;
+$color-text-body: #444444;
 $color-text-muted: #666666;
+$color-text-subtle: #999999;
 $color-text-light: rgba(0, 0, 0, 0.6);
 $color-text-faded: rgba(0, 0, 0, 0.4);
 
+// Background Colors
 $color-background: #ffffff;
 $color-background-soft: #f0eeed;
 $color-background-hero: #f2f0f1;
 $color-background-gray: #f0f0f0;
+$color-background-light: #fafafa;
+$color-background-alt: #fdfdfd;
+$color-background-card: #f9f9f9;
+$color-background-disabled: #f1f1f1;
 
+// Border Colors
 $color-border: rgba(0, 0, 0, 0.1);
 $color-border-dark: rgba(0, 0, 0, 0.15);
+$color-border-light: #cccccc;
+$color-border-subtle: #eeeeee;
+$color-border-faint: rgba(0, 0, 0, 0.06);
 
+// Accent & Status Colors
 $color-danger: #ff3333;
+$color-danger-light: rgba(255, 51, 51, 0.1);
 $color-success: #01b763;
+$color-warning: #e67e22;
 $color-rating: #ffc633;
 
-$radius-card: 16px;
-$radius-pill: 64px;
+// Order / Status Badges
+$color-status-pending-bg: #fff3cd;
+$color-status-pending-text: #856404;
+$color-status-processing-bg: #cce5ff;
+$color-status-processing-text: #004085;
+$color-status-shipped-bg: #d1ecf1;
+$color-status-shipped-text: #0c5460;
+$color-status-delivered-bg: #d4edda;
+$color-status-delivered-text: #155724;
+$color-status-cancelled-bg: #f8d7da;
+$color-status-cancelled-text: #721c24;
 
+// Product Color Swatches
+$color-swatch-olive: #4f4e37;
+$color-swatch-green: #314f4a;
+$color-swatch-navy: #31344f;
+
+// Shadows & Overlays
 $hover-color: #e0e0e0;
+$color-gray-light: #e5e5e5;
+$color-overlay: rgba(0, 0, 0, 0.5);
+$color-overlay-dark: rgba(0, 0, 0, 0.75);
+$color-shadow-light: rgba(0, 0, 0, 0.08);
+$color-shadow-medium: rgba(0, 0, 0, 0.12);
+$color-shadow-dark: rgba(0, 0, 0, 0.2);
+$color-white-muted: rgba(255, 255, 255, 0.7);
 
+// Radii
+$radius-card: rem(16);
+$radius-pill: rem(64);
+
+// Typography
 $font-primary: "Satoshi", sans-serif;
 $font-integral: "Integral CF", sans-serif;

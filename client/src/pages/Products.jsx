@@ -6,6 +6,7 @@ import ProductGrid from "../components/ProductGrid.jsx";
 import FilterSidebar from "../components/FilterSidebar.jsx";
 import Pagination from "../components/Pagination.jsx";
 import Loader from "../components/Loader.jsx";
+import filterIcon from "../assets/icons/filter-icon.svg";
 
 const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -136,7 +137,7 @@ const Products = () => {
             onClick={() => setMobileFilterOpen(true)}
             aria-label="Filter"
           >
-            <img src="/assets/icons/search-icon.svg" alt="filter" />
+            <img src={filterIcon} alt="filter" />
           </button>
         </div>
       </div>

@@ -43,14 +43,14 @@
 .header {
   width: 100%;
   background-color: $color-background;
-  border-bottom: 1px solid $color-border-dark;
+  border-bottom: rem(1) solid $color-border-dark;
   position: sticky;
   top: 0;
   z-index: 90;
 
   &__container {
     width: 100%;
-    max-width: 1240px;
+    max-width: rem(1240);
     min-height: 4.5rem;
     margin: 0 auto;
     padding: 1rem 1rem;
@@ -69,7 +69,7 @@
     cursor: pointer;
     flex-shrink: 0;
 
-    @media (max-width: 830px) {
+    @media (max-width: rem(830)) {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -92,7 +92,7 @@
     text-decoration: none;
     flex-shrink: 0;
 
-    @media (max-width: 640px) {
+    @media (max-width: rem(640)) {
       font-size: rem(22);
     }
   }
@@ -100,16 +100,16 @@
   &__nav {
     flex-shrink: 0;
 
-    @media (max-width: 830px) {
+    @media (max-width: rem(830)) {
       display: none;
       position: absolute;
       top: 100%;
       left: 0;
       width: 100%;
       background-color: $color-background;
-      border-top: 1px solid $color-border-dark;
-      border-bottom: 1px solid $color-border-dark;
-      box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.08);
+      border-top: rem(1) solid $color-border-dark;
+      border-bottom: rem(1) solid $color-border-dark;
+      box-shadow: 0 0.5rem 1.25rem $color-shadow-light;
       z-index: 100;
 
       &--open {
@@ -126,7 +126,7 @@
     margin: 0;
     padding: 0;
 
-    @media (max-width: 830px) {
+    @media (max-width: rem(830)) {
       flex-direction: column;
       align-items: flex-start;
       padding: 1rem 1.5rem;
@@ -138,7 +138,7 @@
     font-family: $font-primary;
     font-weight: 400;
 
-    @media (max-width: 830px) {
+    @media (max-width: rem(830)) {
       width: 100%;
     }
   }
@@ -157,7 +157,7 @@
       font-weight: 500;
     }
 
-    @media (max-width: 830px) {
+    @media (max-width: rem(830)) {
       display: block;
       padding: 0.5rem 0;
       width: 100%;
@@ -166,7 +166,7 @@
 
   &__search {
     flex: 1;
-    max-width: 500px;
+    max-width: rem(500);
     margin-left: auto;
     display: flex;
     align-items: center;
@@ -175,7 +175,7 @@
     padding: 0.625rem 1rem;
     gap: 0.75rem;
 
-    @media (max-width: 830px) {
+    @media (max-width: rem(830)) {
       max-width: 100%;
     }
   }
@@ -242,9 +242,9 @@
     min-width: 10rem;
     padding: 0.5rem;
     background-color: $color-white;
-    border: 1px solid $color-border;
+    border: rem(1) solid $color-border;
     border-radius: $radius-card;
-    box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.12);
+    box-shadow: 0 0.5rem 1.25rem $color-shadow-medium;
     z-index: 100;
     display: flex;
     flex-direction: column;
@@ -260,7 +260,7 @@
     text-decoration: none;
     cursor: pointer;
     font-size: rem(14);
-    border-radius: 6px;
+    border-radius: rem(6);
 
     &:hover {
       background-color: $color-background-soft;
@@ -277,7 +277,7 @@
     font-size: rem(12);
     font-weight: 700;
     color: $color-text-muted;
-    border-bottom: 1px solid $color-border;
+    border-bottom: rem(1) solid $color-border;
     margin-bottom: 0.25rem;
   }
 }

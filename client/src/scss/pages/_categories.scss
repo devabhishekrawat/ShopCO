@@ -12,19 +12,19 @@
     color: $color-dark;
     margin-bottom: 2rem;
 
-    @media (max-width: 640px) {
+    @media (max-width: rem(640)) {
       font-size: rem(26);
     }
   }
 
   &__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(rem(260), 1fr));
     gap: 1.5rem;
   }
 
   &__card {
-    border: 1px solid $color-border;
+    border: rem(1) solid $color-border;
     border-radius: $radius-card;
     overflow: hidden;
     background-color: $color-white;
@@ -34,13 +34,13 @@
     flex-direction: column;
 
     &:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      transform: translateY(rem(-4));
+      box-shadow: 0 rem(10) rem(25) $color-shadow-light;
     }
 
     &-image {
       width: 100%;
-      height: 200px;
+      height: rem(200);
       object-fit: cover;
       background-color: $color-background-gray;
     }

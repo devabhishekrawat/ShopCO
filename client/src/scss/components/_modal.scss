@@ -5,7 +5,7 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: $color-overlay;
   @include flex-center;
   z-index: 1000;
   padding: 1rem;
@@ -15,10 +15,10 @@
   background-color: $color-white;
   border-radius: $radius-card;
   width: 100%;
-  max-width: 550px;
+  max-width: rem(550);
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 rem(10) rem(30) $color-shadow-dark;
   padding: 2rem;
   position: relative;
 
@@ -27,7 +27,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
-    border-bottom: 1px solid $color-border;
+    border-bottom: rem(1) solid $color-border;
     padding-bottom: 1rem;
 
     h2 {
@@ -52,7 +52,7 @@
     justify-content: flex-end;
     gap: 1rem;
     margin-top: 1.5rem;
-    border-top: 1px solid $color-border;
+    border-top: rem(1) solid $color-border;
     padding-top: 1rem;
   }
 }
@@ -80,15 +80,15 @@
     grid-template-columns: 1fr 1fr;
     gap: 0.75rem;
 
-    @media (max-width: 500px) {
+    @media (max-width: rem(500)) {
       grid-template-columns: 1fr;
     }
   }
 
   &__summary {
     padding: 1rem;
-    background-color: #f9f9f9;
-    border-radius: 8px;
+    background-color: $color-background-card;
+    border-radius: rem(8);
     margin-top: 0.5rem;
   }
 
@@ -113,15 +113,15 @@
 
   &__cancel-btn {
     padding: 0.6rem 1.2rem;
-    border-radius: 64px;
-    border: 1px solid #ccc;
+    border-radius: $radius-pill;
+    border: rem(1) solid $color-border-light;
     background: transparent;
     cursor: pointer;
     font-weight: 500;
     transition: background-color 0.2s;
 
     &:hover {
-      background-color: #f0f0f0;
+      background-color: $color-background-gray;
     }
   }
 
@@ -131,7 +131,7 @@
     color: $color-white;
     width: auto;
     padding: 0.6rem 1.5rem;
-    border-radius: 64px;
+    border-radius: $radius-pill;
     font-weight: 500;
   }
 }

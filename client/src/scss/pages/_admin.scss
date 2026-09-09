@@ -4,26 +4,26 @@
 
 .admin-layout {
   display: flex;
-  min-height: calc(100vh - 120px);
+  min-height: calc(100vh - #{rem(120)});
 
-  @media (max-width: 850px) {
+  @media (max-width: rem(850)) {
     flex-direction: column;
   }
 
   &__sidebar {
-    width: 250px;
+    width: rem(250);
     background-color: $color-white;
-    border-right: 1px solid $color-border;
+    border-right: rem(1) solid $color-border;
     padding: 2rem 1rem;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
     flex-shrink: 0;
 
-    @media (max-width: 850px) {
+    @media (max-width: rem(850)) {
       width: 100%;
       border-right: none;
-      border-bottom: 1px solid $color-border;
+      border-bottom: rem(1) solid $color-border;
       flex-direction: row;
       flex-wrap: wrap;
       padding: 1rem;
@@ -31,7 +31,7 @@
 
     &-header {
       padding: 0 0.5rem 1rem;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      border-bottom: rem(1) solid $color-border;
       margin-bottom: 0.5rem;
     }
 
@@ -57,7 +57,7 @@
     align-items: center;
     gap: 0.75rem;
     padding: 0.75rem 1rem;
-    border-radius: 8px;
+    border-radius: rem(8);
     font-size: rem(15);
     font-weight: 500;
     color: $color-text-muted;
@@ -72,17 +72,17 @@
 
     &--shop {
       color: $color-dark;
-      border: 1px solid $color-border;
+      border: rem(1) solid $color-border;
     }
   }
 
   &__content {
     flex: 1;
     padding: 2rem;
-    background-color: #fafafa;
+    background-color: $color-background-light;
     overflow-x: auto;
 
-    @media (max-width: 640px) {
+    @media (max-width: rem(640)) {
       padding: 1rem;
     }
   }
@@ -124,14 +124,14 @@
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(rem(200), 1fr));
   gap: 1.5rem;
   margin-bottom: 2.5rem;
 }
 
 .stat-card {
   background-color: $color-white;
-  border: 1px solid $color-border;
+  border: rem(1) solid $color-border;
   border-radius: $radius-card;
   padding: 1.5rem;
   display: flex;
@@ -150,7 +150,7 @@
     color: $color-dark;
 
     &--warning {
-      color: #e67e22;
+      color: $color-warning;
     }
 
     &--danger {
@@ -158,7 +158,7 @@
     }
 
     &--success {
-      color: #01b763;
+      color: $color-success;
     }
   }
 
@@ -168,11 +168,11 @@
     text-decoration: underline;
 
     &--success {
-      color: #01b763;
+      color: $color-success;
     }
 
     &--warning {
-      color: #e67e22;
+      color: $color-warning;
     }
 
     &--danger {
@@ -183,7 +183,7 @@
 
 .admin-table-card {
   background-color: $color-white;
-  border: 1px solid $color-border;
+  border: rem(1) solid $color-border;
   border-radius: $radius-card;
   padding: 1.5rem;
   overflow-x: auto;
@@ -200,24 +200,24 @@
     background-color: $color-background-soft;
     font-weight: 700;
     color: $color-dark;
-    border-bottom: 1px solid $color-border;
+    border-bottom: rem(1) solid $color-border;
     white-space: nowrap;
   }
 
   td {
     padding: 0.85rem 1rem;
-    border-bottom: 1px solid $color-border;
+    border-bottom: rem(1) solid $color-border;
     vertical-align: middle;
   }
 
   tr:hover td {
-    background-color: #fdfdfd;
+    background-color: $color-background-alt;
   }
 
   img {
-    width: 44px;
-    height: 44px;
-    border-radius: 6px;
+    width: rem(44);
+    height: rem(44);
+    border-radius: rem(6);
     object-fit: cover;
   }
 
@@ -228,7 +228,7 @@
 
     button, a {
       padding: 0.35rem 0.65rem;
-      border-radius: 6px;
+      border-radius: rem(6);
       font-size: rem(12);
       font-weight: 600;
       cursor: pointer;
@@ -241,7 +241,7 @@
     }
 
     .delete-btn {
-      background-color: rgba(255, 51, 51, 0.1);
+      background-color: $color-danger-light;
       color: $color-danger;
 
       &:disabled {
@@ -254,10 +254,10 @@
 
 .admin-form {
   background-color: $color-white;
-  border: 1px solid $color-border;
+  border: rem(1) solid $color-border;
   border-radius: $radius-card;
   padding: 2rem;
-  max-width: 700px;
+  max-width: rem(700);
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
@@ -279,7 +279,7 @@
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
 
-    @media (max-width: 600px) {
+    @media (max-width: rem(600)) {
       grid-template-columns: 1fr;
     }
   }
@@ -294,10 +294,10 @@
   }
 
   &__inventory-box {
-    background-color: #fafafa;
+    background-color: $color-background-light;
     padding: 1.25rem;
-    border-radius: 12px;
-    border: 1px solid #eaeaea;
+    border-radius: rem(12);
+    border: rem(1) solid $color-border-subtle;
   }
 
   &__inventory-label {
@@ -314,14 +314,14 @@
 
   &__sizes-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(rem(140), 1fr));
     gap: 1rem;
   }
 
   &__size-card {
     background-color: $color-white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    border: rem(1) solid $color-border-light;
+    border-radius: rem(8);
     padding: 0.75rem;
   }
 
@@ -335,12 +335,12 @@
   &__size-input {
     width: 100%;
     padding: 0.4rem;
-    border-radius: 6px;
-    border: 1px solid #ccc;
+    border-radius: rem(6);
+    border: rem(1) solid $color-border-light;
   }
 
   &__qty-input {
-    max-width: 200px;
+    max-width: rem(200);
   }
 
   &__help-text {
@@ -356,11 +356,11 @@
   }
 
   &__preview-thumb {
-    width: 60px;
-    height: 60px;
-    border-radius: 8px;
+    width: rem(60);
+    height: rem(60);
+    border-radius: rem(8);
     object-fit: cover;
-    border: 1px solid $color-border;
+    border: rem(1) solid $color-border;
   }
 }
 
@@ -383,7 +383,7 @@
 
   &__size-tag {
     padding: 0.15rem 0.5rem;
-    border-radius: 4px;
+    border-radius: rem(4);
     background-color: $color-background-soft;
     font-size: rem(12);
     font-weight: 600;
@@ -395,7 +395,7 @@
   }
 
   &__email {
-    color: #555;
+    color: $color-text-body;
   }
 
   &__date {
@@ -404,10 +404,10 @@
 
   &__select {
     padding: 0.3rem 0.6rem;
-    border-radius: 6px;
+    border-radius: rem(6);
     font-size: rem(14);
     font-weight: 600;
-    border: 1px solid $color-border;
+    border: rem(1) solid $color-border;
     background-color: $color-white;
   }
 
@@ -433,17 +433,17 @@
   }
 
   &__stock-input {
-    width: 60px;
+    width: rem(60);
     padding: 0.2rem;
-    border-radius: 4px;
-    border: 1px solid $color-border;
+    border-radius: rem(4);
+    border: rem(1) solid $color-border;
   }
 
   &__stock-save-btn {
     padding: 0.2rem 0.5rem;
     background-color: $color-dark;
     color: $color-white;
-    border-radius: 4px;
+    border-radius: rem(4);
     border: none;
     cursor: pointer;
   }
@@ -457,30 +457,30 @@
   &__sizes-breakdown {
     display: flex;
     flex-wrap: wrap;
-    gap: 3px;
-    margin-top: 4px;
-    max-width: 160px;
+    gap: rem(3);
+    margin-top: rem(4);
+    max-width: rem(160);
   }
 
   &__size-chip {
     font-size: 0.72rem;
-    padding: 1px 5px;
-    border-radius: 4px;
+    padding: rem(1) rem(5);
+    border-radius: rem(4);
     font-weight: 500;
 
     &--ok {
       background: $color-background-soft;
-      color: #333;
+      color: $color-text;
     }
 
     &--low {
-      background: #fff3cd;
-      color: #856404;
+      background: $color-status-pending-bg;
+      color: $color-status-pending-text;
     }
 
     &--out {
-      background: #f8d7da;
-      color: #721c24;
+      background: $color-status-cancelled-bg;
+      color: $color-status-cancelled-text;
     }
   }
 
@@ -491,21 +491,21 @@
   }
 
   &__item-img {
-    width: 40px;
-    height: 40px;
-    border-radius: 6px;
+    width: rem(40);
+    height: rem(40);
+    border-radius: rem(6);
     object-fit: cover;
   }
 
   &__item-size {
     font-size: 0.8rem;
-    color: #444;
+    color: $color-text-body;
     background: $color-background-soft;
-    padding: 1px 6px;
-    border-radius: 4px;
+    padding: rem(1) rem(6);
+    border-radius: rem(4);
     font-weight: 600;
     display: inline-block;
-    margin-top: 2px;
+    margin-top: rem(2);
   }
 }
 
@@ -549,15 +549,15 @@
 
   &__preset-btn {
     padding: 0.25rem 0.6rem;
-    border-radius: 4px;
-    border: 1px solid $color-border;
+    border-radius: rem(4);
+    border: rem(1) solid $color-border;
     font-size: rem(12);
     cursor: pointer;
-    background: #f8f8f8;
+    background: $color-background-card;
     transition: background-color 0.2s;
 
     &:hover {
-      background-color: #eee;
+      background-color: $color-border-subtle;
     }
 
     &--none {
@@ -575,7 +575,7 @@
     padding: 0.4rem 1rem;
     background-color: $color-dark;
     color: $color-white;
-    border-radius: 8px;
+    border-radius: rem(8);
     border: none;
     font-weight: 600;
     font-size: rem(14);
@@ -586,10 +586,10 @@
     display: flex;
     gap: 0.5rem;
     flex-wrap: wrap;
-    min-height: 36px;
+    min-height: rem(36);
     padding: 0.5rem;
-    border: 1px dashed $color-border;
-    border-radius: 8px;
+    border: rem(1) dashed $color-border;
+    border-radius: rem(8);
   }
 
   &__empty-sizes {
@@ -602,7 +602,7 @@
     align-items: center;
     gap: 0.35rem;
     padding: 0.3rem 0.6rem;
-    border-radius: 6px;
+    border-radius: rem(6);
     background-color: $color-dark;
     color: $color-white;
     font-size: rem(14);
@@ -628,8 +628,8 @@
 
   &__cancel-btn {
     padding: 0.6rem 1.2rem;
-    border-radius: 64px;
-    border: 1px solid $color-border;
+    border-radius: $radius-pill;
+    border: rem(1) solid $color-border;
     background: transparent;
     cursor: pointer;
     transition: background-color 0.2s;
@@ -645,7 +645,7 @@
     color: $color-white;
     width: auto;
     padding: 0.6rem 1.5rem;
-    border-radius: 64px;
+    border-radius: $radius-pill;
   }
 }
 
@@ -658,14 +658,14 @@
 }
 
 .admin-search-form {
-  max-width: 340px;
+  max-width: rem(340);
   flex: 1;
   display: flex;
   gap: 0.5rem;
 
   &__btn {
     padding: 0.5rem 1rem;
-    border-radius: 8px;
+    border-radius: rem(8);
     background-color: $color-dark;
     color: $color-white;
     font-size: rem(14);
@@ -689,8 +689,8 @@
 
   &__btn {
     padding: 0.5rem 1rem;
-    border-radius: 20px;
-    border: 1px solid $color-border;
+    border-radius: rem(20);
+    border: rem(1) solid $color-border;
     background-color: $color-white;
     color: $color-dark;
     font-size: rem(14);
@@ -705,31 +705,31 @@
     }
 
     &--in-stock {
-      border-color: #01b763;
-      color: #01b763;
+      border-color: $color-success;
+      color: $color-success;
 
       &.is-active {
-        background-color: #01b763;
+        background-color: $color-success;
         color: $color-white;
       }
     }
 
     &--low-stock {
-      border-color: #e67e22;
-      color: #e67e22;
+      border-color: $color-warning;
+      color: $color-warning;
 
       &.is-active {
-        background-color: #e67e22;
+        background-color: $color-warning;
         color: $color-white;
       }
     }
 
     &--out-of-stock {
-      border-color: #ff3333;
-      color: #ff3333;
+      border-color: $color-danger;
+      color: $color-danger;
 
       &.is-active {
-        background-color: #ff3333;
+        background-color: $color-danger;
         color: $color-white;
       }
     }
@@ -747,7 +747,7 @@
   grid-template-columns: 2fr 1fr;
   gap: 1.5rem;
 
-  @media (max-width: 900px) {
+  @media (max-width: rem(900)) {
     grid-template-columns: 1fr;
   }
 }
@@ -767,7 +767,7 @@
 
 .admin-order-info-text {
   font-size: rem(14);
-  color: #444;
+  color: $color-text-body;
   line-height: 1.6;
 }
 
@@ -795,6 +795,6 @@
 
 .admin-order-divider {
   border: none;
-  border-top: 1px solid #eee;
+  border-top: rem(1) solid $color-border-subtle;
   margin: 0.25rem 0;
 }

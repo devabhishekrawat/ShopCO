@@ -26,7 +26,7 @@
     font-weight: 900;
     color: $color-dark;
 
-    @media (max-width: 640px) {
+    @media (max-width: rem(640)) {
       font-size: rem(24);
     }
   }
@@ -53,7 +53,7 @@
       width: auto;
       padding: 0.4rem 0.8rem;
       font-size: rem(14);
-      border-radius: 8px;
+      border-radius: rem(8);
     }
   }
 
@@ -66,7 +66,7 @@
     @include flex-center;
     cursor: pointer;
 
-    @media (max-width: 992px) {
+    @media (max-width: rem(992)) {
       display: flex;
     }
 
@@ -78,17 +78,17 @@
 
   &__layout {
     display: grid;
-    grid-template-columns: 280px minmax(0, 1fr);
+    grid-template-columns: rem(280) minmax(0, 1fr);
     gap: 2rem;
 
-    @media (max-width: 992px) {
+    @media (max-width: rem(992)) {
       grid-template-columns: 1fr;
       gap: 1.5rem;
     }
   }
 
   &__sidebar {
-    @media (max-width: 992px) {
+    @media (max-width: rem(992)) {
       display: none;
     }
   }

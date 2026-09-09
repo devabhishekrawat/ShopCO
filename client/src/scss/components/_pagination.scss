@@ -8,7 +8,7 @@
   align-items: center;
   width: 100%;
   padding-top: 2rem;
-  border-top: 1px solid $color-border;
+  border-top: rem(1) solid $color-border;
   margin-top: 2rem;
 
   &__btn {
@@ -16,8 +16,8 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem 1rem;
-    border: 1px solid $color-border;
-    border-radius: 8px;
+    border: rem(1) solid $color-border;
+    border-radius: rem(8);
     font-size: rem(14);
     font-weight: 500;
     color: $color-dark;
@@ -45,7 +45,7 @@
     width: 2.25rem;
     height: 2.25rem;
     @include flex-center;
-    border-radius: 8px;
+    border-radius: rem(8);
     font-size: rem(14);
     font-weight: 500;
     color: $color-text-muted;

@@ -8,7 +8,7 @@
   overflow: hidden;
 
   &__container {
-    max-width: 1240px;
+    max-width: rem(1240);
     margin: 0 auto;
     padding: 2rem 1rem 0;
     display: grid;
@@ -16,7 +16,7 @@
     align-items: center;
     gap: 2rem;
 
-    @media (max-width: 900px) {
+    @media (max-width: rem(900)) {
       grid-template-columns: 1fr;
       text-align: center;
     }
@@ -27,7 +27,7 @@
     flex-direction: column;
     padding: 2rem 0;
 
-    @media (max-width: 900px) {
+    @media (max-width: rem(900)) {
       align-items: center;
     }
   }
@@ -40,7 +40,7 @@
     color: $color-dark;
     margin-bottom: 1.5rem;
 
-    @media (max-width: 640px) {
+    @media (max-width: rem(640)) {
       font-size: rem(36);
     }
   }
@@ -50,7 +50,7 @@
     line-height: 1.6;
     color: $color-text-light;
     margin-bottom: 2rem;
-    max-width: 540px;
+    max-width: rem(540);
   }
 
   &__cta {
@@ -62,10 +62,10 @@
     margin-bottom: 2.5rem;
     align-self: flex-start;
 
-    @media (max-width: 900px) {
+    @media (max-width: rem(900)) {
       align-self: center;
       width: 100%;
-      max-width: 320px;
+      max-width: rem(320);
     }
   }
 
@@ -75,7 +75,7 @@
     gap: 2rem;
     flex-wrap: wrap;
 
-    @media (max-width: 900px) {
+    @media (max-width: rem(900)) {
       justify-content: center;
     }
   }
@@ -98,11 +98,11 @@
   }
 
   &__stat-divider {
-    width: 1px;
-    height: 48px;
+    width: rem(1);
+    height: rem(48);
     background-color: $color-border;
 
-    @media (max-width: 600px) {
+    @media (max-width: rem(600)) {
       display: none;
     }
   }
@@ -116,7 +116,7 @@
 
   &__image {
     width: 100%;
-    max-height: 600px;
+    max-height: rem(600);
     object-fit: contain;
   }
 
@@ -143,7 +143,7 @@
   padding: 2.5rem 1rem;
 
   &__container {
-    max-width: 1240px;
+    max-width: rem(1240);
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -151,14 +151,14 @@
     flex-wrap: wrap;
     gap: 2rem;
 
-    @media (max-width: 768px) {
+    @media (max-width: rem(768)) {
       justify-content: center;
       gap: 1.5rem 2.5rem;
     }
   }
 
   &__logo {
-    max-height: 32px;
+    max-height: rem(32);
     width: auto;
     object-fit: contain;
   }
@@ -168,7 +168,7 @@
   padding: 4rem 0;
 
   .products-grid .suggested-products-grid {
-    @media (max-width: 768px) {
+    @media (max-width: rem(768)) {
       display: grid;
       grid-auto-flow: column;
       grid-template-columns: unset;
@@ -190,7 +190,7 @@
       }
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: rem(480)) {
       grid-auto-columns: calc(50% - 0.375rem);
       gap: 0.75rem;
 
@@ -208,7 +208,7 @@
     margin-bottom: 3rem;
     color: $color-dark;
 
-    @media (max-width: 640px) {
+    @media (max-width: rem(640)) {
       font-size: rem(28);
       margin-bottom: 2rem;
     }
@@ -220,7 +220,7 @@
     margin: 2.5rem auto 0;
     background-color: transparent;
     color: $color-dark;
-    border: 1px solid $color-border;
+    border: rem(1) solid $color-border;
     padding: 0.85rem 3.5rem;
     font-size: rem(15);
     font-weight: 500;
@@ -234,7 +234,7 @@
 
   &__divider {
     border: none;
-    border-top: 1px solid $color-border;
+    border-top: rem(1) solid $color-border;
     margin: 4rem 0;
   }
 }
@@ -244,12 +244,12 @@
 
   &__card {
     background-color: $color-background-soft;
-    border-radius: 40px;
+    border-radius: rem(40);
     padding: 4rem 3.5rem;
 
-    @media (max-width: 768px) {
+    @media (max-width: rem(768)) {
       padding: 2.5rem 1.5rem;
-      border-radius: 20px;
+      border-radius: rem(20);
     }
   }
 
@@ -261,7 +261,7 @@
     margin-bottom: 3rem;
     color: $color-dark;
 
-    @media (max-width: 640px) {
+    @media (max-width: rem(640)) {
       font-size: rem(28);
       margin-bottom: 2rem;
     }
@@ -272,7 +272,7 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 1.25rem;
 
-    @media (max-width: 768px) {
+    @media (max-width: rem(768)) {
       grid-template-columns: 1fr;
     }
   }
@@ -280,9 +280,9 @@
 
 .style-card {
   position: relative;
-  height: 280px;
+  height: rem(280);
   background-color: $color-white;
-  border-radius: 20px;
+  border-radius: rem(20);
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.2s ease;
@@ -299,12 +299,12 @@
     grid-column: span 2;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: rem(768)) {
 
     &--small,
     &--large {
       grid-column: span 1;
-      height: 200px;
+      height: rem(200);
     }
   }
 
@@ -341,7 +341,7 @@
     font-size: rem(40);
     color: $color-dark;
 
-    @media (max-width: 640px) {
+    @media (max-width: rem(640)) {
       font-size: rem(26);
     }
   }
@@ -354,7 +354,7 @@
       width: 2.5rem;
       height: 2.5rem;
       border-radius: 50%;
-      border: 1px solid $color-border;
+      border: rem(1) solid $color-border;
       @include flex-center;
       font-size: 1.25rem;
       transition: background 0.2s ease;
@@ -370,14 +370,14 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 1.25rem;
 
-    @media (max-width: 900px) {
+    @media (max-width: rem(900)) {
       grid-template-columns: 1fr;
     }
   }
 }
 
 .testimonial-card {
-  border: 1px solid $color-border;
+  border: rem(1) solid $color-border;
   border-radius: $radius-card;
   padding: 1.75rem;
   display: flex;
@@ -386,11 +386,11 @@
 
   &__stars {
     display: flex;
-    gap: 3px;
+    gap: rem(3);
 
     img {
-      width: 18px;
-      height: 18px;
+      width: rem(18);
+      height: rem(18);
     }
   }
 
@@ -403,8 +403,8 @@
     gap: 0.5rem;
 
     img {
-      width: 16px;
-      height: 16px;
+      width: rem(16);
+      height: rem(16);
     }
   }
 

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCategories } from "../store/slices/categorySlice.js";
-
-// Leave blank so you can add your custom icon src location here (e.g. "/assets/icons/filter_icon.svg" or an import)
-const filterIcon = "";
+import filterIcon from "../assets/icons/filter-icon.svg";
 
 const AVAILABLE_SIZES = [
   "XX-Small",
@@ -50,12 +48,12 @@ const FilterSidebar = ({
   const [minPrice, setMinPrice] = useState(
     filters.minPrice !== undefined && filters.minPrice !== ""
       ? Number(filters.minPrice)
-      : 50
+      : 0
   );
   const [maxPrice, setMaxPrice] = useState(
     filters.maxPrice !== undefined && filters.maxPrice !== ""
       ? Number(filters.maxPrice)
-      : 200
+      : 1000
   );
   const [selectedSize, setSelectedSize] = useState(filters.size || "Large");
   const [selectedStyle, setSelectedStyle] = useState(filters.dressStyle || "");
@@ -148,45 +146,27 @@ const FilterSidebar = ({
 
   const hasActiveFilters = Boolean(
     selectedCategory ||
-      selectedSize ||
-      selectedStyle ||
-      filters.minPrice ||
-      filters.maxPrice ||
-      filters.size ||
-      filters.dressStyle ||
-      filters.category
+    selectedSize ||
+    selectedStyle ||
+    filters.minPrice ||
+    filters.maxPrice ||
+    filters.size ||
+    filters.dressStyle ||
+    filters.category
   );
 
   return (
     <aside className="filter-sidebar">
-      {/* Header */}
       <div className="filter-sidebar__header">
         <h3 className="filter-sidebar__title">Filters</h3>
         <div className="filter-sidebar__header-actions">
-          {filterIcon ? (
-            <img
-              src={filterIcon}
-              alt="Filters"
-              className="filter-sidebar__filter-icon"
-            />
-          ) : (
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="filter-sidebar__filter-icon-svg"
-            >
-              <path
-                d="M4 21V14M4 10V3M12 21V12M12 8V3M20 21V16M20 12V3M1 14H7M9 8H15M17 16H23"
-                stroke="#000000"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          )}
+
+          <img
+            src={filterIcon}
+            alt="Filters"
+            className="filter-sidebar__filter-icon"
+          />
+
           {isMobile && (
             <button
               type="button"
@@ -202,7 +182,6 @@ const FilterSidebar = ({
 
       <hr className="filter-sidebar__divider" />
 
-      {/* Category List */}
       <ul className="filter-sidebar__categories">
         {displayCategories.map((cat) => {
           const isSelected =
@@ -215,9 +194,8 @@ const FilterSidebar = ({
             >
               <button
                 type="button"
-                className={`filter-sidebar__category-btn ${
-                  isSelected ? "filter-sidebar__category-btn--active" : ""
-                }`}
+                className={`filter-sidebar__category-btn ${isSelected ? "filter-sidebar__category-btn--active" : ""
+                  }`}
                 onClick={() => handleCategorySelect(cat)}
               >
                 <span>{cat.name}</span>
@@ -245,7 +223,6 @@ const FilterSidebar = ({
 
       <hr className="filter-sidebar__divider" />
 
-      {/* Price Filter */}
       <div className="filter-sidebar__section">
         <button
           type="button"
@@ -259,9 +236,8 @@ const FilterSidebar = ({
             viewBox="0 0 16 16"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className={`filter-sidebar__accordion-arrow ${
-              isPriceOpen ? "filter-sidebar__accordion-arrow--open" : ""
-            }`}
+            className={`filter-sidebar__accordion-arrow ${isPriceOpen ? "filter-sidebar__accordion-arrow--open" : ""
+              }`}
           >
             <path
               d="M4 10L8 6L12 10"
@@ -291,9 +267,8 @@ const FilterSidebar = ({
                 step={STEP}
                 value={currentMin}
                 onChange={handleMinSliderChange}
-                className={`filter-sidebar__range filter-sidebar__range--min ${
-                  minPercent > 50 ? "filter-sidebar__range--z-high" : ""
-                }`}
+                className={`filter-sidebar__range filter-sidebar__range--min ${minPercent > 50 ? "filter-sidebar__range--z-high" : ""
+                  }`}
                 aria-label="Minimum price"
               />
               <input
@@ -338,9 +313,8 @@ const FilterSidebar = ({
             viewBox="0 0 16 16"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className={`filter-sidebar__accordion-arrow ${
-              isSizeOpen ? "filter-sidebar__accordion-arrow--open" : ""
-            }`}
+            className={`filter-sidebar__accordion-arrow ${isSizeOpen ? "filter-sidebar__accordion-arrow--open" : ""
+              }`}
           >
             <path
               d="M4 10L8 6L12 10"
@@ -360,9 +334,8 @@ const FilterSidebar = ({
                 <button
                   key={size}
                   type="button"
-                  className={`filter-sidebar__size-chip ${
-                    isSelected ? "filter-sidebar__size-chip--active" : ""
-                  }`}
+                  className={`filter-sidebar__size-chip ${isSelected ? "filter-sidebar__size-chip--active" : ""
+                    }`}
                   onClick={() => handleSizeSelect(size)}
                 >
                   {size}
@@ -389,9 +362,8 @@ const FilterSidebar = ({
             viewBox="0 0 16 16"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className={`filter-sidebar__accordion-arrow ${
-              isStyleOpen ? "filter-sidebar__accordion-arrow--open" : ""
-            }`}
+            className={`filter-sidebar__accordion-arrow ${isStyleOpen ? "filter-sidebar__accordion-arrow--open" : ""
+              }`}
           >
             <path
               d="M4 10L8 6L12 10"
@@ -412,9 +384,8 @@ const FilterSidebar = ({
                 <li key={style} className="filter-sidebar__style-item">
                   <button
                     type="button"
-                    className={`filter-sidebar__style-btn ${
-                      isSelected ? "filter-sidebar__style-btn--active" : ""
-                    }`}
+                    className={`filter-sidebar__style-btn ${isSelected ? "filter-sidebar__style-btn--active" : ""
+                      }`}
                     onClick={() => handleStyleSelect(style)}
                   >
                     <span>{style}</span>
