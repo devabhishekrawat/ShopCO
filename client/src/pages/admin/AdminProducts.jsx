@@ -6,7 +6,6 @@ import { updateProductQuantity } from "../../services/productService.js";
 import Loader from "../../components/Loader.jsx";
 import Pagination from "../../components/Pagination.jsx";
 import { toast } from "react-toastify";
-import { getFirstImage } from "../../services/api.js";
 
 const AdminProducts = () => {
   const [searchParams, setSearchParams] = useSearchParams();

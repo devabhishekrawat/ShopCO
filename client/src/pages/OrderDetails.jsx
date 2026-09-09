@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getOrderById } from "../services/orderService.js";
 import Loader from "../components/Loader.jsx";
-// import { getFirstImage } from "../services/api.js";
 
 const OrderDetails = () => {
   const { id } = useParams();

@@ -13,7 +13,6 @@ const ProductCard = ({ product }) => {
     ? Math.round(product.price - (product.price * product.discount) / 100)
     : product.price;
 
-  // const imageUrl = getFirstImage(product.images);
   const ratingValue = product.rating || 4.5;
   const isOutOfStock = product.quantity === 0 || product.status === "OUT_OF_STOCK";
 
