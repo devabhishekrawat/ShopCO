@@ -1,13 +1,54 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getProducts } from "../services/productService.js";
+import { getReviews } from "../services/reviewService.js";
 import Loader from "../components/Loader.jsx";
+import StarRating from "../components/StarRating.jsx";
 import SuggestedProductGrid from "../components/SuggestedProductGrid.jsx";
+
+const FALLBACK_REVIEWS = [
+  {
+    _id: "fb-1",
+    product: { name: "Polo with Contrast Trims" },
+    user: { name: "Sarah M." },
+    rating: 5,
+    comment: "I'm blown away by the quality and style of the clothes I received from Shop.co. Every piece has exceeded my expectations.",
+  },
+  {
+    _id: "fb-2",
+    product: { name: "Gradient Graphic T-shirt" },
+    user: { name: "Alex K." },
+    rating: 4.5,
+    comment: "Finding clothes that align with my personal style used to be a challenge until I discovered Shop.co. The range of options is truly remarkable.",
+  },
+  {
+    _id: "fb-3",
+    product: { name: "Skinny Fit Jeans" },
+    user: { name: "James L." },
+    rating: 5,
+    comment: "As someone who's always on the lookout for unique fashion pieces, I'm thrilled to have stumbled upon Shop.co.",
+  },
+  {
+    _id: "fb-4",
+    product: { name: "Casual Denim Shirt" },
+    user: { name: "Michael B." },
+    rating: 5,
+    comment: "The fabric quality and fit are unmatched. Fits true to size and arrived much quicker than expected!",
+  },
+  {
+    _id: "fb-5",
+    product: { name: "Sleek Leather Wallet" },
+    user: { name: "Emily R." },
+    rating: 4,
+    comment: "Excellent craftsmanship and stylish packaging. Highly recommended for everyday accessories.",
+  },
+];
 
 const Home = () => {
   const navigate = useNavigate();
   const [newArrivals, setNewArrivals] = useState([]);
   const [topSelling, setTopSelling] = useState([]);
+  const [topReviews, setTopReviews] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,26 +68,27 @@ const Home = () => {
       }
     };
 
-    loadHomeProducts();
-  }, []);
+    const loadReviews = async () => {
+      try {
+        const res = await getReviews();
+        const reviewPool =
+          res.reviews && res.reviews.length > 0 ? res.reviews : FALLBACK_REVIEWS;
+        const randomThree = [...reviewPool]
+          .sort(() => 0.5 - Math.random())
+          .slice(0, 3);
+        setTopReviews(randomThree);
+      } catch (err) {
+        console.error(err);
+        const randomThree = [...FALLBACK_REVIEWS]
+          .sort(() => 0.5 - Math.random())
+          .slice(0, 3);
+        setTopReviews(randomThree);
+      }
+    };
 
-  const testimonials = [
-    {
-      name: "Sarah M.",
-      verified: true,
-      text: "I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I've bought has exceeded my expectations.",
-    },
-    {
-      name: "Alex K.",
-      verified: true,
-      text: "Finding clothes that align with my personal style used to be a challenge until I discovered Shop.co. The range of options they offer is truly remarkable, catering to a variety of tastes and occasions.",
-    },
-    {
-      name: "James L.",
-      verified: true,
-      text: "As someone who's always on the lookout for unique fashion pieces, I'm thrilled to have stumbled upon Shop.co. The selection of clothes is not only diverse but also on-point with the latest trends.",
-    },
-  ];
+    loadHomeProducts();
+    loadReviews();
+  }, []);
 
   return (
     <div className="home-page">
@@ -213,37 +255,28 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="testimonials container">
-        <div className="testimonials__header">
-          <h2 className="testimonials__title">OUR HAPPY CUSTOMERS</h2>
-          <div className="testimonials__arrows">
-            <button aria-label="Previous">&larr;</button>
-            <button aria-label="Next">&rarr;</button>
-          </div>
+      <section className="top-reviews container">
+        <div className="top-reviews__header">
+          <h2 className="top-reviews__title">TOP REVIEWS</h2>
         </div>
 
-        <div className="testimonials__grid">
-          {testimonials.map((t, idx) => (
-            <div key={idx} className="testimonial-card">
-              <div className="testimonial-card__stars">
-                {[...Array(5)].map((_, i) => (
-                  <img
-                    key={i}
-                    src="/assets/icons/Star.svg"
-                    alt="star"
-                  />
-                ))}
+        <div className="top-reviews__grid">
+          {topReviews.map((rev) => (
+            <div key={rev._id} className="top-reviews__card">
+              <div className="top-reviews__rating">
+                <StarRating rating={rev.rating} showScore={false} />
               </div>
-              <h4 className="testimonial-card__name">
-                {t.name}
-                {t.verified && (
-                  <img
-                    src="/assets/icons/green-approve-icon.svg"
-                    alt="verified"
-                  />
-                )}
+              <h4 className="top-reviews__user">
+                {rev.user?.name || "Customer"}
+                <img
+                  src="/assets/icons/green-approve-icon.svg"
+                  alt="verified"
+                />
               </h4>
-              <p className="testimonial-card__text">{t.text}</p>
+              <p className="top-reviews__product">
+                Product: <span>{rev.product?.name || "Product"}</span>
+              </p>
+              <p className="top-reviews__text">"{rev.comment}"</p>
             </div>
           ))}
         </div>

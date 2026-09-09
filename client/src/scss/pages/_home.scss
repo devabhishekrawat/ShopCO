@@ -325,6 +325,80 @@
   }
 }
 
+.top-reviews {
+  padding: 4rem 0 2rem;
+
+  &__header {
+    margin-bottom: 2.5rem;
+  }
+
+  &__title {
+    font-family: $font-integral;
+    font-weight: 900;
+    font-size: rem(40);
+    color: $color-dark;
+
+    @media (max-width: rem(640)) {
+      font-size: rem(26);
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+
+    @media (max-width: rem(900)) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__card {
+    border: rem(1) solid $color-border;
+    border-radius: $radius-card;
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background-color: $color-white;
+  }
+
+  &__rating {
+    display: flex;
+    align-items: center;
+  }
+
+  &__user {
+    font-size: rem(18);
+    font-weight: 700;
+    color: $color-dark;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    img {
+      width: rem(16);
+      height: rem(16);
+    }
+  }
+
+  &__product {
+    font-size: rem(13);
+    font-weight: 600;
+    color: $color-text-muted;
+
+    span {
+      color: $color-dark;
+    }
+  }
+
+  &__text {
+    font-size: rem(15);
+    line-height: 1.6;
+    color: $color-text-light;
+  }
+}
+
 .testimonials {
   padding: 4rem 0 2rem;
 

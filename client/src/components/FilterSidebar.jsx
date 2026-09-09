@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchCategories } from "../store/slices/categorySlice.js";
 import filterIcon from "../assets/icons/filter-icon.svg";
 
-const AVAILABLE_SIZES = [
+const DEFAULT_SIZES = [
   "XX-Small",
   "X-Small",
   "Small",
@@ -15,6 +15,23 @@ const AVAILABLE_SIZES = [
   "4X-Large",
 ];
 
+const CATEGORY_SIZES = {
+  "t-shirt": ["Small", "Medium", "Large", "X-Large"],
+  "t-shirts": ["Small", "Medium", "Large", "X-Large"],
+  tshirt: ["Small", "Medium", "Large", "X-Large"],
+  tshirts: ["Small", "Medium", "Large", "X-Large"],
+  shirt: ["Small", "Medium", "Large", "X-Large"],
+  shirts: ["Small", "Medium", "Large", "X-Large"],
+  shoe: ["7", "8", "9", "10", "11", "12"],
+  shoes: ["7", "8", "9", "10", "11", "12"],
+  footwear: ["7", "8", "9", "10", "11", "12"],
+  accessories: ["One Size"],
+  accessory: ["One Size"],
+  jeans: ["28", "30", "32", "34", "36", "38"],
+  shorts: ["Small", "Medium", "Large", "X-Large"],
+  hoodie: ["Small", "Medium", "Large", "X-Large"],
+};
+
 const DRESS_STYLES = ["Casual", "Formal", "Party", "Gym"];
 
 const MIN_LIMIT = 0;
@@ -24,10 +41,12 @@ const CURRENCY_SYMBOL = "$";
 
 const DEFAULT_CATEGORIES = [
   { _id: "t-shirts", name: "T-shirts" },
-  { _id: "shorts", name: "Shorts" },
   { _id: "shirts", name: "Shirts" },
-  { _id: "hoodie", name: "Hoodie" },
+  { _id: "shoes", name: "Shoes" },
+  { _id: "accessories", name: "Accessories" },
   { _id: "jeans", name: "Jeans" },
+  { _id: "shorts", name: "Shorts" },
+  { _id: "hoodie", name: "Hoodie" },
 ];
 
 const FilterSidebar = ({
@@ -55,7 +74,7 @@ const FilterSidebar = ({
       ? Number(filters.maxPrice)
       : 1000
   );
-  const [selectedSize, setSelectedSize] = useState(filters.size || "Large");
+  const [selectedSize, setSelectedSize] = useState(filters.size || "");
   const [selectedStyle, setSelectedStyle] = useState(filters.dressStyle || "");
 
   useEffect(() => {
@@ -105,12 +124,56 @@ const FilterSidebar = ({
     setMaxPrice(val);
   };
 
+  const getCategorySizes = (catIdentifier = selectedCategory) => {
+    if (!catIdentifier) {
+      return DEFAULT_SIZES;
+    }
+
+    const currentCat = displayCategories.find(
+      (c) =>
+        c._id === catIdentifier ||
+        c.name.toLowerCase() === catIdentifier.toLowerCase()
+    );
+
+    const name = (currentCat ? currentCat.name : catIdentifier).toLowerCase().trim();
+
+    if (CATEGORY_SIZES[name]) {
+      return CATEGORY_SIZES[name];
+    }
+
+    const stripped = name.replace(/[\s-_]/g, "");
+    for (const [key, sizes] of Object.entries(CATEGORY_SIZES)) {
+      if (key.replace(/[\s-_]/g, "") === stripped) {
+        return sizes;
+      }
+    }
+
+    if (currentCat && currentCat.sizes && currentCat.sizes.length > 0) {
+      return currentCat.sizes;
+    }
+
+    return DEFAULT_SIZES;
+  };
+
+  const availableSizes = getCategorySizes(selectedCategory);
+
   const handleCategorySelect = (cat) => {
     const identifier = cat._id || cat.name;
     const isSelected =
       selectedCategory === identifier ||
       selectedCategory.toLowerCase() === cat.name.toLowerCase();
-    setSelectedCategory(isSelected ? "" : identifier);
+    const nextCat = isSelected ? "" : identifier;
+    setSelectedCategory(nextCat);
+
+    if (selectedSize) {
+      const nextSizes = getCategorySizes(nextCat);
+      const isStillValid = nextSizes.some(
+        (s) => s.toLowerCase() === selectedSize.toLowerCase()
+      );
+      if (!isStillValid) {
+        setSelectedSize("");
+      }
+    }
   };
 
   const handleSizeSelect = (size) => {
@@ -299,7 +362,6 @@ const FilterSidebar = ({
 
       <hr className="filter-sidebar__divider" />
 
-      {/* Size Filter */}
       <div className="filter-sidebar__section">
         <button
           type="button"
@@ -328,7 +390,7 @@ const FilterSidebar = ({
 
         {isSizeOpen && (
           <div className="filter-sidebar__sizes-grid">
-            {AVAILABLE_SIZES.map((size) => {
+            {availableSizes.map((size) => {
               const isSelected = selectedSize.toLowerCase() === size.toLowerCase();
               return (
                 <button
@@ -348,7 +410,6 @@ const FilterSidebar = ({
 
       <hr className="filter-sidebar__divider" />
 
-      {/* Dress Style Filter */}
       <div className="filter-sidebar__section">
         <button
           type="button"
@@ -413,7 +474,6 @@ const FilterSidebar = ({
         )}
       </div>
 
-      {/* Actions */}
       <div className="filter-sidebar__actions">
         <button
           type="button"

@@ -1,7 +1,25 @@
 import Review from "../model/review.model.js";
 import Product from "../../product/model/product.model.js";
+import User from "../../user/model/user.modal.js";
 import Order from "../../order/model/order.model.js";
 import { ErrorHandler } from "../../middleware/errorHandlerMiddleware.js";
+
+export const getAllReviews = async (req, res, next) => {
+    try {
+        const reviews = await Review.find({})
+            .populate("user", "name")
+            .populate("product", "name")
+            .sort({ createdAt: -1 });
+
+        res.status(200).json({
+            success: true,
+            totalReviews: reviews.length,
+            reviews
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
 
 export const getProductReviews = async (req, res, next) => {
     try {

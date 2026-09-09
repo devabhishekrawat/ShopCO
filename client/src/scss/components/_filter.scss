@@ -391,16 +391,22 @@
   background-color: $color-overlay;
   z-index: 999;
   display: flex;
-  justify-content: flex-end;
+  width: 100%;
+  height: 100%;
+
+  &__content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+  }
 
   .filter-sidebar {
-    width: 85%;
-    max-width: rem(380);
+    width: 100%;
+    max-width: 100%;
     height: 100%;
     overflow-y: auto;
+    border: none;
     border-radius: 0;
-    border-top-left-radius: rem(20);
-    border-bottom-left-radius: rem(20);
-    box-shadow: rem(-4) 0 rem(20) $color-shadow-dark;
+    box-shadow: none;
   }
 }

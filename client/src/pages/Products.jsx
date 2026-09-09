@@ -188,7 +188,10 @@ const Products = () => {
           className="filter-drawer-overlay"
           onClick={() => setMobileFilterOpen(false)}
         >
-          <div onClick={(e) => e.stopPropagation()}>
+          <div
+            className="filter-drawer-overlay__content"
+            onClick={(e) => e.stopPropagation()}
+          >
             <FilterSidebar
               filters={{
                 category: queryCategory,
