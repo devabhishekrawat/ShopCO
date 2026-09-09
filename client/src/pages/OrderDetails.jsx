@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getOrderById } from "../services/orderService.js";
 import Loader from "../components/Loader.jsx";
+import { API_URL } from "../services/api.js";
 
 const OrderDetails = () => {
   const { id } = useParams();
@@ -71,7 +72,10 @@ const OrderDetails = () => {
           <div className="order-details-items">
             {order.products.map((item, i) => {
               const prod = item.product;
-              const imgUrl = getFirstImage(prod?.images);
+              const rawImg = prod?.images?.[0];
+              const imgUrl = rawImg
+                ? (rawImg.startsWith("http") ? rawImg : `${API_URL || "http://localhost:5000"}${rawImg}`)
+                : "/assets/images/product-images/tshirt-1.png";
 
               return (
                 <div key={i} className="order-details-item">

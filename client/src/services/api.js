@@ -18,15 +18,4 @@ export const getAssetUrl = (path) => {
   return path;
 };
 
-export const getFirstImage = (images) => {
-  if (!images) return "/assets/images/product-images/tshirt-1.png";
-  if (Array.isArray(images)) {
-    return images.length > 0 ? getAssetUrl(images[0]) : "/assets/images/product-images/tshirt-1.png";
-  }
-  if (typeof images === "string") {
-    return getAssetUrl(images);
-  }
-  return "/assets/images/product-images/tshirt-1.png";
-};
-
 export default api;

@@ -12,6 +12,7 @@ import {
 import CheckoutModal from "./CheckoutModal";
 import Loader from "../components/Loader";
 import { toast } from "react-toastify";
+import { API_URL } from "../services/api";
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -171,7 +172,10 @@ const Cart = () => {
                 ? Math.round(product.price - (product.price * product.discount) / 100)
                 : product.price;
 
-              const itemImage = getFirstImage(product.images);
+              const rawImg = product.images?.[0];
+              const itemImage = rawImg
+                ? (rawImg.startsWith("http") ? rawImg : `${API_URL || "http://localhost:5000"}${rawImg}`)
+                : "/assets/images/product-images/tshirt-1.png";
 
               const sizeStock =
                 item.size && product.sizes && product.sizes.length > 0

@@ -6,6 +6,7 @@ import { updateProductQuantity } from "../../services/productService.js";
 import Loader from "../../components/Loader.jsx";
 import Pagination from "../../components/Pagination.jsx";
 import { toast } from "react-toastify";
+import { API_URL } from "../../services/api.js";
 
 const AdminProducts = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -193,7 +194,10 @@ const AdminProducts = () => {
             </thead>
             <tbody>
               {products.map((p) => {
-                const img = getFirstImage(p.images);
+                const rawImg = p.images?.[0];
+                const img = rawImg
+                  ? (rawImg.startsWith("http") ? rawImg : `${API_URL || "http://localhost:5000"}${rawImg}`)
+                  : "/assets/images/product-images/tshirt-1.png";
 
                 return (
                   <tr key={p._id}>
