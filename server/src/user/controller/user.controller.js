@@ -1,7 +1,7 @@
 import { createNewUserRepo, findUserRepo, deleteUserRepo, updateUserProfileRepo, getAllUsersRepo } from "../model/user.repository.js";
 import { ErrorHandler } from "../../middleware/errorHandlerMiddleware.js";
 import { storeTokenInCookie } from "../../utils/storeToken.js";
-import userModel from "../model/user.schema.js";
+import userModel from "../model/user.modal.js";
 
 export const createNewUser = async (req, res, next) => {
     try {

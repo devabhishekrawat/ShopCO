@@ -1,7 +1,7 @@
 import Product from "../../product/model/product.model.js";
 import Category from "../../category/model/category.model.js";
-import userModel from "../../user/model/user.schema.js";
 import Order from "../../order/model/order.model.js";
+import userModel from "../../user/model/user.modal.js";
 import { ErrorHandler } from "../../middleware/errorHandlerMiddleware.js";
 
 export const getDashboardStats = async (req, res, next) => {

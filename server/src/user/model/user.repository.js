@@ -1,4 +1,4 @@
-import userModel from "./user.schema.js";
+import userModel from "./user.modal.js";
 
 export const createNewUserRepo = async (user) => {
     return await new userModel(user).save();

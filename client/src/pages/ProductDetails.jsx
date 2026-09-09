@@ -9,7 +9,7 @@ import StarRating from "../components/StarRating.jsx";
 import Loader from "../components/Loader.jsx";
 import Modal from "../components/Modal.jsx";
 import { toast } from "react-toastify";
-import { getAllImages } from "../services/api.js";
+// import { getAllImages } from "../services/api.js";
 import SuggestedProductGrid from "../components/SuggestedProductGrid.jsx";
 
 const ProductDetails = () => {

@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { ErrorHandler } from "./errorHandlerMiddleware.js";
-import userModel from "../user/model/user.schema.js";
 import { env } from "../config/dotenv.js";
+import userModel from "../user/model/user.modal.js";
 
 export const auth = async (req, res, next) => {
     try {

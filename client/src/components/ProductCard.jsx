@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import StarRating from "./StarRating.jsx";
-import { getFirstImage } from "../services/api.js";
+import { API_URL } from "../services/api.js";
 
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ const ProductCard = ({ product }) => {
     ? Math.round(product.price - (product.price * product.discount) / 100)
     : product.price;
 
-  const imageUrl = getFirstImage(product.images);
+  // const imageUrl = getFirstImage(product.images);
   const ratingValue = product.rating || 4.5;
   const isOutOfStock = product.quantity === 0 || product.status === "OUT_OF_STOCK";
 
@@ -25,7 +25,7 @@ const ProductCard = ({ product }) => {
     <div className="product-card" onClick={handleClick}>
       <div className="product-card__image-wrapper">
         <img
-          src={imageUrl}
+          src={`${API_URL}${product.images[0]}`}
           alt={product.name}
           className="product-card__image"
           onError={(e) => {

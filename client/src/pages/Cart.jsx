@@ -12,7 +12,7 @@ import {
 import CheckoutModal from "./CheckoutModal";
 import Loader from "../components/Loader";
 import { toast } from "react-toastify";
-import { getFirstImage } from "../services/api";
+// import { getFirstImage } from "../services/api";
 
 const Cart = () => {
   const navigate = useNavigate();
