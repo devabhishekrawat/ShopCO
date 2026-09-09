@@ -111,4 +111,10 @@
       margin-bottom: 0.5rem;
     }
   }
+
+  &__error {
+    color: $color-danger;
+    text-align: center;
+    padding: 3rem;
+  }
 }

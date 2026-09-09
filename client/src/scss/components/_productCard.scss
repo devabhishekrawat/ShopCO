@@ -231,3 +231,26 @@
     gap: 0.75rem;
   }
 }
+
+.stars-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  .stars {
+    display: flex;
+    gap: 2px;
+  }
+
+  .score {
+    font-size: rem(14);
+    font-weight: 500;
+    color: $color-dark;
+  }
+}
+
+.products-grid__empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: $color-text-muted;
+}

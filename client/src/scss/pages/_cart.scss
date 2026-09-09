@@ -258,4 +258,31 @@
       height: 16px;
     }
   }
+
+  &__value {
+    color: $color-dark;
+    font-weight: 700;
+  }
+
+  &__coupon-active {
+    display: flex;
+    justify-content: space-between;
+    font-size: rem(13);
+    color: #01b763;
+    font-weight: 600;
+  }
+
+  &__coupon-remove {
+    color: $color-danger;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    font-size: inherit;
+    font-weight: inherit;
+  }
+
+  &__coupon-error {
+    color: $color-danger;
+    font-size: rem(13);
+  }
 }

@@ -42,7 +42,7 @@ const AdminUsers = () => {
       <div className="admin-header">
         <div>
           <h1 className="admin-header__title">User Management</h1>
-          <p style={{ color: "#666", fontSize: "0.9rem", marginTop: "0.25rem" }}>
+          <p className="admin-header__subtitle">
             Manage registered accounts and assign administrative privileges.
           </p>
         </div>
@@ -52,7 +52,7 @@ const AdminUsers = () => {
         {loading && !users.length ? (
           <Loader text="Loading users..." />
         ) : users.length === 0 ? (
-          <div style={{ padding: "2rem", textAlign: "center", color: "#666" }}>
+          <div className="admin-table-card__empty">
             No users registered yet.
           </div>
         ) : (
@@ -72,24 +72,19 @@ const AdminUsers = () => {
                   <td>
                     <strong>{u.name}</strong>
                   </td>
-                  <td style={{ color: "#555" }}>{u.email}</td>
+                  <td className="admin-table__email">{u.email}</td>
                   <td>
                     <select
                       value={u.role}
                       onChange={(e) => handleRoleChange(u._id, e.target.value)}
                       disabled={u._id === currentAdmin?._id}
-                      style={{
-                        padding: "0.3rem 0.6rem",
-                        borderRadius: "6px",
-                        fontSize: "0.85rem",
-                        fontWeight: 600,
-                      }}
+                      className="admin-table__select"
                     >
                       <option value="user">User</option>
                       <option value="admin">Admin</option>
                     </select>
                   </td>
-                  <td style={{ color: "#666" }}>
+                  <td className="admin-table__date">
                     {new Date(u.createdAt || Date.now()).toLocaleDateString()}
                   </td>
                   <td>
@@ -97,10 +92,6 @@ const AdminUsers = () => {
                       className="delete-btn"
                       onClick={() => handleDeleteUser(u._id)}
                       disabled={u._id === currentAdmin?._id}
-                      style={{
-                        opacity: u._id === currentAdmin?._id ? 0.3 : 1,
-                        cursor: u._id === currentAdmin?._id ? "not-allowed" : "pointer",
-                      }}
                     >
                       Delete
                     </button>

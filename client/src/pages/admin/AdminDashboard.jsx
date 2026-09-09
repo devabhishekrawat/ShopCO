@@ -21,7 +21,7 @@ const AdminDashboard = () => {
       <div className="admin-header">
         <div>
           <h1 className="admin-header__title">Overview Dashboard</h1>
-          <p style={{ color: "#666", fontSize: "0.9rem", marginTop: "0.25rem" }}>
+          <p className="admin-header__subtitle">
             Real-time store metrics and inventory indicators.
           </p>
         </div>
@@ -35,7 +35,7 @@ const AdminDashboard = () => {
         <div className="stat-card">
           <span className="stat-card__title">Total Products</span>
           <span className="stat-card__value">{stats.totalProducts || 0}</span>
-          <Link to="/admin/products" style={{ fontSize: "0.8rem", color: "#666", textDecoration: "underline" }}>
+          <Link to="/admin/products" className="stat-card__link">
             Manage Products &rarr;
           </Link>
         </div>
@@ -43,7 +43,7 @@ const AdminDashboard = () => {
         <div className="stat-card">
           <span className="stat-card__title">Total Categories</span>
           <span className="stat-card__value">{stats.totalCategories || 0}</span>
-          <Link to="/admin/categories" style={{ fontSize: "0.8rem", color: "#666", textDecoration: "underline" }}>
+          <Link to="/admin/categories" className="stat-card__link">
             Manage Categories &rarr;
           </Link>
         </div>
@@ -51,7 +51,7 @@ const AdminDashboard = () => {
         <div className="stat-card">
           <span className="stat-card__title">Total Orders</span>
           <span className="stat-card__value">{stats.totalOrders || 0}</span>
-          <Link to="/admin/orders" style={{ fontSize: "0.8rem", color: "#666", textDecoration: "underline" }}>
+          <Link to="/admin/orders" className="stat-card__link">
             View Orders &rarr;
           </Link>
         </div>
@@ -59,37 +59,37 @@ const AdminDashboard = () => {
         <div className="stat-card">
           <span className="stat-card__title">Registered Users</span>
           <span className="stat-card__value">{stats.totalUsers || 0}</span>
-          <Link to="/admin/users" style={{ fontSize: "0.8rem", color: "#666", textDecoration: "underline" }}>
+          <Link to="/admin/users" className="stat-card__link">
             Manage Users &rarr;
           </Link>
         </div>
 
         <div className="stat-card">
           <span className="stat-card__title">In Stock (&gt; 5 units)</span>
-          <span className="stat-card__value" style={{ color: "#01b763" }}>
+          <span className="stat-card__value stat-card__value--success">
             {stats.inStockProducts || 0}
           </span>
-          <Link to="/admin/products?stock=in_stock" style={{ fontSize: "0.8rem", color: "#01b763", textDecoration: "underline" }}>
+          <Link to="/admin/products?stock=in_stock" className="stat-card__link stat-card__link--success">
             View In-Stock Products &rarr;
           </Link>
         </div>
 
         <div className="stat-card">
           <span className="stat-card__title">Low Stock (≤ 5 units)</span>
-          <span className="stat-card__value stat-card__value--warning" style={{ color: "#e67e22" }}>
+          <span className="stat-card__value stat-card__value--warning">
             {stats.lowStockProducts || 0}
           </span>
-          <Link to="/admin/products?stock=low_stock" style={{ fontSize: "0.8rem", color: "#e67e22", textDecoration: "underline" }}>
+          <Link to="/admin/products?stock=low_stock" className="stat-card__link stat-card__link--warning">
             View Low-Stock Products &rarr;
           </Link>
         </div>
 
         <div className="stat-card">
           <span className="stat-card__title">Out of Stock</span>
-          <span className="stat-card__value stat-card__value--warning">
+          <span className="stat-card__value stat-card__value--danger">
             {stats.outOfStockProducts || 0}
           </span>
-          <Link to="/admin/products?stock=out_of_stock" style={{ fontSize: "0.8rem", color: "#ff3333", textDecoration: "underline" }}>
+          <Link to="/admin/products?stock=out_of_stock" className="stat-card__link stat-card__link--danger">
             View Out-of-Stock Products &rarr;
           </Link>
         </div>

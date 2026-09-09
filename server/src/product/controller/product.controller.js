@@ -21,7 +21,9 @@ export const getAllProducts = async (req, res, next) => {
             stock,
             sort,
             page = 1,
-            limit = 10
+            limit = 10,
+            size,
+            dressStyle
         } = req.query;
 
         const query = {};
@@ -32,6 +34,23 @@ export const getAllProducts = async (req, res, next) => {
 
         if (category) {
             query.category = category;
+        }
+
+        if (size) {
+            query["sizes.size"] = { $regex: new RegExp(`^${size}$`, "i") };
+        }
+
+        if (dressStyle) {
+            const styleRegex = { $regex: dressStyle, $options: "i" };
+            if (query.name) {
+                query.$and = [
+                    { name: query.name },
+                    { $or: [{ name: styleRegex }, { description: styleRegex }] }
+                ];
+                delete query.name;
+            } else {
+                query.$or = [{ name: styleRegex }, { description: styleRegex }];
+            }
         }
 
         if (minPrice !== undefined || maxPrice !== undefined) {

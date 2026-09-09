@@ -31,12 +31,12 @@ const StarRating = ({ rating = 0, showScore = true }) => {
   }
 
   return (
-    <div className="stars-wrapper" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-      <div className="stars" style={{ display: "flex", gap: "2px" }}>
+    <div className="stars-wrapper">
+      <div className="stars">
         {stars}
       </div>
       {showScore && (
-        <span className="score" style={{ fontSize: "0.875rem", fontWeight: 500 }}>
+        <span className="score">
           {numericRating.toFixed(1)}/5
         </span>
       )}

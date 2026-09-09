@@ -31,8 +31,28 @@ const CheckoutModal = ({ isOpen, onClose, finalTotal, couponCode }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!shippingInfo.street || !shippingInfo.city || !shippingInfo.phone) {
-      toast.error("Please fill in all required shipping fields");
+    if (!shippingInfo.phone || !shippingInfo.phone.trim()) {
+      toast.error("Phone number is required");
+      return;
+    }
+    if (!shippingInfo.street || !shippingInfo.street.trim()) {
+      toast.error("Street address is required");
+      return;
+    }
+    if (!shippingInfo.city || !shippingInfo.city.trim()) {
+      toast.error("City is required");
+      return;
+    }
+    if (!shippingInfo.state || !shippingInfo.state.trim()) {
+      toast.error("State is required");
+      return;
+    }
+    if (!shippingInfo.postalCode || !shippingInfo.postalCode.trim()) {
+      toast.error("Postal code is required");
+      return;
+    }
+    if (!shippingInfo.country || !shippingInfo.country.trim()) {
+      toast.error("Country is required");
       return;
     }
 
@@ -59,9 +79,9 @@ const CheckoutModal = ({ isOpen, onClose, finalTotal, couponCode }) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Checkout & Shipping Details">
-      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-        <div>
-          <label style={{ display: "block", marginBottom: "0.25rem", fontSize: "0.875rem", fontWeight: 600 }}>
+      <form onSubmit={handleSubmit} className="checkout-form">
+        <div className="checkout-form__field">
+          <label className="checkout-form__label">
             Phone Number *
           </label>
           <input
@@ -70,12 +90,11 @@ const CheckoutModal = ({ isOpen, onClose, finalTotal, couponCode }) => {
             value={shippingInfo.phone}
             onChange={handleChange}
             placeholder="+1 234 567 8900"
-            required
           />
         </div>
 
-        <div>
-          <label style={{ display: "block", marginBottom: "0.25rem", fontSize: "0.875rem", fontWeight: 600 }}>
+        <div className="checkout-form__field">
+          <label className="checkout-form__label">
             Street Address *
           </label>
           <input
@@ -84,13 +103,12 @@ const CheckoutModal = ({ isOpen, onClose, finalTotal, couponCode }) => {
             value={shippingInfo.street}
             onChange={handleChange}
             placeholder="123 Fashion Blvd"
-            required
           />
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
-          <div>
-            <label style={{ display: "block", marginBottom: "0.25rem", fontSize: "0.875rem", fontWeight: 600 }}>
+        <div className="checkout-form__grid">
+          <div className="checkout-form__field">
+            <label className="checkout-form__label">
               City *
             </label>
             <input
@@ -99,12 +117,11 @@ const CheckoutModal = ({ isOpen, onClose, finalTotal, couponCode }) => {
               value={shippingInfo.city}
               onChange={handleChange}
               placeholder="New York"
-              required
             />
           </div>
-          <div>
-            <label style={{ display: "block", marginBottom: "0.25rem", fontSize: "0.875rem", fontWeight: 600 }}>
-              State
+          <div className="checkout-form__field">
+            <label className="checkout-form__label">
+              State *
             </label>
             <input
               type="text"
@@ -116,10 +133,10 @@ const CheckoutModal = ({ isOpen, onClose, finalTotal, couponCode }) => {
           </div>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
-          <div>
-            <label style={{ display: "block", marginBottom: "0.25rem", fontSize: "0.875rem", fontWeight: 600 }}>
-              Postal Code
+        <div className="checkout-form__grid">
+          <div className="checkout-form__field">
+            <label className="checkout-form__label">
+              Postal Code *
             </label>
             <input
               type="text"
@@ -129,9 +146,9 @@ const CheckoutModal = ({ isOpen, onClose, finalTotal, couponCode }) => {
               placeholder="10001"
             />
           </div>
-          <div>
-            <label style={{ display: "block", marginBottom: "0.25rem", fontSize: "0.875rem", fontWeight: 600 }}>
-              Country
+          <div className="checkout-form__field">
+            <label className="checkout-form__label">
+              Country *
             </label>
             <input
               type="text"
@@ -143,29 +160,28 @@ const CheckoutModal = ({ isOpen, onClose, finalTotal, couponCode }) => {
           </div>
         </div>
 
-        <div style={{ padding: "1rem", backgroundColor: "#f9f9f9", borderRadius: "8px", marginTop: "0.5rem" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 700, fontSize: "1.1rem" }}>
+        <div className="checkout-form__summary">
+          <div className="checkout-form__total-row">
             <span>Order Total:</span>
             <span>${finalTotal}</span>
           </div>
-          <span style={{ fontSize: "0.8rem", color: "#666" }}>
+          <span className="checkout-form__payment-note">
             Payment method: Cash on Delivery / Standard Settlement
           </span>
         </div>
 
-        <div style={{ display: "flex", justifyContent: "flex-end", gap: "1rem", marginTop: "1rem" }}>
+        <div className="checkout-form__actions">
           <button
             type="button"
             onClick={onClose}
-            style={{ padding: "0.6rem 1.2rem", borderRadius: "64px", border: "1px solid #ccc", cursor: "pointer" }}
+            className="checkout-form__cancel-btn"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={placingOrder}
-            className="newsletter-card__btn"
-            style={{ backgroundColor: "#000", color: "#fff", width: "auto", padding: "0.6rem 1.5rem" }}
+            className="checkout-form__submit-btn"
           >
             {placingOrder ? "Placing Order..." : "Confirm & Place Order"}
           </button>

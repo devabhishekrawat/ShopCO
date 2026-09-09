@@ -7,7 +7,8 @@ const Footer = () => {
 
   const handleNewsletterSubmit = (e) => {
     e.preventDefault();
-    if (!newsletterEmail || !newsletterEmail.includes("@")) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!newsletterEmail || !newsletterEmail.trim() || !emailRegex.test(newsletterEmail.trim())) {
       toast.error("Please enter a valid email address");
       return;
     }

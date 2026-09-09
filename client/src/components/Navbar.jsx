@@ -187,9 +187,8 @@ const Navbar = () => {
                   {user?.role === "admin" && (
                     <Link
                       to="/admin"
-                      className="header__profile-link"
+                      className="header__profile-link header__profile-link--admin"
                       onClick={() => setDropdownOpen(false)}
-                      style={{ fontWeight: 700 }}
                     >
                       Admin Panel
                     </Link>

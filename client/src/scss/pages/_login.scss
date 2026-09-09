@@ -74,6 +74,12 @@
     gap: 0.5rem;
   }
 
+  &__field-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   &__label {
     font-size: rem(14);
     font-weight: 600;

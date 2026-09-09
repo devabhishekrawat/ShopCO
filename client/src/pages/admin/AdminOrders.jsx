@@ -27,7 +27,7 @@ const AdminOrders = () => {
       <div className="admin-header">
         <div>
           <h1 className="admin-header__title">Order Management</h1>
-          <p style={{ color: "#666", fontSize: "0.9rem", marginTop: "0.25rem" }}>
+          <p className="admin-header__subtitle">
             Review customer orders and fulfillment statuses.
           </p>
         </div>
@@ -37,7 +37,7 @@ const AdminOrders = () => {
         {loading && !orders.length ? (
           <Loader text="Loading orders..." />
         ) : orders.length === 0 ? (
-          <div style={{ padding: "2rem", textAlign: "center", color: "#666" }}>
+          <div className="admin-table-card__empty">
             No orders found.
           </div>
         ) : (
@@ -59,7 +59,7 @@ const AdminOrders = () => {
                   <td>
                     <Link
                       to={`/admin/orders/${o._id}`}
-                      style={{ fontWeight: 600, color: "#000", textDecoration: "underline" }}
+                      className="admin-table__order-link"
                     >
                       #{o._id.slice(-6)}
                     </Link>
@@ -67,12 +67,12 @@ const AdminOrders = () => {
                   <td>
                     <div>
                       <strong>{o.user?.name || "Customer"}</strong>
-                      <div style={{ fontSize: "0.8rem", color: "#666" }}>
+                      <div className="admin-table__customer-email">
                         {o.user?.email || ""}
                       </div>
                     </div>
                   </td>
-                  <td style={{ color: "#666", whiteSpace: "nowrap" }}>
+                  <td className="admin-table__date">
                     {new Date(o.createdAt).toLocaleDateString()}
                   </td>
                   <td>{o.products?.length || 0} items</td>
@@ -83,12 +83,7 @@ const AdminOrders = () => {
                     <select
                       value={o.status}
                       onChange={(e) => handleStatusChange(o._id, e.target.value)}
-                      style={{
-                        padding: "0.3rem 0.6rem",
-                        borderRadius: "6px",
-                        fontSize: "0.85rem",
-                        fontWeight: 600,
-                      }}
+                      className="admin-table__select"
                     >
                       <option value="Pending">Pending</option>
                       <option value="Processing">Processing</option>
@@ -100,7 +95,6 @@ const AdminOrders = () => {
                     <Link
                       to={`/admin/orders/${o._id}`}
                       className="edit-btn"
-                      style={{ display: "inline-block" }}
                     >
                       View
                     </Link>

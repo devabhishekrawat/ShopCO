@@ -64,11 +64,26 @@ const AdminProductAdd = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.price || !formData.category) {
-      toast.error("Please fill in all required fields");
+    if (!formData.name || !formData.name.trim()) {
+      toast.error("Product name is required");
       return;
     }
-
+    if (!formData.description || !formData.description.trim()) {
+      toast.error("Product description is required");
+      return;
+    }
+    if (!formData.category) {
+      toast.error("Please select a category");
+      return;
+    }
+    if (!formData.price || isNaN(formData.price) || Number(formData.price) <= 0) {
+      toast.error("Please enter a valid price greater than 0");
+      return;
+    }
+    if (formData.discount && (isNaN(formData.discount) || Number(formData.discount) < 0 || Number(formData.discount) > 100)) {
+      toast.error("Discount must be between 0% and 100%");
+      return;
+    }
     if (selectedFiles.length === 0) {
       toast.error("Please select at least one product image");
       return;
@@ -113,12 +128,12 @@ const AdminProductAdd = () => {
       <div className="admin-header">
         <div>
           <h1 className="admin-header__title">Add New Product</h1>
-          <p style={{ color: "#666", fontSize: "0.9rem", marginTop: "0.25rem" }}>
+          <p className="admin-header__subtitle">
             Add a garment or accessory with category-specific sizes.
           </p>
         </div>
 
-        <Link to="/admin/products" style={{ textDecoration: "underline", color: "#000" }}>
+        <Link to="/admin/products" className="admin-header__back-link">
           &larr; Back to Products
         </Link>
       </div>
@@ -132,7 +147,6 @@ const AdminProductAdd = () => {
             placeholder="e.g. Graphic Vintage Cotton T-Shirt"
             value={formData.name}
             onChange={handleChange}
-            required
           />
         </div>
 
@@ -144,7 +158,6 @@ const AdminProductAdd = () => {
             placeholder="Product details, material, and sizing information..."
             value={formData.description}
             onChange={handleChange}
-            required
           />
         </div>
 
@@ -155,7 +168,6 @@ const AdminProductAdd = () => {
               name="category"
               value={formData.category}
               onChange={handleChange}
-              required
             >
               {categories.map((c) => (
                 <option key={c._id} value={c._id}>
@@ -173,7 +185,6 @@ const AdminProductAdd = () => {
               placeholder="120"
               value={formData.price}
               onChange={handleChange}
-              required
             />
           </div>
 
@@ -190,18 +201,18 @@ const AdminProductAdd = () => {
         </div>
 
         {categorySizes.length > 0 ? (
-          <div className="admin-form__group" style={{ backgroundColor: "#fafafa", padding: "1.25rem", borderRadius: "12px", border: "1px solid #eaeaea" }}>
-            <label style={{ fontSize: "1rem", fontWeight: 700, marginBottom: "0.25rem" }}>
+          <div className="admin-form__group admin-form__inventory-box">
+            <label className="admin-form__inventory-label">
               Size-Wise Inventory ({selectedCategoryObj?.name})
             </label>
-            <p style={{ fontSize: "0.85rem", color: "#666", marginBottom: "1rem" }}>
+            <p className="admin-form__inventory-desc">
               Specify available stock quantity for each size allowed in this category.
             </p>
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: "1rem" }}>
+            <div className="admin-form__sizes-grid">
               {categorySizes.map((sz) => (
-                <div key={sz} style={{ backgroundColor: "#fff", border: "1px solid #ddd", borderRadius: "8px", padding: "0.75rem" }}>
-                  <div style={{ fontWeight: 700, fontSize: "0.95rem", marginBottom: "0.4rem", color: "#000" }}>
+                <div key={sz} className="admin-form__size-card">
+                  <div className="admin-form__size-title">
                     Size {sz}
                   </div>
                   <input
@@ -210,19 +221,18 @@ const AdminProductAdd = () => {
                     placeholder="0"
                     value={sizeInventory[sz] || "0"}
                     onChange={(e) => handleSizeQuantityChange(sz, e.target.value)}
-                    style={{ width: "100%", padding: "0.4rem", borderRadius: "6px", border: "1px solid #ccc" }}
-                    required
+                    className="admin-form__size-input"
                   />
                 </div>
               ))}
             </div>
           </div>
         ) : (
-          <div className="admin-form__group" style={{ backgroundColor: "#fafafa", padding: "1.25rem", borderRadius: "12px", border: "1px solid #eaeaea" }}>
-            <label style={{ fontSize: "1rem", fontWeight: 700, marginBottom: "0.25rem" }}>
+          <div className="admin-form__group admin-form__inventory-box">
+            <label className="admin-form__inventory-label">
               Product Inventory ({selectedCategoryObj?.name || "General"})
             </label>
-            <p style={{ fontSize: "0.85rem", color: "#666", marginBottom: "1rem" }}>
+            <p className="admin-form__inventory-desc">
               This category has no size system. Enter overall item stock quantity.
             </p>
             <input
@@ -232,8 +242,7 @@ const AdminProductAdd = () => {
               placeholder="10"
               value={formData.quantity}
               onChange={handleChange}
-              style={{ maxWidth: "200px" }}
-              required
+              className="admin-form__qty-input"
             />
           </div>
         )}
@@ -245,9 +254,8 @@ const AdminProductAdd = () => {
             multiple
             accept="image/*"
             onChange={handleFileChange}
-            required
           />
-          <span style={{ fontSize: "0.8rem", color: "#666" }}>
+          <span className="admin-form__help-text">
             Uploaded via Multer directly to server assets.
           </span>
         </div>

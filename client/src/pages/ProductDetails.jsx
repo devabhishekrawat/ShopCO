@@ -68,9 +68,9 @@ const ProductDetails = () => {
 
   if (error || !product) {
     return (
-      <div className="container" style={{ padding: "4rem 1rem", textAlign: "center" }}>
+      <div className="container product-detail-page__not-found">
         <h2>Product not found</h2>
-        <Link to="/products" style={{ color: "#000", textDecoration: "underline", marginTop: "1rem", display: "inline-block" }}>
+        <Link to="/products" className="product-detail-page__back-link">
           Back to all products
         </Link>
       </div>
@@ -136,8 +136,16 @@ const ProductDetails = () => {
 
   const handleCreateReview = async (e) => {
     e.preventDefault();
-    if (!newComment.trim()) {
-      toast.error("Please enter your review comment");
+    if (!newRating || Number(newRating) < 1 || Number(newRating) > 5) {
+      toast.error("Please select a valid rating between 1 and 5 stars");
+      return;
+    }
+    if (!newComment || !newComment.trim()) {
+      toast.error("Please enter a review comment");
+      return;
+    }
+    if (newComment.trim().length < 3) {
+      toast.error("Review comment must be at least 3 characters");
       return;
     }
 
@@ -226,15 +234,19 @@ const ProductDetails = () => {
           <div>
             <h4 className="product-detail-page__option-title">Select Colors</h4>
             <div className="product-detail-page__colors">
-              {["#4F4E37", "#314F4A", "#31344F"].map((colorHex, i) => (
+              {[
+                { hex: "#4F4E37", mod: "olive" },
+                { hex: "#314F4A", mod: "teal" },
+                { hex: "#31344F", mod: "navy" },
+              ].map(({ hex, mod }) => (
                 <div
-                  key={colorHex}
-                  className={`color-swatch ${selectedColor === colorHex ? "color-swatch--selected" : ""
-                    }`}
-                  style={{ backgroundColor: colorHex }}
-                  onClick={() => setSelectedColor(colorHex)}
+                  key={hex}
+                  className={`color-swatch color-swatch--${mod} ${
+                    selectedColor === hex ? "color-swatch--selected" : ""
+                  }`}
+                  onClick={() => setSelectedColor(hex)}
                 >
-                  {selectedColor === colorHex && "✓"}
+                  {selectedColor === hex && "✓"}
                 </div>
               ))}
             </div>
@@ -244,10 +256,10 @@ const ProductDetails = () => {
             <>
               <hr className="product-detail-page__divider" />
               <div>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.75rem" }}>
-                  <h4 className="product-detail-page__option-title" style={{ margin: 0 }}>Choose Size</h4>
+                <div className="product-detail-page__size-header">
+                  <h4 className="product-detail-page__option-title product-detail-page__size-title">Choose Size</h4>
                   {selectedSize && (
-                    <span style={{ fontSize: "0.85rem", color: "#666" }}>
+                    <span className="product-detail-page__size-selected">
                       Selected: <strong>{selectedSize}</strong>
                     </span>
                   )}
@@ -290,17 +302,17 @@ const ProductDetails = () => {
                   Size {selectedSize} is OUT OF STOCK.
                 </div>
               ) : (
-                <div className="product-detail-page__stock-warning" style={{ color: "#01b763" }}>
+                <div className="product-detail-page__stock-warning product-detail-page__stock-warning--in-stock">
                   In Stock ({currentStock} available for size {selectedSize})
                 </div>
               )
             ) : (
-              <div className="product-detail-page__stock-warning" style={{ color: "#01b763" }}>
+              <div className="product-detail-page__stock-warning product-detail-page__stock-warning--in-stock">
                 In Stock ({product.quantity} total available across sizes)
               </div>
             )
           ) : (
-            <div className="product-detail-page__stock-warning" style={{ color: "#01b763" }}>
+            <div className="product-detail-page__stock-warning product-detail-page__stock-warning--in-stock">
               In Stock ({product.quantity} available)
             </div>
           )}
@@ -358,9 +370,9 @@ const ProductDetails = () => {
       </div>
 
       {activeTab === "details" && (
-        <div style={{ padding: "1rem 0 3rem", lineHeight: "1.8", color: "#666" }}>
+        <div className="product-detail-page__tab-details">
           <p>{product.description}</p>
-          <p style={{ marginTop: "1rem" }}>
+          <p className="product-detail-page__tab-param">
             Category ID: {product.category?.name || product.category || "General"}
           </p>
           <p>Available Inventory: {product.quantity} units</p>
@@ -368,9 +380,9 @@ const ProductDetails = () => {
       )}
 
       {activeTab === "faqs" && (
-        <div style={{ padding: "1rem 0 3rem", color: "#666" }}>
+        <div className="product-detail-page__tab-faqs">
           <h4>What is the return policy?</h4>
-          <p style={{ marginBottom: "1.5rem" }}>
+          <p className="product-detail-page__faq-answer">
             We offer 30-day free returns for unused garments in their original packaging.
           </p>
           <h4>How do I track my order?</h4>
@@ -395,7 +407,7 @@ const ProductDetails = () => {
           </div>
 
           {reviews.length === 0 ? (
-            <p style={{ color: "#666", padding: "2rem 0" }}>
+            <p className="product-detail-page__no-reviews">
               No reviews yet for this product. Be the first to leave one!
             </p>
           ) : (
@@ -405,12 +417,12 @@ const ProductDetails = () => {
 
                 return (
                   <div key={rev._id} className="testimonial-card">
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div className="testimonial-card__header">
                       <StarRating rating={rev.rating} showScore={false} />
                       {isMyReview && (
                         <button
                           onClick={() => handleDeleteReview(rev._id)}
-                          style={{ color: "#ff3333", fontSize: "0.8rem", cursor: "pointer" }}
+                          className="testimonial-card__delete-btn"
                         >
                           Delete
                         </button>
@@ -421,7 +433,7 @@ const ProductDetails = () => {
                       <img src="/assets/icons/green-approve-icon.svg" alt="verified" />
                     </h4>
                     <p className="testimonial-card__text">"{rev.comment}"</p>
-                    <span style={{ fontSize: "0.8rem", color: "#999" }}>
+                    <span className="testimonial-card__date">
                       Posted on {new Date(rev.createdAt || Date.now()).toLocaleDateString()}
                     </span>
                   </div>
@@ -433,7 +445,7 @@ const ProductDetails = () => {
       )}
 
       {relatedProducts.length > 0 && (
-        <section style={{ marginTop: "4rem" }}>
+        <section className="product-detail-page__related-section">
           <h2 className="products-section__title">YOU MIGHT ALSO LIKE</h2>
           <SuggestedProductGrid products={relatedProducts} />
         </section>
@@ -444,15 +456,15 @@ const ProductDetails = () => {
         onClose={() => setReviewModalOpen(false)}
         title="Write a Review"
       >
-        <form onSubmit={handleCreateReview} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-          <div>
-            <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: 600 }}>
+        <form onSubmit={handleCreateReview} className="review-form">
+          <div className="review-form__field">
+            <label className="review-form__label">
               Rating (1 to 5 Stars)
             </label>
             <select
               value={newRating}
               onChange={(e) => setNewRating(e.target.value)}
-              style={{ width: "100%", padding: "0.75rem", borderRadius: "8px" }}
+              className="review-form__select"
             >
               <option value="5">5 - Excellent</option>
               <option value="4">4 - Good</option>
@@ -462,8 +474,8 @@ const ProductDetails = () => {
             </select>
           </div>
 
-          <div>
-            <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: 600 }}>
+          <div className="review-form__field">
+            <label className="review-form__label">
               Your Comment
             </label>
             <textarea
@@ -471,23 +483,22 @@ const ProductDetails = () => {
               placeholder="What did you like or dislike about this product?"
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
-              required
+              className="review-form__textarea"
             />
           </div>
 
-          <div style={{ display: "flex", justifyContent: "flex-end", gap: "1rem", marginTop: "1rem" }}>
+          <div className="review-form__actions">
             <button
               type="button"
               onClick={() => setReviewModalOpen(false)}
-              style={{ padding: "0.6rem 1.2rem", borderRadius: "64px", border: "1px solid #ccc", cursor: "pointer" }}
+              className="review-form__cancel-btn"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submittingReview}
-              className="newsletter-card__btn"
-              style={{ backgroundColor: "#000", color: "#fff", width: "auto", padding: "0.6rem 1.5rem" }}
+              className="review-form__submit-btn"
             >
               {submittingReview ? "Submitting..." : "Submit Review"}
             </button>

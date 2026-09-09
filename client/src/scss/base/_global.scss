@@ -49,3 +49,36 @@ input, select, textarea {
   margin: 0 auto;
   padding: 0 1rem;
 }
+
+.error-page {
+  padding: 5rem 1rem;
+  text-align: center;
+
+  &__title {
+    font-family: $font-integral;
+    font-size: rem(48);
+    color: $color-dark;
+  }
+
+  &__message {
+    margin-top: 1rem;
+    color: $color-text-muted;
+    font-size: rem(18);
+  }
+
+  &__btn {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.75rem 1.75rem;
+    background-color: $color-dark;
+    color: $color-white;
+    border-radius: $radius-pill;
+    text-decoration: none;
+    font-weight: 600;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+}

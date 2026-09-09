@@ -30,10 +30,10 @@ const OrderDetails = () => {
 
   if (error || !order) {
     return (
-      <div className="container" style={{ padding: "4rem 1rem", textAlign: "center" }}>
-        <h2>Order Not Found</h2>
-        <p style={{ color: "#ff3333", marginTop: "0.5rem" }}>{error}</p>
-        <Link to="/orders" style={{ textDecoration: "underline", marginTop: "1rem", display: "inline-block" }}>
+      <div className="container order-details-page__not-found">
+        <h2 className="order-details-page__not-found-title">Order Not Found</h2>
+        <p className="order-details-page__not-found-error">{error}</p>
+        <Link to="/orders" className="order-details-page__not-found-link">
           Back to My Orders
         </Link>
       </div>
@@ -43,7 +43,7 @@ const OrderDetails = () => {
   const shipping = order.shippingInfo || {};
 
   return (
-    <div className="container" style={{ padding: "2rem 1rem 4rem" }}>
+    <div className="container order-details-page">
       <nav className="breadcrumb">
         <Link to="/">Home</Link>
         <span className="breadcrumb__separator">&gt;</span>
@@ -52,69 +52,56 @@ const OrderDetails = () => {
         <span className="breadcrumb__current">Order #{order._id}</span>
       </nav>
 
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem", flexWrap: "wrap", gap: "1rem" }}>
-        <h1 style={{ fontFamily: "Integral CF", fontSize: "1.75rem", fontWeight: 900 }}>
+      <div className="order-details-page__header">
+        <h1 className="order-details-page__title">
           ORDER DETAILS
         </h1>
         <span
-          className="status-badge"
-          style={{
-            backgroundColor: order.status === "Delivered" ? "#d4edda" : "#fff3cd",
-            color: order.status === "Delivered" ? "#155724" : "#856404",
-          }}
+          className={`status-badge status-badge--${order.status === "Delivered" ? "success" : "warning"}`}
         >
           {order.status}
         </span>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr", gap: "2rem" }}>
-        <div style={{ border: "1px solid rgba(0,0,0,0.1)", borderRadius: "16px", padding: "1.5rem", backgroundColor: "#fff" }}>
-          <h2 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: "1.5rem" }}>
+      <div className="order-details-page__grid">
+        <div className="order-details-card">
+          <h2 className="order-details-card__title">
             Items Ordered ({order.products?.length || 0})
           </h2>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          <div className="order-details-items">
             {order.products.map((item, i) => {
               const prod = item.product;
               const imgUrl = getFirstImage(prod?.images);
 
               return (
-                <div
-                  key={i}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "1rem",
-                    paddingBottom: "1rem",
-                    borderBottom: "1px solid rgba(0,0,0,0.06)",
-                  }}
-                >
+                <div key={i} className="order-details-item">
                   <img
                     src={imgUrl}
                     alt={prod?.name || "Product"}
-                    style={{ width: "70px", height: "70px", borderRadius: "8px", objectFit: "cover", backgroundColor: "#f0f0f0" }}
+                    className="order-details-item__img"
                     onError={(e) => {
                       e.target.src = "/assets/images/product-images/tshirt-1.png";
                     }}
                   />
-                  <div style={{ flex: 1 }}>
-                    <strong style={{ fontSize: "1rem" }}>
+                  <div className="order-details-item__info">
+                    <strong className="order-details-item__name">
                       {prod ? (
                         <Link to={`/products/${prod._id}`}>{prod.name}</Link>
                       ) : (
                         "Product Item"
                       )}
                     </strong>
-                    <div style={{ fontSize: "0.85rem", color: "#666", marginTop: "0.25rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    <div className="order-details-item__meta">
                       {item.size && (
-                        <span style={{ background: "#f0f0f0", padding: "1px 6px", borderRadius: "4px", fontWeight: 600, color: "#111" }}>
+                        <span className="order-details-item__size">
                           Size: {item.size}
                         </span>
                       )}
                       <span>Price at purchase: ${item.price} &times; {item.quantity}</span>
                     </div>
                   </div>
-                  <strong style={{ fontSize: "1.1rem" }}>
+                  <strong className="order-details-item__total">
                     ${(item.price * item.quantity).toFixed(2)}
                   </strong>
                 </div>
@@ -123,12 +110,12 @@ const OrderDetails = () => {
           </div>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-          <div style={{ border: "1px solid rgba(0,0,0,0.1)", borderRadius: "16px", padding: "1.5rem", backgroundColor: "#fff" }}>
-            <h2 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: "1rem" }}>
+        <div className="order-details-page__sidebar">
+          <div className="order-details-card">
+            <h2 className="order-details-card__title">
               Delivery Information
             </h2>
-            <div style={{ fontSize: "0.9rem", lineHeight: "1.6", color: "#444" }}>
+            <div className="order-details-card__address">
               <p><strong>Phone:</strong> {shipping.phone || "Not specified"}</p>
               <p><strong>Address:</strong> {shipping.street || ""}</p>
               <p>
@@ -140,25 +127,25 @@ const OrderDetails = () => {
             </div>
           </div>
 
-          <div style={{ border: "1px solid rgba(0,0,0,0.1)", borderRadius: "16px", padding: "1.5rem", backgroundColor: "#fff" }}>
-            <h2 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: "1rem" }}>
+          <div className="order-details-card">
+            <h2 className="order-details-card__title">
               Payment Summary
             </h2>
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", fontSize: "0.95rem" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", color: "#666" }}>
+            <div className="order-details-summary">
+              <div className="order-details-summary__row">
                 <span>Subtotal</span>
                 <span>${order.subtotal}</span>
               </div>
-              <div style={{ display: "flex", justifyContent: "space-between", color: "#ff3333" }}>
+              <div className="order-details-summary__row order-details-summary__row--discount">
                 <span>Coupon Discount</span>
                 <span>-${order.discount || 0}</span>
               </div>
-              <div style={{ display: "flex", justifyContent: "space-between", color: "#666" }}>
+              <div className="order-details-summary__row">
                 <span>Delivery Fee</span>
                 <span>$15</span>
               </div>
-              <hr style={{ margin: "0.5rem 0", border: "none", borderTop: "1px solid #eee" }} />
-              <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 700, fontSize: "1.2rem" }}>
+              <hr className="order-details-summary__divider" />
+              <div className="order-details-summary__row order-details-summary__row--total">
                 <span>Final Total</span>
                 <span>${order.total}</span>
               </div>

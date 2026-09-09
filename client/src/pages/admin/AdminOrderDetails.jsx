@@ -44,17 +44,17 @@ const AdminOrderDetails = () => {
       <div className="admin-header">
         <div>
           <h1 className="admin-header__title">Order #{order._id}</h1>
-          <p style={{ color: "#666", fontSize: "0.9rem", marginTop: "0.25rem" }}>
+          <p className="admin-header__subtitle">
             Customer: {order.user?.name} ({order.user?.email})
           </p>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+        <div className="admin-order-status-bar">
           <span>Status:</span>
           <select
             value={order.status}
             onChange={(e) => handleStatusChange(e.target.value)}
-            style={{ padding: "0.4rem 0.8rem", borderRadius: "8px", fontWeight: 700 }}
+            className="admin-table__select"
           >
             <option value="Pending">Pending</option>
             <option value="Processing">Processing</option>
@@ -64,9 +64,9 @@ const AdminOrderDetails = () => {
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1.5rem" }}>
+      <div className="admin-order-grid">
         <div className="admin-table-card">
-          <h3 style={{ marginBottom: "1rem", fontSize: "1.1rem" }}>Purchased Items</h3>
+          <h3 className="admin-card-title">Purchased Items</h3>
           <table className="admin-table">
             <thead>
               <tr>
@@ -86,12 +86,12 @@ const AdminOrderDetails = () => {
                 return (
                   <tr key={idx}>
                     <td>
-                      <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                        <img src={img} alt="" style={{ width: "40px", height: "40px", borderRadius: "6px" }} />
+                      <div className="admin-table__item-cell">
+                        <img src={img} alt="" className="admin-table__item-img" />
                         <div>
                           <div>{p?.name || "Deleted Product"}</div>
                           {item.size && (
-                            <span style={{ fontSize: "0.8rem", color: "#444", background: "#f0f0f0", padding: "1px 6px", borderRadius: "4px", fontWeight: 600 }}>
+                            <span className="admin-table__item-size">
                               Size: {item.size}
                             </span>
                           )}
@@ -108,10 +108,10 @@ const AdminOrderDetails = () => {
           </table>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <div className="admin-order-sidebar">
           <div className="admin-table-card">
-            <h3 style={{ marginBottom: "0.75rem", fontSize: "1.1rem" }}>Shipping Details</h3>
-            <p style={{ fontSize: "0.9rem", color: "#444", lineHeight: "1.6" }}>
+            <h3 className="admin-card-title">Shipping Details</h3>
+            <p className="admin-order-info-text">
               {order.shippingInfo?.street}<br />
               {order.shippingInfo?.city}, {order.shippingInfo?.state} {order.shippingInfo?.postalCode}<br />
               {order.shippingInfo?.country}<br />
@@ -120,18 +120,18 @@ const AdminOrderDetails = () => {
           </div>
 
           <div className="admin-table-card">
-            <h3 style={{ marginBottom: "0.75rem", fontSize: "1.1rem" }}>Payment Summary</h3>
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", fontSize: "0.9rem" }}>
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <h3 className="admin-card-title">Payment Summary</h3>
+            <div className="admin-order-summary-list">
+              <div className="admin-order-summary-row">
                 <span>Subtotal:</span>
                 <span>${order.subtotal}</span>
               </div>
-              <div style={{ display: "flex", justifyContent: "space-between", color: "#ff3333" }}>
+              <div className="admin-order-summary-row admin-order-summary-row--discount">
                 <span>Discount:</span>
                 <span>-${order.discount || 0}</span>
               </div>
-              <hr style={{ border: "none", borderTop: "1px solid #eee" }} />
-              <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 700, fontSize: "1.1rem" }}>
+              <hr className="admin-order-divider" />
+              <div className="admin-order-summary-row admin-order-summary-row--total">
                 <span>Total:</span>
                 <span>${order.total}</span>
               </div>

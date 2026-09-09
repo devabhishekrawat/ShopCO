@@ -4,7 +4,7 @@ import ProductCard from "./ProductCard";
 const ProductGrid = ({ products = [] }) => {
   if (!products.length) {
     return (
-      <div style={{ textAlign: "center", padding: "3rem 1rem", color: "#666" }}>
+      <div className="products-grid__empty">
         No products found.
       </div>
     );

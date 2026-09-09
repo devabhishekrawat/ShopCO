@@ -112,7 +112,7 @@ const AdminProducts = () => {
       <div className="admin-header">
         <div>
           <h1 className="admin-header__title">Product Management</h1>
-          <p style={{ color: "#666", fontSize: "0.9rem", marginTop: "0.25rem" }}>
+          <p className="admin-header__subtitle">
             Total matching products: {totalProducts}
           </p>
         </div>
@@ -122,8 +122,8 @@ const AdminProducts = () => {
         </Link>
       </div>
 
-      <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", marginBottom: "1.5rem", alignItems: "center" }}>
-        <form onSubmit={handleSearchSubmit} style={{ maxWidth: "340px", flex: 1, display: "flex", gap: "0.5rem" }}>
+      <div className="admin-filter-bar">
+        <form onSubmit={handleSearchSubmit} className="admin-search-form">
           <input
             type="text"
             placeholder="Search by title & press Enter..."
@@ -132,83 +132,39 @@ const AdminProducts = () => {
           />
           <button
             type="submit"
-            style={{
-              padding: "0.5rem 1rem",
-              borderRadius: "8px",
-              backgroundColor: "#000",
-              color: "#fff",
-              fontSize: "0.85rem",
-              fontWeight: 600,
-              cursor: "pointer",
-            }}
+            className="admin-search-form__btn"
           >
             Search
           </button>
         </form>
 
-        <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", alignItems: "center" }}>
-          <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "#666" }}>Stock:</span>
+        <div className="admin-stock-filter">
+          <span className="admin-stock-filter__label">Stock:</span>
           <button
             type="button"
             onClick={() => handleStockFilterChange("")}
-            style={{
-              padding: "0.5rem 1rem",
-              borderRadius: "20px",
-              border: "1px solid #ccc",
-              backgroundColor: !currentStock ? "#000" : "#fff",
-              color: !currentStock ? "#fff" : "#000",
-              fontSize: "0.85rem",
-              fontWeight: 600,
-              cursor: "pointer",
-            }}
+            className={`admin-stock-filter__btn admin-stock-filter__btn--all ${!currentStock ? "is-active" : ""}`}
           >
             All Products
           </button>
           <button
             type="button"
             onClick={() => handleStockFilterChange("in_stock")}
-            style={{
-              padding: "0.5rem 1rem",
-              borderRadius: "20px",
-              border: "1px solid #01b763",
-              backgroundColor: currentStock === "in_stock" ? "#01b763" : "#fff",
-              color: currentStock === "in_stock" ? "#fff" : "#01b763",
-              fontSize: "0.85rem",
-              fontWeight: 600,
-              cursor: "pointer",
-            }}
+            className={`admin-stock-filter__btn admin-stock-filter__btn--in-stock ${currentStock === "in_stock" ? "is-active" : ""}`}
           >
             ✅ In Stock (&gt; 5)
           </button>
           <button
             type="button"
             onClick={() => handleStockFilterChange("low_stock")}
-            style={{
-              padding: "0.5rem 1rem",
-              borderRadius: "20px",
-              border: "1px solid #e67e22",
-              backgroundColor: currentStock === "low_stock" ? "#e67e22" : "#fff",
-              color: currentStock === "low_stock" ? "#fff" : "#e67e22",
-              fontSize: "0.85rem",
-              fontWeight: 600,
-              cursor: "pointer",
-            }}
+            className={`admin-stock-filter__btn admin-stock-filter__btn--low-stock ${currentStock === "low_stock" ? "is-active" : ""}`}
           >
             ⚠️ Low Stock (≤ 5)
           </button>
           <button
             type="button"
             onClick={() => handleStockFilterChange("out_of_stock")}
-            style={{
-              padding: "0.5rem 1rem",
-              borderRadius: "20px",
-              border: "1px solid #ff3333",
-              backgroundColor: currentStock === "out_of_stock" ? "#ff3333" : "#fff",
-              color: currentStock === "out_of_stock" ? "#fff" : "#ff3333",
-              fontSize: "0.85rem",
-              fontWeight: 600,
-              cursor: "pointer",
-            }}
+            className={`admin-stock-filter__btn admin-stock-filter__btn--out-of-stock ${currentStock === "out_of_stock" ? "is-active" : ""}`}
           >
             ⛔ Out of Stock (0)
           </button>
@@ -219,7 +175,7 @@ const AdminProducts = () => {
         {loading ? (
           <Loader text="Loading products..." />
         ) : products.length === 0 ? (
-          <div style={{ padding: "3rem", textAlign: "center", color: "#666" }}>
+          <div className="admin-table-card__empty">
             No products match the selected stock filter or search criteria.
           </div>
         ) : (
@@ -254,7 +210,7 @@ const AdminProducts = () => {
                     <td>
                       <Link
                         to={`/products/${p._id}`}
-                        style={{ fontWeight: 600, color: "#000" }}
+                        className="admin-table__product-link"
                       >
                         {p.name}
                       </Link>
@@ -264,16 +220,16 @@ const AdminProducts = () => {
                     <td>{p.discount ? `${p.discount}%` : "-"}</td>
                     <td>
                       {editingStockId === p._id ? (
-                        <div style={{ display: "flex", gap: "0.25rem" }}>
+                        <div className="admin-table__stock-edit">
                           <input
                             type="number"
                             value={newStockValue}
                             onChange={(e) => setNewStockValue(e.target.value)}
-                            style={{ width: "60px", padding: "0.2rem" }}
+                            className="admin-table__stock-input"
                           />
                           <button
                             onClick={() => handleUpdateStock(p._id)}
-                            style={{ padding: "0.2rem 0.5rem", background: "#000", color: "#fff", borderRadius: "4px" }}
+                            className="admin-table__stock-save-btn"
                           >
                             ✓
                           </button>
@@ -285,24 +241,17 @@ const AdminProducts = () => {
                               setEditingStockId(p._id);
                               setNewStockValue(p.quantity);
                             }}
-                            style={{ cursor: "pointer", textDecoration: "underline", fontWeight: 600 }}
+                            className="admin-table__stock-val"
                             title="Click to edit stock"
                           >
                             {p.quantity} units
                           </span>
                           {p.sizes && p.sizes.length > 0 && (
-                            <div style={{ display: "flex", flexWrap: "wrap", gap: "3px", marginTop: "4px", maxWidth: "160px" }}>
+                            <div className="admin-table__sizes-breakdown">
                               {p.sizes.map((s) => (
                                 <span
                                   key={s.size}
-                                  style={{
-                                    fontSize: "0.72rem",
-                                    padding: "1px 5px",
-                                    borderRadius: "4px",
-                                    background: s.quantity === 0 ? "#f8d7da" : s.quantity <= 3 ? "#fff3cd" : "#f0f0f0",
-                                    color: s.quantity === 0 ? "#721c24" : s.quantity <= 3 ? "#856404" : "#333",
-                                    fontWeight: 500,
-                                  }}
+                                  className={`admin-table__size-chip admin-table__size-chip--${s.quantity === 0 ? "out" : s.quantity <= 3 ? "low" : "ok"}`}
                                   title={`${s.size}: ${s.quantity}`}
                                 >
                                   {s.size}:{s.quantity}
@@ -315,11 +264,7 @@ const AdminProducts = () => {
                     </td>
                     <td>
                       <span
-                        className="status-badge"
-                        style={{
-                          backgroundColor: p.quantity === 0 ? "#f8d7da" : p.quantity <= 5 ? "#fff3cd" : "#d4edda",
-                          color: p.quantity === 0 ? "#721c24" : p.quantity <= 5 ? "#856404" : "#155724",
-                        }}
+                        className={`status-badge status-badge--${p.quantity === 0 ? "danger" : p.quantity <= 5 ? "warning" : "success"}`}
                       >
                         {p.quantity === 0 ? "Out of stock" : p.quantity <= 5 ? "Low Stock" : "In Stock"}
                       </span>

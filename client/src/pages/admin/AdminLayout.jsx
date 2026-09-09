@@ -6,11 +6,11 @@ const AdminLayout = () => {
   return (
     <div className="admin-layout">
       <aside className="admin-layout__sidebar">
-        <div style={{ padding: "0 0.5rem 1rem", borderBottom: "1px solid rgba(0,0,0,0.1)", marginBottom: "0.5rem" }}>
-          <h2 style={{ fontFamily: "Integral CF", fontSize: "1.2rem", fontWeight: 900 }}>
+        <div className="admin-layout__sidebar-header">
+          <h2 className="admin-layout__brand">
             ADMIN PANEL
           </h2>
-          <span style={{ fontSize: "0.8rem", color: "#666" }}>Management Portal</span>
+          <span className="admin-layout__brand-sub">Management Portal</span>
         </div>
 
         <NavLink
@@ -68,11 +68,10 @@ const AdminLayout = () => {
           <span>👥</span> Users
         </NavLink>
 
-        <div style={{ marginTop: "auto", paddingTop: "1.5rem" }}>
+        <div className="admin-layout__sidebar-footer">
           <Link
             to="/"
-            className="admin-layout__nav-link"
-            style={{ color: "#000", border: "1px solid #ccc" }}
+            className="admin-layout__nav-link admin-layout__nav-link--shop"
           >
             <span>🏪</span> Back to Shop
           </Link>

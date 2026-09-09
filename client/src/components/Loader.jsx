@@ -4,7 +4,7 @@ const Loader = ({ text = "Loading..." }) => {
   return (
     <div className="loader-container">
       <div className="spinner"></div>
-      <p style={{ color: "#666", fontSize: "0.95rem" }}>{text}</p>
+      <p className="loader-text">{text}</p>
     </div>
   );
 };

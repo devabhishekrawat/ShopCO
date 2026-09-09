@@ -18,13 +18,22 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email || !password) {
-      toast.error("Please provide both email and password");
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !email.trim()) {
+      toast.error("Please enter your email address");
+      return;
+    }
+    if (!emailRegex.test(email.trim())) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+    if (!password) {
+      toast.error("Please enter your password");
       return;
     }
 
     try {
-      await dispatch(loginUser({ email, password })).unwrap();
+      await dispatch(loginUser({ email: email.trim(), password })).unwrap();
       toast.success("Welcome back!");
       navigate(from, { replace: true });
     } catch (err) {
@@ -57,12 +66,11 @@ const Login = () => {
                 placeholder="Enter your email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required
               />
             </div>
 
             <div className="login__field">
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <div className="login__field-header">
                 <label htmlFor="password" className="login__label">
                   Password
                 </label>
@@ -74,7 +82,6 @@ const Login = () => {
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required
               />
             </div>
 

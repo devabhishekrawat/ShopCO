@@ -64,4 +64,16 @@
       line-height: 1.5;
     }
   }
+
+  &__error {
+    color: $color-danger;
+    text-align: center;
+    padding: 3rem;
+  }
+
+  &__empty {
+    text-align: center;
+    padding: 3rem;
+    color: $color-text-muted;
+  }
 }

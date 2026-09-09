@@ -266,6 +266,10 @@
       background-color: $color-background-soft;
       color: $color-dark;
     }
+
+    &--admin {
+      font-weight: 700;
+    }
   }
 
   &__user-badge {

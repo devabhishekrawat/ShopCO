@@ -27,11 +27,11 @@ const Categories = () => {
       {loading ? (
         <Loader text="Loading categories..." />
       ) : error ? (
-        <div style={{ color: "#ff3333", textAlign: "center", padding: "3rem" }}>
+        <div className="categories-page__error">
           {error}
         </div>
       ) : categories.length === 0 ? (
-        <div style={{ textAlign: "center", padding: "3rem", color: "#666" }}>
+        <div className="categories-page__empty">
           No categories found.
         </div>
       ) : (

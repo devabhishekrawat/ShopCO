@@ -269,7 +269,7 @@ const Cart = () => {
 
             <div className="order-summary__row">
               <span>Subtotal</span>
-              <strong style={{ color: "#000" }}>${subtotal}</strong>
+              <strong className="order-summary__value">${subtotal}</strong>
             </div>
 
             <div className="order-summary__row order-summary__row--discount">
@@ -281,7 +281,7 @@ const Cart = () => {
 
             <div className="order-summary__row">
               <span>Delivery Fee</span>
-              <strong style={{ color: "#000" }}>${deliveryFee}</strong>
+              <strong className="order-summary__value">${deliveryFee}</strong>
             </div>
 
             <hr className="order-summary__divider" />
@@ -314,20 +314,12 @@ const Cart = () => {
             </div>
 
             {appliedCoupon && (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  fontSize: "0.85rem",
-                  color: "#01b763",
-                  fontWeight: 600,
-                }}
-              >
+              <div className="order-summary__coupon-active">
                 <span>Coupon "{appliedCoupon.code}" active</span>
                 <button
                   type="button"
                   onClick={() => dispatch(removeAppliedCoupon())}
-                  style={{ color: "#ff3333", cursor: "pointer" }}
+                  className="order-summary__coupon-remove"
                 >
                   Remove
                 </button>
@@ -335,7 +327,7 @@ const Cart = () => {
             )}
 
             {couponError && (
-              <span style={{ color: "#ff3333", fontSize: "0.85rem" }}>
+              <span className="order-summary__coupon-error">
                 {couponError}
               </span>
             )}

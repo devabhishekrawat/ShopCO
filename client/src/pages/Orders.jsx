@@ -37,19 +37,18 @@ const Orders = () => {
       {loading ? (
         <Loader text="Loading your orders..." />
       ) : error ? (
-        <div style={{ color: "#ff3333", textAlign: "center", padding: "3rem" }}>
+        <div className="orders-page__error">
           {error}
         </div>
       ) : orders.length === 0 ? (
-        <div style={{ textAlign: "center", padding: "4rem 1rem", color: "#666" }}>
+        <div className="orders-page__empty">
           <h3>You haven't placed any orders yet</h3>
-          <p style={{ marginTop: "0.5rem" }}>
+          <p className="orders-page__empty-desc">
             Explore our collections and place your first order.
           </p>
           <Link
             to="/products"
-            className="hero__cta"
-            style={{ marginTop: "1.5rem", display: "inline-block" }}
+            className="hero__cta orders-page__shop-btn"
           >
             Start Shopping
           </Link>
@@ -91,16 +90,16 @@ const Orders = () => {
                       />
                       <div>
                         <strong>{prod?.name || "Purchased Product"}</strong>
-                        <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", fontSize: "0.85rem", color: "#666" }}>
+                        <div className="order-card__meta">
                           {item.size && (
-                            <span style={{ background: "#f0f0f0", padding: "1px 5px", borderRadius: "4px", fontWeight: 600, color: "#111" }}>
+                            <span className="order-card__size-badge">
                               Size: {item.size}
                             </span>
                           )}
                           <span>Qty: {item.quantity} &times; ${item.price}</span>
                         </div>
                       </div>
-                      <span style={{ fontWeight: 600 }}>
+                      <span className="order-card__item-price">
                         ${(item.quantity * item.price).toFixed(2)}
                       </span>
                     </div>
@@ -116,12 +115,7 @@ const Orders = () => {
 
                 <Link
                   to={`/orders/${order._id}`}
-                  style={{
-                    color: "#000",
-                    fontWeight: 600,
-                    textDecoration: "underline",
-                    fontSize: "0.9rem",
-                  }}
+                  className="order-card__view-btn"
                 >
                   View Details &rarr;
                 </Link>

@@ -23,6 +23,8 @@ const Products = () => {
   const queryMinPrice = searchParams.get("minPrice") || "";
   const queryMaxPrice = searchParams.get("maxPrice") || "";
   const queryAvailability = searchParams.get("availability") || "";
+  const querySize = searchParams.get("size") || "";
+  const queryDressStyle = searchParams.get("dressStyle") || "";
   const queryPage = parseInt(searchParams.get("page") || "1", 10);
 
   const currentCategoryObj = categories.find((c) => c._id === queryCategory);
@@ -39,6 +41,8 @@ const Products = () => {
     if (queryMinPrice) params.minPrice = queryMinPrice;
     if (queryMaxPrice) params.maxPrice = queryMaxPrice;
     if (queryAvailability) params.availability = queryAvailability;
+    if (querySize) params.size = querySize;
+    if (queryDressStyle) params.dressStyle = queryDressStyle;
 
     dispatch(fetchProducts(params));
   }, [
@@ -50,6 +54,8 @@ const Products = () => {
     queryMinPrice,
     queryMaxPrice,
     queryAvailability,
+    querySize,
+    queryDressStyle,
   ]);
 
   useEffect(() => {
@@ -71,6 +77,12 @@ const Products = () => {
 
     if (newFilters.availability) newParams.set("availability", newFilters.availability);
     else newParams.delete("availability");
+
+    if (newFilters.size) newParams.set("size", newFilters.size);
+    else newParams.delete("size");
+
+    if (newFilters.dressStyle) newParams.set("dressStyle", newFilters.dressStyle);
+    else newParams.delete("dressStyle");
 
     setSearchParams(newParams);
   };
@@ -137,6 +149,8 @@ const Products = () => {
               minPrice: queryMinPrice,
               maxPrice: queryMaxPrice,
               availability: queryAvailability,
+              size: querySize,
+              dressStyle: queryDressStyle,
             }}
             onFilterChange={handleFilterChange}
             onResetFilters={handleResetFilters}
@@ -147,7 +161,7 @@ const Products = () => {
           {loading ? (
             <Loader text="Loading products..." />
           ) : error ? (
-            <div style={{ color: "#ff3333", textAlign: "center", padding: "3rem" }}>
+            <div className="products-page__error">
               {error}
             </div>
           ) : products.length === 0 ? (
@@ -180,6 +194,8 @@ const Products = () => {
                 minPrice: queryMinPrice,
                 maxPrice: queryMaxPrice,
                 availability: queryAvailability,
+                size: querySize,
+                dressStyle: queryDressStyle,
               }}
               onFilterChange={handleFilterChange}
               onResetFilters={handleResetFilters}

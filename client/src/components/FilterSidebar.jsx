@@ -2,8 +2,38 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCategories } from "../store/slices/categorySlice.js";
 
+// Leave blank so you can add your custom icon src location here (e.g. "/assets/icons/filter_icon.svg" or an import)
+const filterIcon = "";
+
+const AVAILABLE_SIZES = [
+  "XX-Small",
+  "X-Small",
+  "Small",
+  "Medium",
+  "Large",
+  "X-Large",
+  "XX-Large",
+  "3X-Large",
+  "4X-Large",
+];
+
+const DRESS_STYLES = ["Casual", "Formal", "Party", "Gym"];
+
+const MIN_LIMIT = 0;
+const MAX_LIMIT = 1000;
+const STEP = 10;
+const CURRENCY_SYMBOL = "$";
+
+const DEFAULT_CATEGORIES = [
+  { _id: "t-shirts", name: "T-shirts" },
+  { _id: "shorts", name: "Shorts" },
+  { _id: "shirts", name: "Shirts" },
+  { _id: "hoodie", name: "Hoodie" },
+  { _id: "jeans", name: "Jeans" },
+];
+
 const FilterSidebar = ({
-  filters,
+  filters = {},
   onFilterChange,
   onResetFilters,
   onClose,
@@ -12,144 +42,426 @@ const FilterSidebar = ({
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.categories);
 
-  const [minPrice, setMinPrice] = useState(filters.minPrice || "");
-  const [maxPrice, setMaxPrice] = useState(filters.maxPrice || "");
+  const [isPriceOpen, setIsPriceOpen] = useState(true);
+  const [isSizeOpen, setIsSizeOpen] = useState(true);
+  const [isStyleOpen, setIsStyleOpen] = useState(true);
+
   const [selectedCategory, setSelectedCategory] = useState(filters.category || "");
-  const [availability, setAvailability] = useState(filters.availability || "");
+  const [minPrice, setMinPrice] = useState(
+    filters.minPrice !== undefined && filters.minPrice !== ""
+      ? Number(filters.minPrice)
+      : 50
+  );
+  const [maxPrice, setMaxPrice] = useState(
+    filters.maxPrice !== undefined && filters.maxPrice !== ""
+      ? Number(filters.maxPrice)
+      : 200
+  );
+  const [selectedSize, setSelectedSize] = useState(filters.size || "Large");
+  const [selectedStyle, setSelectedStyle] = useState(filters.dressStyle || "");
 
   useEffect(() => {
-    if (!categories.length) {
+    if (!categories || categories.length === 0) {
       dispatch(fetchCategories());
     }
-  }, [dispatch, categories.length]);
+  }, [dispatch, categories]);
 
   useEffect(() => {
-    setMinPrice(filters.minPrice || "");
-    setMaxPrice(filters.maxPrice || "");
     setSelectedCategory(filters.category || "");
-    setAvailability(filters.availability || "");
+    if (filters.minPrice !== undefined && filters.minPrice !== "") {
+      setMinPrice(Number(filters.minPrice));
+    }
+    if (filters.maxPrice !== undefined && filters.maxPrice !== "") {
+      setMaxPrice(Number(filters.maxPrice));
+    }
+    if (filters.size !== undefined) {
+      setSelectedSize(filters.size);
+    }
+    if (filters.dressStyle !== undefined) {
+      setSelectedStyle(filters.dressStyle);
+    }
   }, [filters]);
+
+  const displayCategories =
+    categories && categories.length > 0 ? categories : DEFAULT_CATEGORIES;
+
+  const currentMin = typeof minPrice === "number" ? minPrice : MIN_LIMIT;
+  const currentMax = typeof maxPrice === "number" ? maxPrice : MAX_LIMIT;
+
+  const minPercent = Math.min(
+    100,
+    Math.max(0, ((currentMin - MIN_LIMIT) / (MAX_LIMIT - MIN_LIMIT)) * 100)
+  );
+  const maxPercent = Math.min(
+    100,
+    Math.max(0, ((currentMax - MIN_LIMIT) / (MAX_LIMIT - MIN_LIMIT)) * 100)
+  );
+
+  const handleMinSliderChange = (e) => {
+    const val = Math.min(Number(e.target.value), currentMax - STEP);
+    setMinPrice(val);
+  };
+
+  const handleMaxSliderChange = (e) => {
+    const val = Math.max(Number(e.target.value), currentMin + STEP);
+    setMaxPrice(val);
+  };
+
+  const handleCategorySelect = (cat) => {
+    const identifier = cat._id || cat.name;
+    const isSelected =
+      selectedCategory === identifier ||
+      selectedCategory.toLowerCase() === cat.name.toLowerCase();
+    setSelectedCategory(isSelected ? "" : identifier);
+  };
+
+  const handleSizeSelect = (size) => {
+    const isSelected = selectedSize.toLowerCase() === size.toLowerCase();
+    setSelectedSize(isSelected ? "" : size);
+  };
+
+  const handleStyleSelect = (style) => {
+    const isSelected = selectedStyle.toLowerCase() === style.toLowerCase();
+    setSelectedStyle(isSelected ? "" : style);
+  };
 
   const handleApply = () => {
     onFilterChange({
       category: selectedCategory,
-      minPrice,
-      maxPrice,
-      availability,
+      minPrice: currentMin,
+      maxPrice: currentMax,
+      size: selectedSize,
+      dressStyle: selectedStyle,
     });
     if (onClose) onClose();
   };
 
   const handleClear = () => {
-    setMinPrice("");
-    setMaxPrice("");
     setSelectedCategory("");
-    setAvailability("");
+    setMinPrice(MIN_LIMIT);
+    setMaxPrice(MAX_LIMIT);
+    setSelectedSize("");
+    setSelectedStyle("");
     onResetFilters();
     if (onClose) onClose();
   };
 
+  const hasActiveFilters = Boolean(
+    selectedCategory ||
+      selectedSize ||
+      selectedStyle ||
+      filters.minPrice ||
+      filters.maxPrice ||
+      filters.size ||
+      filters.dressStyle ||
+      filters.category
+  );
+
   return (
     <aside className="filter-sidebar">
+      {/* Header */}
       <div className="filter-sidebar__header">
         <h3 className="filter-sidebar__title">Filters</h3>
-        {isMobile && (
-          <button
-            className="filter-sidebar__close-btn"
-            onClick={onClose}
+        <div className="filter-sidebar__header-actions">
+          {filterIcon ? (
+            <img
+              src={filterIcon}
+              alt="Filters"
+              className="filter-sidebar__filter-icon"
+            />
+          ) : (
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="filter-sidebar__filter-icon-svg"
+            >
+              <path
+                d="M4 21V14M4 10V3M12 21V12M12 8V3M20 21V16M20 12V3M1 14H7M9 8H15M17 16H23"
+                stroke="#000000"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          )}
+          {isMobile && (
+            <button
+              type="button"
+              className="filter-sidebar__close-btn"
+              onClick={onClose}
+              aria-label="Close filters"
+            >
+              &times;
+            </button>
+          )}
+        </div>
+      </div>
+
+      <hr className="filter-sidebar__divider" />
+
+      {/* Category List */}
+      <ul className="filter-sidebar__categories">
+        {displayCategories.map((cat) => {
+          const isSelected =
+            selectedCategory === cat._id ||
+            selectedCategory.toLowerCase() === cat.name.toLowerCase();
+          return (
+            <li
+              key={cat._id || cat.name}
+              className="filter-sidebar__category-item"
+            >
+              <button
+                type="button"
+                className={`filter-sidebar__category-btn ${
+                  isSelected ? "filter-sidebar__category-btn--active" : ""
+                }`}
+                onClick={() => handleCategorySelect(cat)}
+              >
+                <span>{cat.name}</span>
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="filter-sidebar__chevron"
+                >
+                  <path
+                    d="M6 12L10 8L6 4"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+
+      <hr className="filter-sidebar__divider" />
+
+      {/* Price Filter */}
+      <div className="filter-sidebar__section">
+        <button
+          type="button"
+          className="filter-sidebar__section-header"
+          onClick={() => setIsPriceOpen(!isPriceOpen)}
+        >
+          <span className="filter-sidebar__section-title">Price</span>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className={`filter-sidebar__accordion-arrow ${
+              isPriceOpen ? "filter-sidebar__accordion-arrow--open" : ""
+            }`}
           >
-            &times;
-          </button>
+            <path
+              d="M4 10L8 6L12 10"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+
+        {isPriceOpen && (
+          <div className="filter-sidebar__price-body">
+            <div
+              className="filter-sidebar__price-slider"
+              style={{
+                "--min-percent": `${minPercent}%`,
+                "--max-percent": `${100 - maxPercent}%`,
+              }}
+            >
+              <div className="filter-sidebar__slider-track" />
+              <div className="filter-sidebar__slider-progress" />
+              <input
+                type="range"
+                min={MIN_LIMIT}
+                max={MAX_LIMIT}
+                step={STEP}
+                value={currentMin}
+                onChange={handleMinSliderChange}
+                className={`filter-sidebar__range filter-sidebar__range--min ${
+                  minPercent > 50 ? "filter-sidebar__range--z-high" : ""
+                }`}
+                aria-label="Minimum price"
+              />
+              <input
+                type="range"
+                min={MIN_LIMIT}
+                max={MAX_LIMIT}
+                step={STEP}
+                value={currentMax}
+                onChange={handleMaxSliderChange}
+                className="filter-sidebar__range filter-sidebar__range--max"
+                aria-label="Maximum price"
+              />
+            </div>
+
+            <div className="filter-sidebar__price-values">
+              <span className="filter-sidebar__price-value">
+                {CURRENCY_SYMBOL}
+                {currentMin.toLocaleString()}
+              </span>
+              <span className="filter-sidebar__price-value">
+                {CURRENCY_SYMBOL}
+                {currentMax.toLocaleString()}
+              </span>
+            </div>
+          </div>
         )}
       </div>
 
+      <hr className="filter-sidebar__divider" />
+
+      {/* Size Filter */}
       <div className="filter-sidebar__section">
-        <h4 className="filter-sidebar__section-title">Categories</h4>
-        <div className="filter-sidebar__list">
-          <div
-            className={`filter-sidebar__item ${
-              selectedCategory === "" ? "filter-sidebar__item--active" : ""
+        <button
+          type="button"
+          className="filter-sidebar__section-header"
+          onClick={() => setIsSizeOpen(!isSizeOpen)}
+        >
+          <span className="filter-sidebar__section-title">Size</span>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className={`filter-sidebar__accordion-arrow ${
+              isSizeOpen ? "filter-sidebar__accordion-arrow--open" : ""
             }`}
-            onClick={() => setSelectedCategory("")}
           >
-            <span>All Categories</span>
+            <path
+              d="M4 10L8 6L12 10"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+
+        {isSizeOpen && (
+          <div className="filter-sidebar__sizes-grid">
+            {AVAILABLE_SIZES.map((size) => {
+              const isSelected = selectedSize.toLowerCase() === size.toLowerCase();
+              return (
+                <button
+                  key={size}
+                  type="button"
+                  className={`filter-sidebar__size-chip ${
+                    isSelected ? "filter-sidebar__size-chip--active" : ""
+                  }`}
+                  onClick={() => handleSizeSelect(size)}
+                >
+                  {size}
+                </button>
+              );
+            })}
           </div>
-          {categories.map((cat) => (
-            <div
-              key={cat._id}
-              className={`filter-sidebar__item ${
-                selectedCategory === cat._id ? "filter-sidebar__item--active" : ""
-              }`}
-              onClick={() => setSelectedCategory(cat._id)}
-            >
-              <span>{cat.name}</span>
-              <span>&gt;</span>
-            </div>
-          ))}
-        </div>
+        )}
       </div>
 
+      <hr className="filter-sidebar__divider" />
+
+      {/* Dress Style Filter */}
       <div className="filter-sidebar__section">
-        <h4 className="filter-sidebar__section-title">Price Range</h4>
-        <div className="filter-sidebar__price-inputs">
-          <input
-            type="number"
-            placeholder="Min ($)"
-            value={minPrice}
-            onChange={(e) => setMinPrice(e.target.value)}
-          />
-          <span>-</span>
-          <input
-            type="number"
-            placeholder="Max ($)"
-            value={maxPrice}
-            onChange={(e) => setMaxPrice(e.target.value)}
-          />
-        </div>
+        <button
+          type="button"
+          className="filter-sidebar__section-header"
+          onClick={() => setIsStyleOpen(!isStyleOpen)}
+        >
+          <span className="filter-sidebar__section-title">Dress Style</span>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className={`filter-sidebar__accordion-arrow ${
+              isStyleOpen ? "filter-sidebar__accordion-arrow--open" : ""
+            }`}
+          >
+            <path
+              d="M4 10L8 6L12 10"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+
+        {isStyleOpen && (
+          <ul className="filter-sidebar__styles-list">
+            {DRESS_STYLES.map((style) => {
+              const isSelected =
+                selectedStyle.toLowerCase() === style.toLowerCase();
+              return (
+                <li key={style} className="filter-sidebar__style-item">
+                  <button
+                    type="button"
+                    className={`filter-sidebar__style-btn ${
+                      isSelected ? "filter-sidebar__style-btn--active" : ""
+                    }`}
+                    onClick={() => handleStyleSelect(style)}
+                  >
+                    <span>{style}</span>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="filter-sidebar__chevron"
+                    >
+                      <path
+                        d="M6 12L10 8L6 4"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
 
-      <div className="filter-sidebar__section">
-        <h4 className="filter-sidebar__section-title">Availability</h4>
-        <div className="filter-sidebar__availability">
-          <label>
-            <input
-              type="radio"
-              name="availability"
-              value=""
-              checked={availability === ""}
-              onChange={() => setAvailability("")}
-            />
-            All Products
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="availability"
-              value="true"
-              checked={availability === "true"}
-              onChange={() => setAvailability("true")}
-            />
-            In Stock Only
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="availability"
-              value="false"
-              checked={availability === "false"}
-              onChange={() => setAvailability("false")}
-            />
-            Out of Stock
-          </label>
-        </div>
-      </div>
+      {/* Actions */}
+      <div className="filter-sidebar__actions">
+        <button
+          type="button"
+          className="filter-sidebar__apply-btn"
+          onClick={handleApply}
+        >
+          Apply Filter
+        </button>
 
-      <button className="filter-sidebar__apply-btn" onClick={handleApply}>
-        Apply Filter
-      </button>
-      <button className="filter-sidebar__clear-btn" onClick={handleClear}>
-        Clear Filters
-      </button>
+        {hasActiveFilters && (
+          <button
+            type="button"
+            className="filter-sidebar__clear-btn"
+            onClick={handleClear}
+          >
+            Reset Filters
+          </button>
+        )}
+      </div>
     </aside>
   );
 };

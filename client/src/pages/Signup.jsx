@@ -28,8 +28,31 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.password) {
-      toast.error("Please fill in name, email and password");
+    if (!formData.name || !formData.name.trim()) {
+      toast.error("Full Name is required");
+      return;
+    }
+    if (formData.name.trim().length < 2) {
+      toast.error("Name must be at least 2 characters");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email || !formData.email.trim()) {
+      toast.error("Email address is required");
+      return;
+    }
+    if (!emailRegex.test(formData.email.trim())) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+
+    if (!formData.password) {
+      toast.error("Password is required");
+      return;
+    }
+    if (formData.password.length < 6) {
+      toast.error("Password must be at least 6 characters");
       return;
     }
 
@@ -81,7 +104,6 @@ const Signup = () => {
                 placeholder="John Doe"
                 value={formData.name}
                 onChange={handleChange}
-                required
               />
             </div>
 
@@ -97,7 +119,6 @@ const Signup = () => {
                 placeholder="john@example.com"
                 value={formData.email}
                 onChange={handleChange}
-                required
               />
             </div>
 
@@ -113,7 +134,6 @@ const Signup = () => {
                 placeholder="Create a strong password"
                 value={formData.password}
                 onChange={handleChange}
-                required
               />
             </div>
 

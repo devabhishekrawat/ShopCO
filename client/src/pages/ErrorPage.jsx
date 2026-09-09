@@ -16,21 +16,12 @@ const ErrorPage = () => {
   }
 
   return (
-    <div className="container" style={{ padding: "5rem 1rem", textAlign: "center" }}>
-      <h1 style={{ fontFamily: "Integral CF", fontSize: "3rem" }}>{title}</h1>
-      <p style={{ marginTop: "1rem", color: "#666", fontSize: "1.1rem" }}>{message}</p>
+    <div className="container error-page">
+      <h1 className="error-page__title">{title}</h1>
+      <p className="error-page__message">{message}</p>
       <Link
         to="/"
-        style={{
-          display: "inline-block",
-          marginTop: "1.5rem",
-          padding: "0.75rem 1.75rem",
-          backgroundColor: "#000",
-          color: "#fff",
-          borderRadius: "62px",
-          textDecoration: "none",
-          fontWeight: 600,
-        }}
+        className="error-page__btn"
       >
         Back to Home
       </Link>

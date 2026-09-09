@@ -43,6 +43,20 @@ const Profile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.name || !formData.name.trim()) {
+      toast.error("Full Name is required");
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email || !formData.email.trim()) {
+      toast.error("Email Address is required");
+      return;
+    }
+    if (!emailRegex.test(formData.email.trim())) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+
     const updateData = {
       name: formData.name.trim(),
       email: formData.email.trim(),
@@ -83,7 +97,7 @@ const Profile = () => {
 
           <div className="profile-page__info-row">
             <span>Account Role</span>
-            <strong style={{ textTransform: "uppercase" }}>{user?.role}</strong>
+            <strong className="profile-page__role">{user?.role}</strong>
           </div>
 
           <div className="profile-page__info-row">
@@ -98,14 +112,14 @@ const Profile = () => {
         </div>
 
         <div className="profile-page__card">
-          <h2 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: "1rem" }}>
+          <h2 className="profile-page__section-title">
             Personal Details & Address
           </h2>
 
           <form className="profile-page__form" onSubmit={handleSubmit}>
             <div className="profile-page__form-grid">
               <div>
-                <label style={{ display: "block", marginBottom: "0.25rem", fontSize: "0.875rem", fontWeight: 600 }}>
+                <label className="profile-page__label">
                   Full Name
                 </label>
                 <input
@@ -113,12 +127,11 @@ const Profile = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  required
                 />
               </div>
 
               <div>
-                <label style={{ display: "block", marginBottom: "0.25rem", fontSize: "0.875rem", fontWeight: 600 }}>
+                <label className="profile-page__label">
                   Email Address
                 </label>
                 <input
@@ -126,13 +139,12 @@ const Profile = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  required
                 />
               </div>
             </div>
 
             <div>
-              <label style={{ display: "block", marginBottom: "0.25rem", fontSize: "0.875rem", fontWeight: 600 }}>
+              <label className="profile-page__label">
                 Phone Number
               </label>
               <input
@@ -145,7 +157,7 @@ const Profile = () => {
             </div>
 
             <div>
-              <label style={{ display: "block", marginBottom: "0.25rem", fontSize: "0.875rem", fontWeight: 600 }}>
+              <label className="profile-page__label">
                 Street Address
               </label>
               <input
@@ -159,7 +171,7 @@ const Profile = () => {
 
             <div className="profile-page__form-grid">
               <div>
-                <label style={{ display: "block", marginBottom: "0.25rem", fontSize: "0.875rem", fontWeight: 600 }}>
+                <label className="profile-page__label">
                   City
                 </label>
                 <input
@@ -171,7 +183,7 @@ const Profile = () => {
               </div>
 
               <div>
-                <label style={{ display: "block", marginBottom: "0.25rem", fontSize: "0.875rem", fontWeight: 600 }}>
+                <label className="profile-page__label">
                   State
                 </label>
                 <input
@@ -185,7 +197,7 @@ const Profile = () => {
 
             <div className="profile-page__form-grid">
               <div>
-                <label style={{ display: "block", marginBottom: "0.25rem", fontSize: "0.875rem", fontWeight: 600 }}>
+                <label className="profile-page__label">
                   Postal Code
                 </label>
                 <input
@@ -197,7 +209,7 @@ const Profile = () => {
               </div>
 
               <div>
-                <label style={{ display: "block", marginBottom: "0.25rem", fontSize: "0.875rem", fontWeight: 600 }}>
+                <label className="profile-page__label">
                   Country
                 </label>
                 <input
