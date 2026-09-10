@@ -5,11 +5,9 @@ import Loader from "./Loader.jsx";
 
 const ProtectedRoute = ({ children }) => {
   const location = useLocation();
-  const { isAuthenticated, loading, initialized } = useSelector(
-    (state) => state.auth
-  );
+  const { isAuthenticated, initialized } = useSelector((state) => state.auth);
 
-  if (!initialized && loading) {
+  if (!initialized) {
     return <Loader text="Checking authentication..." />;
   }
 

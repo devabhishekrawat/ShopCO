@@ -4,11 +4,11 @@ import { Navigate, Outlet } from "react-router-dom";
 import Loader from "./Loader.jsx";
 
 const AdminRoute = ({ children }) => {
-  const { user, isAuthenticated, loading, initialized } = useSelector(
+  const { user, isAuthenticated, initialized } = useSelector(
     (state) => state.auth
   );
 
-  if (!initialized && loading) {
+  if (!initialized) {
     return <Loader text="Checking admin access..." />;
   }
 
