@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../store/slices/authSlice.js";
 import { toast } from "react-toastify";
@@ -9,8 +9,10 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
+  const debounceTimer = useRef(null);
 
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
 
   const { user, isAuthenticated } = useSelector((state) => state.auth);
@@ -21,10 +23,50 @@ const Navbar = () => {
     0
   ) || 0;
 
+  useEffect(() => {
+    if (location.pathname === "/products") {
+      const searchParam = new URLSearchParams(location.search).get("search") || "";
+      setSearchInput(searchParam);
+    }
+  }, [location.pathname, location.search]);
+
+  useEffect(() => {
+    return () => {
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
+      }
+    };
+  }, []);
+
+  const handleSearchChange = (e) => {
+    const val = e.target.value;
+    setSearchInput(val);
+
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
+    }
+
+    debounceTimer.current = setTimeout(() => {
+      const trimmed = val.trim();
+      if (trimmed) {
+        navigate(`/products?search=${encodeURIComponent(trimmed)}`);
+      } else if (location.pathname === "/products") {
+        navigate("/products");
+      }
+    }, 450);
+  };
+
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    if (searchInput.trim()) {
-      navigate(`/products?search=${encodeURIComponent(searchInput.trim())}`);
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
+    }
+    const trimmed = searchInput.trim();
+    if (trimmed) {
+      navigate(`/products?search=${encodeURIComponent(trimmed)}`);
+      setMenuOpen(false);
+    } else if (location.pathname === "/products") {
+      navigate("/products");
       setMenuOpen(false);
     }
   };
@@ -130,7 +172,7 @@ const Navbar = () => {
               className="header__search-input"
               placeholder="Search for products..."
               value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
+              onChange={handleSearchChange}
             />
           </form>
 

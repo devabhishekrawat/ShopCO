@@ -34,6 +34,18 @@ const Profile = () => {
     }
   }, [user]);
 
+  const isModified = Boolean(
+    user &&
+      (formData.name !== (user.name || "") ||
+        formData.email !== (user.email || "") ||
+        formData.phone !== (user.phone || "") ||
+        formData.street !== (user.address?.street || "") ||
+        formData.city !== (user.address?.city || "") ||
+        formData.state !== (user.address?.state || "") ||
+        formData.postalCode !== (user.address?.postalCode || "") ||
+        formData.country !== (user.address?.country || ""))
+  );
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -224,7 +236,7 @@ const Profile = () => {
             <button
               type="submit"
               className="profile-page__btn"
-              disabled={loading}
+              disabled={!isModified || loading}
             >
               {loading ? "Saving Changes..." : "Save Profile Changes"}
             </button>
