@@ -181,8 +181,16 @@ export const createProduct = async (req, res, next) => {
 
         let images = [];
         if (req.files && req.files.length > 0) {
+            const MAX_FILE_SIZE = 5 * 1024 * 1024;
+            const hasOversized = req.files.some((file) => file.size > MAX_FILE_SIZE);
+            if (hasOversized) {
+                return next(new ErrorHandler(400, "Each image must be less than 5MB"));
+            }
             images = req.files.map((file) => `/assets/${file.filename}`);
         } else if (req.file) {
+            if (req.file.size > 5 * 1024 * 1024) {
+                return next(new ErrorHandler(400, "Image must be less than 5MB"));
+            }
             images = [`/assets/${req.file.filename}`];
         } else if (req.body.images) {
             images = Array.isArray(req.body.images) ? req.body.images : [req.body.images];
@@ -249,8 +257,16 @@ export const updateProduct = async (req, res, next) => {
         const updateData = { ...req.body };
 
         if (req.files && req.files.length > 0) {
+            const MAX_FILE_SIZE = 5 * 1024 * 1024;
+            const hasOversized = req.files.some((file) => file.size > MAX_FILE_SIZE);
+            if (hasOversized) {
+                return next(new ErrorHandler(400, "Each image must be less than 5MB"));
+            }
             updateData.images = req.files.map((file) => `/assets/${file.filename}`);
         } else if (req.file) {
+            if (req.file.size > 5 * 1024 * 1024) {
+                return next(new ErrorHandler(400, "Image must be less than 5MB"));
+            }
             updateData.images = [`/assets/${req.file.filename}`];
         }
 

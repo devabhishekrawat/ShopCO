@@ -93,6 +93,14 @@ const AdminProductEdit = () => {
     const files = Array.from(e.target.files || []);
     if (!files.length) return;
 
+    const MAX_FILE_SIZE = 5 * 1024 * 1024;
+    const oversized = files.some((f) => f.size > MAX_FILE_SIZE);
+    if (oversized) {
+      toast.error("Each image must be less than 5MB");
+      e.target.value = "";
+      return;
+    }
+
     setSelectedFiles((prev) => {
       const combined = [...prev, ...files];
       if (combined.length > 5) {
@@ -129,6 +137,10 @@ const AdminProductEdit = () => {
     }
     if (formData.discount && (isNaN(formData.discount) || Number(formData.discount) < 0 || Number(formData.discount) > 100)) {
       toast.error("Discount must be between 0% and 100%");
+      return;
+    }
+    if (selectedFiles.some((f) => f.size > 5 * 1024 * 1024)) {
+      toast.error("Each image must be less than 5MB");
       return;
     }
 

@@ -62,6 +62,14 @@ const AdminProductAdd = () => {
     const files = Array.from(e.target.files || []);
     if (!files.length) return;
 
+    const MAX_FILE_SIZE = 5 * 1024 * 1024;
+    const oversized = files.some((f) => f.size > MAX_FILE_SIZE);
+    if (oversized) {
+      toast.error("Each image must be less than 5MB");
+      e.target.value = "";
+      return;
+    }
+
     setSelectedFiles((prev) => {
       const combined = [...prev, ...files];
       if (combined.length > 5) {
@@ -102,6 +110,10 @@ const AdminProductAdd = () => {
     }
     if (selectedFiles.length === 0) {
       toast.error("Please select at least one product image");
+      return;
+    }
+    if (selectedFiles.some((f) => f.size > 5 * 1024 * 1024)) {
+      toast.error("Each image must be less than 5MB");
       return;
     }
 

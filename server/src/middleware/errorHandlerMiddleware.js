@@ -9,6 +9,17 @@ export const errorHandlerMiddleware = (err, req, res, next) => {
     let statusCode = err.statusCode || 500;
     let message = err.message || "Internal Server Error";
 
+    if (err.name === "MulterError") {
+        statusCode = 400;
+        if (err.code === "LIMIT_FILE_SIZE") {
+            message = "Image size exceeds 5MB limit. Each image must be less than 5MB.";
+        } else if (err.code === "LIMIT_FILE_COUNT") {
+            message = "Maximum 5 images allowed.";
+        } else {
+            message = err.message;
+        }
+    }
+
     if (err.name === "CastError") {
         statusCode = 400;
         message = `Invalid ${err.path}: ${err.value}`;
