@@ -109,6 +109,15 @@
     font-size: rem(14);
     font-weight: 600;
     margin-top: 1rem;
+
+    &:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+
+      &:hover {
+        opacity: 0.45;
+      }
+    }
   }
 
   &__error {

@@ -58,12 +58,12 @@
   }
 
   &__filter-btn {
+    @include flex-center;
     display: none;
     background-color: $color-background-gray;
     border-radius: 50%;
     width: 2.25rem;
     height: 2.25rem;
-    @include flex-center;
     cursor: pointer;
 
     @media (max-width: rem(992)) {

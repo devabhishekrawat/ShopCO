@@ -9,7 +9,7 @@ import StarRating from "../components/StarRating.jsx";
 import Loader from "../components/Loader.jsx";
 import Modal from "../components/Modal.jsx";
 import { toast } from "react-toastify";
-// import { getAllImages } from "../services/api.js";
+import { getAssetUrl } from "../services/api.js";
 import SuggestedProductGrid from "../components/SuggestedProductGrid.jsx";
 
 const ProductDetails = () => {
@@ -82,7 +82,11 @@ const ProductDetails = () => {
     ? Math.round(product.price - (product.price * product.discount) / 100)
     : product.price;
 
-  const images = getAllImages(product.images);
+  const productImages =
+    Array.isArray(product.images) && product.images.length > 0
+      ? product.images
+      : ["/assets/images/product-images/tshirt-1.png"];
+  const images = productImages.map((img) => getAssetUrl(img));
 
   const currentImage = images[activeImageIndex] || images[0];
   const hasSizes = Boolean(product.sizes && product.sizes.length > 0);
@@ -182,9 +186,31 @@ const ProductDetails = () => {
     <div className="product-detail-page container">
       <nav className="breadcrumb">
         <Link to="/">Home</Link>
-        <span className="breadcrumb__separator">&gt;</span>
+        <span className="breadcrumb__separator">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </span>
         <Link to="/products">Shop</Link>
-        <span className="breadcrumb__separator">&gt;</span>
+        {product.category && (
+          <>
+            <span className="breadcrumb__separator">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </span>
+            <Link
+              to={`/products?category=${typeof product.category === "object" ? product.category._id : product.category}`}
+            >
+              {typeof product.category === "object" ? product.category.name : "Category"}
+            </Link>
+          </>
+        )}
+        <span className="breadcrumb__separator">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </span>
         <span className="breadcrumb__current">{product.name}</span>
       </nav>
 
@@ -198,13 +224,25 @@ const ProductDetails = () => {
                   }`}
                 onClick={() => setActiveImageIndex(idx)}
               >
-                <img src={img} alt={`${product.name} ${idx}`} />
+                <img
+                  src={img}
+                  alt={`${product.name} ${idx}`}
+                  onError={(e) => {
+                    e.target.src = "/assets/images/product-images/tshirt-1.png";
+                  }}
+                />
               </div>
             ))}
           </div>
 
           <div className="product-detail-page__featured-image">
-            <img src={currentImage} alt={product.name} />
+            <img
+              src={currentImage}
+              alt={product.name}
+              onError={(e) => {
+                e.target.src = "/assets/images/product-images/tshirt-1.png";
+              }}
+            />
           </div>
         </div>
 

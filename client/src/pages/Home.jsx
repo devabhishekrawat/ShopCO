@@ -257,7 +257,7 @@ const Home = () => {
 
       <section className="top-reviews container">
         <div className="top-reviews__header">
-          <h2 className="top-reviews__title">TOP REVIEWS</h2>
+          <h2 className="top-reviews__title">OUR HAPPY CUSTOMERS</h2>
         </div>
 
         <div className="top-reviews__grid">

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchMyOrders } from "../store/slices/orderSlice.js";
 import Loader from "../components/Loader.jsx";
-// import { getFirstImage } from "../services/api.js";
+import { getAssetUrl } from "../services/api.js";
 
 const Orders = () => {
   const dispatch = useDispatch();
@@ -77,7 +77,10 @@ const Orders = () => {
               <div className="order-card__items">
                 {order.products.map((item, i) => {
                   const prod = item.product;
-                  const itemImage = getFirstImage(prod?.images);
+                  const rawImg = prod?.images?.[0];
+                  const itemImage = rawImg
+                    ? getAssetUrl(rawImg)
+                    : "/assets/images/product-images/tshirt-1.png";
 
                   return (
                     <div key={i} className="order-card__item">

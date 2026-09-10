@@ -90,7 +90,23 @@ const AdminProductEdit = () => {
   };
 
   const handleFileChange = (e) => {
-    setSelectedFiles(Array.from(e.target.files));
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
+
+    setSelectedFiles((prev) => {
+      const combined = [...prev, ...files];
+      if (combined.length > 5) {
+        toast.warning("Maximum 5 images allowed");
+        return combined.slice(0, 5);
+      }
+      return combined;
+    });
+
+    e.target.value = "";
+  };
+
+  const handleRemoveImage = (indexToRemove) => {
+    setSelectedFiles((prev) => prev.filter((_, idx) => idx !== indexToRemove));
   };
 
   const handleSubmit = async (e) => {
@@ -289,16 +305,50 @@ const AdminProductEdit = () => {
         )}
 
         <div className="admin-form__group">
-          <label>Replace Images (Optional)</label>
+          <div className="admin-form__label-row">
+            <label>Replace Images (Optional)</label>
+            {selectedFiles.length > 0 && (
+              <span className="admin-form__count-badge">
+                {selectedFiles.length} / 5 selected
+              </span>
+            )}
+          </div>
           <input
             type="file"
             multiple
             accept="image/*"
             onChange={handleFileChange}
+            disabled={selectedFiles.length >= 5}
           />
           <span className="admin-form__help-text">
             Leave blank to retain current product images.
           </span>
+
+          {selectedFiles.length > 0 && (
+            <div className="admin-form__previews">
+              {selectedFiles.map((file, idx) => (
+                <div key={idx} className="admin-form__preview-card">
+                  <img
+                    src={URL.createObjectURL(file)}
+                    alt={file.name}
+                    className="admin-form__preview-thumb"
+                  />
+                  <button
+                    type="button"
+                    className="admin-form__preview-remove"
+                    onClick={() => handleRemoveImage(idx)}
+                    aria-label="Remove image"
+                    title="Remove image"
+                  >
+                    &times;
+                  </button>
+                  <span className="admin-form__preview-name" title={file.name}>
+                    {file.name}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <button

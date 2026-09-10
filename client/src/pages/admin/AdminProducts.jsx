@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProducts, removeProduct } from "../../store/slices/productSlice.js";
@@ -6,7 +6,7 @@ import { updateProductQuantity } from "../../services/productService.js";
 import Loader from "../../components/Loader.jsx";
 import Pagination from "../../components/Pagination.jsx";
 import { toast } from "react-toastify";
-import { getFirstImage } from "../../services/api.js";
+import { getAssetUrl } from "../../services/api.js";
 
 const AdminProducts = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -21,10 +21,19 @@ const AdminProducts = () => {
   const [searchInput, setSearchInput] = useState(currentSearch);
   const [editingStockId, setEditingStockId] = useState(null);
   const [newStockValue, setNewStockValue] = useState("");
+  const debounceTimer = useRef(null);
 
   useEffect(() => {
     setSearchInput(currentSearch);
   }, [currentSearch]);
+
+  useEffect(() => {
+    return () => {
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
+      }
+    };
+  }, []);
 
   const loadData = useCallback(() => {
     const params = {
@@ -60,10 +69,28 @@ const AdminProducts = () => {
 
   const handleSearchChange = (value) => {
     setSearchInput(value);
+
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
+    }
+
+    debounceTimer.current = setTimeout(() => {
+      const newParams = new URLSearchParams(searchParams);
+      if (value.trim()) {
+        newParams.set("search", value.trim());
+      } else {
+        newParams.delete("search");
+      }
+      newParams.set("page", "1");
+      setSearchParams(newParams);
+    }, 450);
   };
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
+    }
     const newParams = new URLSearchParams(searchParams);
     if (searchInput.trim()) {
       newParams.set("search", searchInput.trim());
@@ -126,7 +153,7 @@ const AdminProducts = () => {
         <form onSubmit={handleSearchSubmit} className="admin-search-form">
           <input
             type="text"
-            placeholder="Search by title & press Enter..."
+            placeholder="Search by title..."
             value={searchInput}
             onChange={(e) => handleSearchChange(e.target.value)}
           />
@@ -194,7 +221,10 @@ const AdminProducts = () => {
             </thead>
             <tbody>
               {products.map((p) => {
-                const img = getFirstImage(p.images);
+                const rawImg = p.images?.[0];
+                const img = rawImg
+                  ? getAssetUrl(rawImg)
+                  : "/assets/images/product-images/tshirt-1.png";
 
                 return (
                   <tr key={p._id}>

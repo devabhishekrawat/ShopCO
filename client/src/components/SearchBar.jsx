@@ -1,21 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const SearchBar = ({ initialValue = "", onSearch, placeholder = "Search for products..." }) => {
   const [searchTerm, setSearchTerm] = useState(initialValue);
+  const debounceTimer = useRef(null);
 
   useEffect(() => {
     setSearchTerm(initialValue);
   }, [initialValue]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    return () => {
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
+      }
+    };
+  }, []);
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
+    }
+
+    debounceTimer.current = setTimeout(() => {
       if (onSearch) {
-        onSearch(searchTerm);
+        onSearch(value);
       }
     }, 450);
-
-    return () => clearTimeout(timer);
-  }, [searchTerm, onSearch]);
+  };
 
   return (
     <div className="header__search">
@@ -31,7 +45,7 @@ const SearchBar = ({ initialValue = "", onSearch, placeholder = "Search for prod
         className="header__search-input"
         placeholder={placeholder}
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onChange={handleChange}
       />
     </div>
   );

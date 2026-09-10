@@ -12,7 +12,7 @@ import {
 import CheckoutModal from "./CheckoutModal";
 import Loader from "../components/Loader";
 import { toast } from "react-toastify";
-// import { getFirstImage } from "../services/api";
+import { getAssetUrl } from "../services/api";
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -141,7 +141,11 @@ const Cart = () => {
     <div className="cart-page container">
       <nav className="breadcrumb">
         <Link to="/">Home</Link>
-        <span className="breadcrumb__separator">&gt;</span>
+        <span className="breadcrumb__separator">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </span>
         <span className="breadcrumb__current">Cart</span>
       </nav>
 
@@ -172,7 +176,10 @@ const Cart = () => {
                 ? Math.round(product.price - (product.price * product.discount) / 100)
                 : product.price;
 
-              const itemImage = getFirstImage(product.images);
+              const rawImg = product.images?.[0];
+              const itemImage = rawImg
+                ? getAssetUrl(rawImg)
+                : "/assets/images/product-images/tshirt-1.png";
 
               const sizeStock =
                 item.size && product.sizes && product.sizes.length > 0
