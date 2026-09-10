@@ -17,7 +17,7 @@ import { errorHandlerMiddleware } from "./src/middleware/errorHandlerMiddleware.
 const server = express();
 
 const corsOption = {
-    origin: ["http://localhost:5173"],
+    origin: env.clientUrl || "http://localhost:5173",
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
