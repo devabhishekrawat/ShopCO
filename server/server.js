@@ -16,8 +16,16 @@ import { errorHandlerMiddleware } from "./src/middleware/errorHandlerMiddleware.
 
 const server = express();
 
+const clientOrigin = env.clientUrl ? env.clientUrl.trim().replace(/\/+$/, "") : "http://localhost:5173";
+
 const corsOption = {
-    origin: env.clientUrl || "http://localhost:5173",
+    origin: (origin, callback) => {
+        if (!origin || origin.replace(/\/+$/, "") === clientOrigin || origin === "http://localhost:5173") {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
