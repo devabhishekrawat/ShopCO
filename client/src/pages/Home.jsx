@@ -73,16 +73,16 @@ const Home = () => {
         const res = await getReviews();
         const pool =
           res.reviews && res.reviews.length > 0 ? res.reviews : FALLBACK_REVIEWS;
-        const selected = [...pool]
-          .sort(() => 0.5 - Math.random())
-          .slice(0, 6);
-        setTopReviews(selected);
+        const topRated = [...pool]
+          .sort((a, b) => (b.rating || 0) - (a.rating || 0) || 0.5 - Math.random())
+          .slice(0, 3);
+        setTopReviews(topRated);
       } catch (err) {
         console.error(err);
-        const selected = [...FALLBACK_REVIEWS]
-          .sort(() => 0.5 - Math.random())
-          .slice(0, 5);
-        setTopReviews(selected);
+        const topRated = [...FALLBACK_REVIEWS]
+          .sort((a, b) => (b.rating || 0) - (a.rating || 0))
+          .slice(0, 3);
+        setTopReviews(topRated);
       }
     };
 
