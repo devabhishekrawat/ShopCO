@@ -35,7 +35,7 @@ const CATEGORY_SIZES = {
 const DRESS_STYLES = ["Casual", "Formal", "Party", "Gym"];
 
 const MIN_LIMIT = 0;
-const MAX_LIMIT = 1000;
+const MAX_LIMIT = 10000;
 const STEP = 10;
 const CURRENCY_SYMBOL = "$";
 
@@ -72,7 +72,7 @@ const FilterSidebar = ({
   const [maxPrice, setMaxPrice] = useState(
     filters.maxPrice !== undefined && filters.maxPrice !== ""
       ? Number(filters.maxPrice)
-      : 1000
+      : 10000
   );
   const [selectedSize, setSelectedSize] = useState(filters.size || "");
   const [selectedStyle, setSelectedStyle] = useState(filters.dressStyle || "");
