@@ -72,9 +72,9 @@ const AdminProductAdd = () => {
 
     setSelectedFiles((prev) => {
       const combined = [...prev, ...files];
-      if (combined.length > 5) {
-        toast.warning("Maximum 5 images allowed");
-        return combined.slice(0, 5);
+      if (combined.length > 3) {
+        toast.warning("Maximum 3 images allowed");
+        return combined.slice(0, 3);
       }
       return combined;
     });
@@ -277,9 +277,9 @@ const AdminProductAdd = () => {
 
         <div className="admin-form__group">
           <div className="admin-form__label-row">
-            <label>Product Images (up to 5 images) *</label>
+            <label>Product Images (up to 3 images) *</label>
             <span className="admin-form__count-badge">
-              {selectedFiles.length} / 5 selected
+              {selectedFiles.length} / 3 selected
             </span>
           </div>
 
@@ -288,7 +288,7 @@ const AdminProductAdd = () => {
             multiple
             accept="image/*"
             onChange={handleFileChange}
-            disabled={selectedFiles.length >= 5}
+            disabled={selectedFiles.length >= 3}
           />
           <span className="admin-form__help-text">
             Upload product photos (PNG, JPG, WEBP).
