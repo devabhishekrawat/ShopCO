@@ -319,6 +319,8 @@ const FilterSidebar = ({
               style={{
                 "--min-percent": `${minPercent}%`,
                 "--max-percent": `${100 - maxPercent}%`,
+                "--min-percent": minPercent,
+                "--max-percent": 100 - maxPercent,
               }}
             >
               <div className="filter-sidebar__slider-track" />

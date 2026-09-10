@@ -171,6 +171,7 @@
     background-color: $color-background-gray;
     border-radius: rem(999);
     z-index: 1;
+    overflow: hidden;
   }
 
   &__slider-progress {
@@ -181,11 +182,15 @@
     z-index: 2;
     left: var(--min-percent, 0%);
     right: var(--max-percent, 0%);
+    left: calc(1.625rem + (var(--min-percent, 0) * (100% - rem(20))) / 100);
+    right: calc(1.625rem + (var(--max-percent, 0) * (100% - rem(20))) / 100);
   }
 
   &__range {
     position: absolute;
     width: 108%;
+    width: 100%;
+    left: 0;
     height: rem(6);
     background: none;
     pointer-events: none;
