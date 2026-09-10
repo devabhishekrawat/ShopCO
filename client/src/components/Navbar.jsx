@@ -9,6 +9,7 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
+  const [searchModalOpen, setSearchModalOpen] = useState(false);
   const debounceTimer = useRef(null);
 
   const navigate = useNavigate();
@@ -65,9 +66,11 @@ const Navbar = () => {
     if (trimmed) {
       navigate(`/products?search=${encodeURIComponent(trimmed)}`);
       setMenuOpen(false);
+      setSearchModalOpen(false);
     } else if (location.pathname === "/products") {
       navigate("/products");
       setMenuOpen(false);
+      setSearchModalOpen(false);
     }
   };
 
@@ -177,6 +180,19 @@ const Navbar = () => {
           </form>
 
           <div className="header__actions">
+            <button
+              type="button"
+              className="header__action-btn header__action-btn--search"
+              aria-label="Search"
+              onClick={() => setSearchModalOpen(true)}
+            >
+              <img
+                src="/assets/icons/search-icon.svg"
+                alt="search"
+                className="header__action-icon"
+              />
+            </button>
+
             <Link to="/cart" className="header__action-btn" aria-label="Cart">
               <img
                 src="/assets/icons/cart-icon.svg"
@@ -256,6 +272,43 @@ const Navbar = () => {
           </div>
         </div>
       </header>
+
+      {searchModalOpen && (
+        <div
+          className="search-modal-overlay"
+          onClick={() => setSearchModalOpen(false)}
+        >
+          <div
+            className="search-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <form onSubmit={handleSearchSubmit} className="search-modal__form">
+              <span className="search-modal__icon">
+                <img
+                  src="/assets/icons/search-icon.svg"
+                  alt="search"
+                />
+              </span>
+              <input
+                type="text"
+                autoFocus
+                className="search-modal__input"
+                placeholder="Search for products..."
+                value={searchInput}
+                onChange={handleSearchChange}
+              />
+              <button
+                type="button"
+                className="search-modal__close"
+                onClick={() => setSearchModalOpen(false)}
+                aria-label="Close search"
+              >
+                &times;
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </>
   );
 };
