@@ -552,6 +552,21 @@
     max-width: rem(200);
   }
 
+  &__label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__count-badge {
+    font-size: rem(12);
+    font-weight: 600;
+    color: #4b5563;
+    background-color: #f1f5f9;
+    padding: rem(2) rem(8);
+    border-radius: rem(12);
+  }
+
   &__help-text {
     font-size: rem(13);
     color: $color-text-muted;
@@ -559,17 +574,62 @@
 
   &__previews {
     display: flex;
-    gap: 0.75rem;
-    margin-top: 0.5rem;
+    gap: 1rem;
+    margin-top: 0.75rem;
     flex-wrap: wrap;
   }
 
+  &__preview-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: rem(80);
+  }
+
   &__preview-thumb {
-    width: rem(60);
-    height: rem(60);
-    border-radius: rem(8);
+    width: rem(80);
+    height: rem(80);
+    border-radius: rem(10);
     object-fit: cover;
-    border: rem(1) solid $color-border;
+    border: rem(1) solid rgba(0, 0, 0, 0.1);
+    background-color: #f8fafc;
+  }
+
+  &__preview-remove {
+    position: absolute;
+    top: rem(-6);
+    right: rem(-6);
+    width: rem(22);
+    height: rem(22);
+    border-radius: 50%;
+    background-color: $color-dark;
+    color: $color-white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: rem(15);
+    line-height: 1;
+    border: rem(2) solid $color-white;
+    cursor: pointer;
+    box-shadow: 0 rem(2) rem(5) rgba(0, 0, 0, 0.2);
+    transition: transform 0.15s ease, background-color 0.15s ease;
+
+    &:hover {
+      background-color: $color-danger;
+      transform: scale(1.1);
+    }
+  }
+
+  &__preview-name {
+    font-size: rem(11);
+    color: $color-text-muted;
+    max-width: rem(80);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+    margin-top: rem(4);
   }
 }
 
