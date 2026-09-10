@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCategories } from "../store/slices/categorySlice.js";
 import Loader from "../components/Loader.jsx";
-// import { getAssetUrl } from "../services/api.js";
+import { getAssetUrl } from "../services/api.js";
 
 const Categories = () => {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ const Categories = () => {
   const { categories, loading, error } = useSelector(
     (state) => state.categories
   );
-
+ console.log(categories,"fetch")
   useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
@@ -38,8 +38,8 @@ const Categories = () => {
         <div className="categories-page__grid">
           {categories.map((cat) => {
             const catImage = cat.image
-              // ? getAssetUrl(cat.image)
-              // : "/assets/images/background-images/casual-1.png";
+              ? getAssetUrl(cat.image)
+              : "/assets/images/background-images/casual-1.png";
 
             return (
               <div
@@ -51,9 +51,9 @@ const Categories = () => {
                   src={catImage}
                   alt={cat.name}
                   className="categories-page__card-image"
-                  onError={(e) => {
-                    e.target.src = "/assets/images/background-images/casual-1.png";
-                  }}
+                  // onError={(e) => {
+                  //   e.target.src = "/assets/images/background-images/casual-1.png";
+                  // }}
                 />
                 <div className="categories-page__card-content">
                   <h3 className="categories-page__card-name">{cat.name}</h3>
