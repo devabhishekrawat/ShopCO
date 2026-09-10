@@ -71,18 +71,18 @@ const Home = () => {
     const loadReviews = async () => {
       try {
         const res = await getReviews();
-        const reviewPool =
+        const pool =
           res.reviews && res.reviews.length > 0 ? res.reviews : FALLBACK_REVIEWS;
-        const randomThree = [...reviewPool]
+        const selected = [...pool]
           .sort(() => 0.5 - Math.random())
-          .slice(0, 3);
-        setTopReviews(randomThree);
+          .slice(0, 6);
+        setTopReviews(selected);
       } catch (err) {
         console.error(err);
-        const randomThree = [...FALLBACK_REVIEWS]
+        const selected = [...FALLBACK_REVIEWS]
           .sort(() => 0.5 - Math.random())
-          .slice(0, 3);
-        setTopReviews(randomThree);
+          .slice(0, 5);
+        setTopReviews(selected);
       }
     };
 

@@ -198,17 +198,13 @@
   width: 100%;
 
   @media (max-width: rem(1024)) {
-    gap: 1.25rem;
-  }
-
-  @media (max-width: rem(768)) {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: x mandatory;
-    gap: 1rem;
+    gap: 1.25rem;
     padding: 0.25rem 0.25rem 1rem;
     touch-action: pan-x pan-y;
     scrollbar-width: none;
@@ -218,22 +214,22 @@
     }
 
     > * {
-      flex: 0 0 rem(195);
-      width: rem(195);
-      min-width: rem(195);
-      max-width: rem(195);
+      flex: 0 0 calc((100% - 1.25rem) / 2);
+      width: calc((100% - 1.25rem) / 2);
+      min-width: calc((100% - 1.25rem) / 2);
+      max-width: calc((100% - 1.25rem) / 2);
       scroll-snap-align: start;
     }
   }
 
-  @media (max-width: rem(480)) {
-    gap: 0.75rem;
+  @media (max-width: rem(640)) {
+    gap: 0.85rem;
 
     > * {
-      flex: 0 0 rem(175);
-      width: rem(175);
-      min-width: rem(175);
-      max-width: rem(175);
+      flex: 0 0 calc((100% - 0.85rem) / 2);
+      width: calc((100% - 0.85rem) / 2);
+      min-width: calc((100% - 0.85rem) / 2);
+      max-width: calc((100% - 0.85rem) / 2);
     }
   }
 }
