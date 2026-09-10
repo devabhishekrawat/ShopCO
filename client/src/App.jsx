@@ -28,7 +28,7 @@ function App() {
 
   return (
     <div className="app">
-      <Navbar />
+      {pathname !== "/login" && <Navbar />}
 
       <main>
         <Outlet />
