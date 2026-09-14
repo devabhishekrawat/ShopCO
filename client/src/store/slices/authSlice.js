@@ -122,6 +122,7 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
         state.loading = false;
         state.error = null;
+        state.initialized = true;
       })
       .addCase(fetchCurrentUser.pending, (state) => {
         state.loading = true;

@@ -2,6 +2,7 @@ import { createNewUserRepo, findUserRepo, deleteUserRepo, updateUserProfileRepo,
 import { ErrorHandler } from "../../middleware/errorHandlerMiddleware.js";
 import { storeTokenInCookie } from "../../utils/storeToken.js";
 import userModel from "../model/user.modal.js";
+import { env } from "../../config/dotenv.js";
 
 export const createNewUser = async (req, res, next) => {
     try {
@@ -62,10 +63,14 @@ export const userLogin = async (req, res, next) => {
 };
 
 export const logoutUser = async (req, res, next) => {
+    const isProduction = env.nodeEnv === "production";
+
     res.status(200)
-        .cookie("token", "", {
-            expires: new Date(0),
+        .clearCookie("token", {
             httpOnly: true,
+            secure: isProduction,
+            sameSite: isProduction ? "None" : "Lax",
+            path: "/",
         })
         .json({
             success: true,
